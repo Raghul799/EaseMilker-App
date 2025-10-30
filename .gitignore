@@ -33,12 +33,6 @@ migrate_working_dir/
 /build/
 /coverage/
 
-# Generated Flutter assets
-flutter_assets/
-
-# Generated native assets
-native_assets/
-
 # Symbolication related
 app.*.symbols
 
@@ -50,26 +44,16 @@ app.*.map.json
 /android/app/profile
 /android/app/release
 
-# Android
-android/.gradle/
-android/local.properties
-**/android/**/local.properties
-
-# iOS
-ios/Flutter/ephemeral/
-ios/Pods/
-ios/Podfile.lock
-ios/Runner/GeneratedPluginRegistrant.*
+# Xcode/Swift ephemeral
 ios/Runner.xcworkspace/
-**/DerivedData/
-
-# macOS
-macos/Flutter/ephemeral/
-macos/Pods/
-macos/Podfile.lock
-macos/Runner/GeneratedPluginRegistrant.swift
+ios/Flutter/ephemeral/
 macos/Runner.xcworkspace/
+macos/Flutter/ephemeral/
 
-# Windows/Linux ephemeral
-windows/flutter/ephemeral/
-linux/flutter/ephemeral/
+# Android Gradle caches
+android/.gradle/
+
+# Additional Flutter generated files
+.flutter-plugins
+.metadata
+.packages
