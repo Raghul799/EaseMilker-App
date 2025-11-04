@@ -74,7 +74,7 @@ class _HomePageState extends State<HomePage> {
                       child: TopHeader(
                         name: 'Dhanush Kumar S',
                         idText: 'EM0214KI',
-                        avatarAsset: 'lib/assets/Frame 298.png',
+                        avatarAsset: 'assets/images/Frame 298.png',
                       ),
                     ),
                   ),
@@ -241,170 +241,212 @@ class _HomePageState extends State<HomePage> {
 
                             const SizedBox(height: 12),
 
-                            Container(
-                              width: double.infinity,
-                              padding: const EdgeInsets.all(16),
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(10),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.black.withAlpha(20),
-                                    blurRadius: 10,
-                                    offset: const Offset(0, 2),
-                                  ),
-                                ],
-                              ),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  const Text(
-                                    '0.0 litre ...',
-                                    style: TextStyle(
-                                      fontFamily: 'Roboto',
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.black,
-                                    ),
-                                  ),
-                                  const SizedBox(height: 8),
-                                  Container(
-                                    padding: const EdgeInsets.symmetric(
-                                      horizontal: 12,
-                                      vertical: 6,
-                                    ),
-                                    decoration: BoxDecoration(
-                                      color: const Color(0xFFE0E0E0),
-                                      borderRadius: BorderRadius.circular(15),
-                                    ),
-                                    child: const Row(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        Icon(
-                                          Icons.error_outline,
-                                          size: 14,
-                                          color: Color(0xFF666666),
-                                        ),
-                                        SizedBox(width: 4),
-                                        Text(
-                                          'Machine have been in rest state',
-                                          style: TextStyle(
-                                            fontFamily: 'Roboto',
-                                            fontSize: 10,
-                                            color: Color(0xFF666666),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  const SizedBox(height: 12),
-
-                                  ClipRRect(
-                                    borderRadius: BorderRadius.circular(8),
-                                    child: Image.asset(
-                                      'lib/assets/Frame 721.png',
-                                      width: double.infinity,
-                                      height: size.height * 0.18 > 200 ? 200 : size.height * 0.18,
-                                      fit: BoxFit.cover,
-                                      errorBuilder: (context, error, stackTrace) {
-                                        return Container(
-                                          width: double.infinity,
-                                          height: size.height * 0.18 > 200 ? 200 : size.height * 0.18,
-                                          color: const Color(0xFF4CAF50),
-                                          child: const Center(
-                                            child: Icon(
-                                              Icons.image,
-                                              size: 50,
-                                              color: Colors.white,
-                                            ),
-                                          ),
-                                        );
-                                      },
-                                    ),
-                                  ),
-
-                                  const SizedBox(height: 12),
-
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: [
-                                          const Text(
-                                            'Machine working',
-                                            style: TextStyle(
-                                              fontFamily: 'Roboto',
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.w500,
-                                              color: Colors.black,
-                                            ),
-                                          ),
-                                          const SizedBox(height: 2),
-                                          const Text(
-                                            'easemilker',
-                                            style: TextStyle(
-                                              fontFamily: 'Roboto',
-                                              fontSize: 10,
-                                              color: Color(0xFFA6A6A6),
-                                            ),
-                                          ),
-                                        ],
+                            Stack(
+                              clipBehavior: Clip.none,
+                              children: [
+                                Container(
+                                  width: double.infinity,
+                                  padding: const EdgeInsets.all(16),
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(10),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.black.withAlpha(20),
+                                        blurRadius: 10,
+                                        offset: const Offset(0, 2),
                                       ),
-                                      Row(
-                                        children: [
-                                          ElevatedButton(
-                                            onPressed: () {},
-                                            style: ElevatedButton.styleFrom(
-                                              backgroundColor: const Color(0xFF2874F0),
-                                              foregroundColor: Colors.white,
-                                              padding: const EdgeInsets.symmetric(
-                                                horizontal: 24,
-                                                vertical: 8,
-                                              ),
-                                              shape: RoundedRectangleBorder(
-                                                borderRadius: BorderRadius.circular(5),
-                                              ),
-                                              elevation: 0,
+                                    ],
+                                  ),
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      const Text(
+                                        '0.0 litre ...',
+                                        style: TextStyle(
+                                          fontFamily: 'Roboto',
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.black,
+                                        ),
+                                      ),
+                                      const SizedBox(height: 8),
+                                      Container(
+                                        padding: const EdgeInsets.symmetric(
+                                          horizontal: 12,
+                                          vertical: 6,
+                                        ),
+                                        decoration: BoxDecoration(
+                                          color: const Color(0xFFE0E0E0),
+                                          borderRadius: BorderRadius.circular(15),
+                                        ),
+                                        child: const Row(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            Icon(
+                                              Icons.error_outline,
+                                              size: 14,
+                                              color: Color(0xFF666666),
                                             ),
-                                            child: const Text(
-                                              'on',
+                                            SizedBox(width: 4),
+                                            Text(
+                                              'Machine have been in rest state',
                                               style: TextStyle(
                                                 fontFamily: 'Roboto',
-                                                fontSize: 12,
+                                                fontSize: 10,
+                                                color: Color(0xFF666666),
                                               ),
                                             ),
+                                          ],
+                                        ),
+                                      ),
+                                      const SizedBox(height: 12),
+
+                                      // image area (no refresh here) - fills the card width
+                                      ClipRRect(
+                                        borderRadius: BorderRadius.circular(8),
+                                        child: SizedBox(
+                                          width: double.infinity,
+                                          height: 160,
+                                          child: Image.asset(
+                                            'assets/images/Frame 721.png',
+                                            width: double.infinity,
+                                            height: 160,
+                                            fit: BoxFit.cover,
+                                            alignment: Alignment.center,
+                                            errorBuilder: (context, error, stackTrace) {
+                                              return Container(
+                                                width: double.infinity,
+                                                height: 160,
+                                                color: const Color(0xFF4CAF50),
+                                                child: const Center(
+                                                  child: Icon(
+                                                    Icons.image,
+                                                    size: 50,
+                                                    color: Colors.white,
+                                                  ),
+                                                ),
+                                              );
+                                            },
                                           ),
-                                          const SizedBox(width: 8),
-                                          OutlinedButton(
-                                            onPressed: () {},
-                                            style: OutlinedButton.styleFrom(
-                                              foregroundColor: const Color(0xFFA6A6A6),
-                                              padding: const EdgeInsets.symmetric(
-                                                horizontal: 20,
-                                                vertical: 8,
+                                        ),
+                                      ),
+
+                                      const SizedBox(height: 12),
+
+                                      Row(
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Column(
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: [
+                                              const Text(
+                                                'Machine working',
+                                                style: TextStyle(
+                                                  fontFamily: 'Roboto',
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.w500,
+                                                  color: Colors.black,
+                                                ),
                                               ),
-                                              side: const BorderSide(
-                                                color: Color(0xFFE0E0E0),
+                                              const SizedBox(height: 2),
+                                              const Text(
+                                                'easemilker',
+                                                style: TextStyle(
+                                                  fontFamily: 'Roboto',
+                                                  fontSize: 10,
+                                                  color: Color(0xFFA6A6A6),
+                                                ),
                                               ),
-                                              shape: RoundedRectangleBorder(
-                                                borderRadius: BorderRadius.circular(5),
+                                            ],
+                                          ),
+                                          Row(
+                                            children: [
+                                              ElevatedButton(
+                                                onPressed: () {},
+                                                style: ElevatedButton.styleFrom(
+                                                  backgroundColor: const Color(0xFF2874F0),
+                                                  foregroundColor: Colors.white,
+                                                  padding: const EdgeInsets.symmetric(
+                                                    horizontal: 24,
+                                                    vertical: 8,
+                                                  ),
+                                                  shape: RoundedRectangleBorder(
+                                                    borderRadius: BorderRadius.circular(5),
+                                                  ),
+                                                  elevation: 0,
+                                                ),
+                                                child: const Text(
+                                                  'on',
+                                                  style: TextStyle(
+                                                    fontFamily: 'Roboto',
+                                                    fontSize: 12,
+                                                  ),
+                                                ),
                                               ),
-                                            ),
-                                            child: const Text(
-                                              'off',
-                                              style: TextStyle(
-                                                fontFamily: 'Roboto',
-                                                fontSize: 12,
+                                              const SizedBox(width: 8),
+                                              OutlinedButton(
+                                                onPressed: () {},
+                                                style: OutlinedButton.styleFrom(
+                                                  foregroundColor: const Color(0xFFA6A6A6),
+                                                  padding: const EdgeInsets.symmetric(
+                                                    horizontal: 20,
+                                                    vertical: 8,
+                                                  ),
+                                                  side: const BorderSide(
+                                                    color: Color(0xFFE0E0E0),
+                                                  ),
+                                                  shape: RoundedRectangleBorder(
+                                                    borderRadius: BorderRadius.circular(5),
+                                                  ),
+                                                ),
+                                                child: const Text(
+                                                  'off',
+                                                  style: TextStyle(
+                                                    fontFamily: 'Roboto',
+                                                    fontSize: 12,
+                                                  ),
+                                                ),
                                               ),
-                                            ),
+                                            ],
                                           ),
                                         ],
                                       ),
                                     ],
                                   ),
-                                ],
-                              ),
+                                ),
+
+                                // refresh icon placed on the top-right corner of the white card
+                                Positioned(
+                                  top: 12,
+                                  right: 12,
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      // refresh action here
+                                    },
+                                    child: Container(
+                                      width: 36,
+                                      height: 36,
+                                      decoration: BoxDecoration(
+                                        color: const Color(0xFF2874F0),
+                                        shape: BoxShape.circle,
+                                        boxShadow: [
+                                          BoxShadow(
+                                            color: Color.fromRGBO(0, 0, 0, 0.15),
+                                            blurRadius: 4,
+                                            offset: const Offset(0, 2),
+                                          ),
+                                        ],
+                                      ),
+                                      child: const Icon(
+                                        Icons.sync,
+                                        size: 20,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
                             ),
 
                             SizedBox(height: 80 + MediaQuery.of(context).padding.bottom),

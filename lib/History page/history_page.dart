@@ -113,7 +113,7 @@ class HistoryPage extends StatelessWidget {
     return const TopHeader(
       name: 'Dhanush Kumar S',
       idText: 'EM0214KI',
-      avatarAsset: 'lib/assets/Frame 298.png',
+      avatarAsset: 'assets/images/Frame 298.png',
     );
   }
 

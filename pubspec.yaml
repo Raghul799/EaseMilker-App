@@ -19,5 +19,3 @@ flutter:
   uses-material-design: true
   assets:
     - assets/images/
-    - lib/assets/Frame 298.png
-    - lib/assets/Frame 721.png
