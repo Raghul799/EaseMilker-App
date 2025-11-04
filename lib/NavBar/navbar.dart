@@ -1,26 +1,23 @@
 import 'package:flutter/material.dart';
 
-class AppNavBar extends StatefulWidget {
-  const AppNavBar({super.key});
+/// Controlled AppNavBar: parent passes [selectedIndex] and [onTap].
+class AppNavBar extends StatelessWidget {
+  const AppNavBar({
+    super.key,
+    required this.selectedIndex,
+    required this.onTap,
+  });
 
-  @override
-  State<AppNavBar> createState() => _AppNavBarState();
-}
+  final int selectedIndex;
+  final ValueChanged<int> onTap;
 
-class _AppNavBarState extends State<AppNavBar> {
-  int _selectedIndex = 0;
-
-  final List<IconData> _icons = const [
+  static const List<IconData> _icons = [
     Icons.home,
     Icons.history,
     Icons.location_on,
     Icons.shopping_cart,
     Icons.settings,
   ];
-
-  void _onTap(int index) {
-    setState(() => _selectedIndex = index);
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -29,10 +26,7 @@ class _AppNavBarState extends State<AppNavBar> {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
       child: LayoutBuilder(builder: (context, outer) {
-        // Fixed navbar height that works across all mobile screens
         const navBarHeight = 56.0;
-
-        // Icon size is fixed and appropriate for mobile
         const iconSize = 24.0;
 
         return Container(
@@ -60,10 +54,10 @@ class _AppNavBarState extends State<AppNavBar> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: List.generate(_icons.length, (index) {
-                final isSelected = index == _selectedIndex;
+                final isSelected = index == selectedIndex;
                 return Expanded(
                   child: InkWell(
-                    onTap: () => _onTap(index),
+                    onTap: () => onTap(index),
                     borderRadius: BorderRadius.circular(12),
                     splashColor: Colors.white24,
                     highlightColor: Colors.white10,
@@ -73,9 +67,9 @@ class _AppNavBarState extends State<AppNavBar> {
                       child: Icon(
                         _icons[index],
                         size: iconSize,
-            color: isSelected
-              ? Colors.white
-              : Colors.white.withAlpha(153),
+                        color: isSelected
+                            ? Colors.white
+                            : Colors.white.withAlpha(153),
                       ),
                     ),
                   ),
