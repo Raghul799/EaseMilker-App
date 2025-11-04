@@ -69,12 +69,12 @@ class _HomePageState extends State<HomePage> {
                   bottom: false,
                   child: SizedBox(
                     height: headerHeight,
-                    child: const Align(
+                      child: const Align(
                       alignment: Alignment.center,
                       child: TopHeader(
                         name: 'Dhanush Kumar S',
                         idText: 'EM0214KI',
-                        avatarAsset: 'assets/images/Frame 298.png',
+                        avatarAsset: 'lib/assets/Frame 298.png',
                       ),
                     ),
                   ),
