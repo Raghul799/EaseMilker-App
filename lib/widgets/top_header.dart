@@ -26,40 +26,47 @@ class TopHeader extends StatelessWidget {
             width: 64,
             child: Align(
               alignment: Alignment.centerLeft,
-              child: Container(
-                width: 50,
-                height: 50,
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  shape: BoxShape.circle,
-                  boxShadow: [
-                    BoxShadow(
-                      color: const Color(0x1A000000),
-                      blurRadius: 8,
-                      offset: const Offset(0, 2),
-                    ),
-                  ],
-                ),
-                child: Center(
-                  child: avatarAsset == null
-                      ? const Icon(
-                          Icons.person,
-                          color: Color(0xFF006CC7),
-                          size: 30,
-                        )
-                      : ClipOval(
-                          child: Image.asset(
-                            avatarAsset!,
-                            fit: BoxFit.cover,
-                            width: 46,
-                            height: 46,
-                            errorBuilder: (c, e, s) => const Icon(
-                              Icons.person,
-                              color: Color(0xFF006CC7),
-                              size: 30,
+              child: InkWell(
+                onTap: () {
+                  // Navigate to Settings page when user taps avatar/profile area
+                  Navigator.pushNamed(context, '/settings');
+                },
+                borderRadius: BorderRadius.circular(30),
+                child: Container(
+                  width: 50,
+                  height: 50,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    shape: BoxShape.circle,
+                    boxShadow: [
+                      BoxShadow(
+                        color: const Color(0x1A000000),
+                        blurRadius: 8,
+                        offset: const Offset(0, 2),
+                      ),
+                    ],
+                  ),
+                  child: Center(
+                    child: avatarAsset == null
+                        ? const Icon(
+                            Icons.person,
+                            color: Color(0xFF006CC7),
+                            size: 30,
+                          )
+                        : ClipOval(
+                            child: Image.asset(
+                              avatarAsset!,
+                              fit: BoxFit.cover,
+                              width: 46,
+                              height: 46,
+                              errorBuilder: (c, e, s) => const Icon(
+                                Icons.person,
+                                color: Color(0xFF006CC7),
+                                size: 30,
+                              ),
                             ),
                           ),
-                        ),
+                  ),
                 ),
               ),
             ),

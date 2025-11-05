@@ -3,6 +3,7 @@ import '../NavBar/navbar.dart';
 import '../History page/history_page.dart';
 import '../Shop page/shop_page.dart';
 import '../widgets/top_header.dart';
+import '../Settings page/settings_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -27,7 +28,7 @@ class _HomePageState extends State<HomePage> {
           // placeholders for other tabs (you can replace with real pages)
           Center(child: Text('Location Page', style: Theme.of(context).textTheme.titleLarge)),
           const ShopPage(),
-          Center(child: Text('Settings Page', style: Theme.of(context).textTheme.titleLarge)),
+          const SettingsPage(),
         ],
       ),
       bottomNavigationBar: AppNavBar(selectedIndex: _selectedIndex, onTap: (i) {
@@ -83,16 +84,21 @@ class _HomePageState extends State<HomePage> {
 
                 // Content area (white rounded) fills remaining space
                 Expanded(
-                  child: Container(
-                    width: double.infinity,
-                    decoration: const BoxDecoration(
-                      color: Color(0xFFFFFFFF),
-                      borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(30),
-                        topRight: Radius.circular(30),
-                      ),
+                  child: ClipRRect(
+                    borderRadius: const BorderRadius.only(
+                      topLeft: Radius.circular(30),
+                      topRight: Radius.circular(30),
                     ),
-                    child: SingleChildScrollView(
+                    child: Container(
+                      width: double.infinity,
+                      decoration: const BoxDecoration(
+                        color: Color(0xFFFFFFFF),
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(30),
+                          topRight: Radius.circular(30),
+                        ),
+                      ),
+                      child: SingleChildScrollView(
                       child: Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 18),
                         child: Column(
@@ -456,6 +462,7 @@ class _HomePageState extends State<HomePage> {
                       ),
                     ),
                   ),
+                ),
                 ),
               ],
             ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'Home page/home_page.dart';
+import 'Settings page/settings_page.dart';
 
 void main() {
   runApp(const MainApp());
@@ -10,9 +11,12 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: HomePage(),
+      home: const HomePage(),
+      routes: {
+        '/settings': (context) => const SettingsPage(),
+      },
     );
   }
 }
