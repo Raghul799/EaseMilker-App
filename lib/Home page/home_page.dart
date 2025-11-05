@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../NavBar/navbar.dart';
 import '../History page/history_page.dart';
+import '../Shop page/shop_page.dart';
 import '../widgets/top_header.dart';
 
 class HomePage extends StatefulWidget {
@@ -25,7 +26,7 @@ class _HomePageState extends State<HomePage> {
           const HistoryPage(),
           // placeholders for other tabs (you can replace with real pages)
           Center(child: Text('Location Page', style: Theme.of(context).textTheme.titleLarge)),
-          Center(child: Text('Cart Page', style: Theme.of(context).textTheme.titleLarge)),
+          const ShopPage(),
           Center(child: Text('Settings Page', style: Theme.of(context).textTheme.titleLarge)),
         ],
       ),
