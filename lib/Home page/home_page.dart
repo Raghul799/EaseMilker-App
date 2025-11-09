@@ -4,6 +4,7 @@ import '../History page/history_page.dart';
 import '../Shop page/shop_page.dart';
 import '../widgets/top_header.dart';
 import '../Settings page/settings_page.dart';
+import '../Premium page/premium_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -25,8 +26,7 @@ class _HomePageState extends State<HomePage> {
         children: [
           _buildHomeContent(context),
           const HistoryPage(),
-          // placeholders for other tabs (you can replace with real pages)
-          Center(child: Text('Location Page', style: Theme.of(context).textTheme.titleLarge)),
+          const PremiumPage(),
           const ShopPage(),
           const SettingsPage(),
         ],

@@ -64,11 +64,8 @@ class AppNavBar extends StatelessWidget {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        ColorFiltered(
-                          colorFilter: ColorFilter.mode(
-                            isSelected ? Colors.white : Colors.white.withValues(alpha: 0.6),
-                            BlendMode.srcIn,
-                          ),
+                        Opacity(
+                          opacity: isSelected ? 1.0 : 0.6,
                           child: Image.asset(
                             _iconPaths[index],
                             width: iconSize,
