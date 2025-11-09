@@ -11,12 +11,12 @@ class AppNavBar extends StatelessWidget {
   final int selectedIndex;
   final ValueChanged<int> onTap;
 
-  static const List<IconData> _icons = [
-    Icons.home,
-    Icons.history,
-    Icons.location_on,
-    Icons.shopping_cart,
-    Icons.settings,
+  static const List<String> _iconPaths = [
+    'assets/images/home.png',
+    'assets/images/history.png',
+    'assets/images/premium.png',
+    'assets/images/shop.png',
+    'assets/images/setting.png',
   ];
 
   @override
@@ -53,7 +53,7 @@ class AppNavBar extends StatelessWidget {
             borderRadius: BorderRadius.circular(10),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: List.generate(_icons.length, (index) {
+              children: List.generate(_iconPaths.length, (index) {
                 final isSelected = index == selectedIndex;
                 return Expanded(
                   child: InkWell(
@@ -61,16 +61,41 @@ class AppNavBar extends StatelessWidget {
                     borderRadius: BorderRadius.circular(12),
                     splashColor: Colors.white24,
                     highlightColor: Colors.white10,
-                    child: Container(
-                      height: double.infinity,
-                      alignment: Alignment.center,
-                      child: Icon(
-                        _icons[index],
-                        size: iconSize,
-                        color: isSelected
-                            ? Colors.white
-                            : Colors.white.withAlpha(153),
-                      ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        ColorFiltered(
+                          colorFilter: ColorFilter.mode(
+                            isSelected ? Colors.white : Colors.white.withValues(alpha: 0.6),
+                            BlendMode.srcIn,
+                          ),
+                          child: Image.asset(
+                            _iconPaths[index],
+                            width: iconSize,
+                            height: iconSize,
+                            fit: BoxFit.contain,
+                            filterQuality: FilterQuality.high,
+                            isAntiAlias: true,
+                            errorBuilder: (context, error, stackTrace) {
+                              return Icon(
+                                Icons.error_outline,
+                                size: iconSize,
+                                color: Colors.red,
+                              );
+                            },
+                          ),
+                        ),
+                        const SizedBox(height: 4),
+                        AnimatedContainer(
+                          duration: const Duration(milliseconds: 200),
+                          height: 3,
+                          width: isSelected ? 40 : 0,
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(2),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 );
