@@ -8,11 +8,13 @@ class TopHeader extends StatelessWidget {
     required this.name,
     required this.idText,
     this.avatarAsset,
+    this.isMessagePage = false,
   });
 
   final String name;
   final String idText;
   final String? avatarAsset;
+  final bool isMessagePage;
 
   @override
   Widget build(BuildContext context) {
@@ -111,17 +113,24 @@ class TopHeader extends StatelessWidget {
             ),
           ),
 
-          // Right: notification icon (plain)
+          // Right: notification icon (changes based on if we're on message page)
           SizedBox(
             width: 64,
             child: Align(
               alignment: Alignment.centerRight,
               child: IconButton(
-                onPressed: () {},
+                onPressed: isMessagePage
+                    ? null
+                    : () {
+                        // Navigate to Message page when user taps the bell icon
+                        Navigator.pushNamed(context, '/messages');
+                      },
                 padding: EdgeInsets.zero,
                 constraints: const BoxConstraints(),
-                icon: const Icon(
-                  Icons.notifications_outlined,
+                icon: Icon(
+                  isMessagePage
+                      ? Icons.notifications
+                      : Icons.notifications_outlined,
                   color: Colors.white,
                   size: 30,
                 ),
