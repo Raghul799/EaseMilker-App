@@ -3,7 +3,7 @@ import '../widgets/top_header.dart';
 import '../NavBar/navbar.dart';
 import '../Home page/home_page.dart';
 
-/// AboutUsPage - displays information about EaseMilker
+/// AboutUsPage - displays information about Ease Milker
 class AboutUsPage extends StatelessWidget {
   const AboutUsPage({super.key});
 
@@ -108,7 +108,7 @@ class AboutUsPage extends StatelessWidget {
                             ),
                             const SizedBox(height: 6),
                             const Text(
-                              'Easemilker',
+                              'Ease Milker',
                               style: TextStyle(
                                 fontSize: 17,
                                 fontWeight: FontWeight.w600,
@@ -150,7 +150,7 @@ class AboutUsPage extends StatelessWidget {
                             ),
                             const SizedBox(height: 6),
                             const Text(
-                              'EaseMilker is a smart and efficient milking device designed to simplify the dairy process for farmers. It helps in extracting milk from cows safely, hygienically, and quickly without causing discomfort to the animal.',
+                              'Ease Milker is a smart and efficient milking device designed to simplify the dairy process for farmers. It helps in extracting milk from cows safely, hygienically, and quickly without causing discomfort to the animal.',
                               style: TextStyle(
                                 fontSize: 17,
                                 fontWeight: FontWeight.w600,

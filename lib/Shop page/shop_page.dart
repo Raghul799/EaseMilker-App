@@ -138,7 +138,7 @@ class ShopPage extends StatelessWidget {
 
                             const SizedBox(height: 16),
 
-                            // EaseMilker Logo (Group 24.png)
+                            // Ease Milker Logo (Group 24.png)
                             Center(
                               child: Image.asset(
                                 'assets/images/Group 24.png',

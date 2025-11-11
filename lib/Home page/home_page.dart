@@ -147,7 +147,7 @@ class _HomePageState extends State<HomePage> {
                               ),
                               const SizedBox(height: 8),
                               const Text(
-                                'Get your details day by day by easemilker app',
+                                'Get your details day by day by Ease Milker app',
                                 style: TextStyle(
                                   fontFamily: 'Poppins',
                                   fontSize: 12,
@@ -399,7 +399,7 @@ class _HomePageState extends State<HomePage> {
                                                 ),
                                                 const SizedBox(height: 2),
                                                 const Text(
-                                                  'easemilker',
+                                                  'Ease Milker',
                                                   style: TextStyle(
                                                     fontFamily: 'Roboto',
                                                     fontSize: 10,

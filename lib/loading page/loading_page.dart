@@ -94,7 +94,7 @@ class _LoadingPageState extends State<LoadingPage> {
                           fontWeight: FontWeight.w400,
                         ),
                         children: const [
-                          TextSpan(text: 'welcome to easemilker app the automated milking\n'),
+                          TextSpan(text: 'Welcome to Ease Milker app the automated milking\n'),
                           TextSpan(text: 'machine monitoring'),
                         ],
                       ),
