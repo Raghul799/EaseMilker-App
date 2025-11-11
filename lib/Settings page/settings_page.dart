@@ -265,6 +265,12 @@ class SettingsPage extends StatelessWidget {
                                     ),
                                     'Help & Contact',
                                     'Apply & Ask if issue you face in the app',
+                                    onTap: () {
+                                      Navigator.pushNamed(
+                                        context,
+                                        '/help-contact',
+                                      );
+                                    },
                                   ),
                                   _buildTile(
                                     context,

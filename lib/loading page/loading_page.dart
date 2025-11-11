@@ -13,8 +13,8 @@ class _LoadingPageState extends State<LoadingPage> {
   @override
   void initState() {
     super.initState();
-    // Navigate to home page after 10 seconds
-    Timer(const Duration(seconds: 10), () {
+    // Navigate to home page after 3 seconds
+    Timer(const Duration(seconds: 3), () {
       if (mounted) {
         Navigator.of(context).pushReplacement(
           MaterialPageRoute(builder: (context) => const HomePage()),
