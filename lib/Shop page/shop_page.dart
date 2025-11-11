@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../widgets/top_header.dart';
+import 'booking_page.dart';
 
 class ShopPage extends StatelessWidget {
   const ShopPage({super.key});
@@ -81,20 +82,31 @@ class ShopPage extends StatelessWidget {
                                     color: Colors.black,
                                   ),
                                 ),
-                                Container(
-                                  width: 48,
-                                  height: 48,
-                                  decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    border: Border.all(
-                                      color: const Color(0xFF2874F0),
-                                      width: 2,
+                                InkWell(
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => const BookingPage(),
+                                      ),
+                                    );
+                                  },
+                                  borderRadius: BorderRadius.circular(24),
+                                  child: Container(
+                                    width: 48,
+                                    height: 48,
+                                    decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      border: Border.all(
+                                        color: const Color(0xFF2874F0),
+                                        width: 2,
+                                      ),
                                     ),
-                                  ),
-                                  child: const Icon(
-                                    Icons.shopping_bag_outlined,
-                                    color: Color(0xFF2874F0),
-                                    size: 24,
+                                    child: const Icon(
+                                      Icons.shopping_bag_outlined,
+                                      color: Color(0xFF2874F0),
+                                      size: 24,
+                                    ),
                                   ),
                                 ),
                               ],

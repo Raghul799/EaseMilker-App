@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../widgets/top_header.dart';
 import '../Home page/home_page.dart';
+import '../Shop page/booking_page.dart';
 import 'alert_sound_dialog.dart';
 import 'alert_sound_service.dart';
 
@@ -234,6 +235,14 @@ class SettingsPage extends StatelessWidget {
                                     ),
                                     'My Booking',
                                     null,
+                                    onTap: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => const BookingPage(),
+                                        ),
+                                      );
+                                    },
                                   ),
                                 ],
                               ),
