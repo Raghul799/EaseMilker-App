@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
+import '../login/login_page.dart';
+import '../login/auth_service.dart';
 import '../Home page/home_page.dart';
 
 class LoadingPage extends StatefulWidget {
@@ -10,24 +12,44 @@ class LoadingPage extends StatefulWidget {
 }
 
 class _LoadingPageState extends State<LoadingPage> {
+  final AuthService _authService = AuthService();
+
   @override
   void initState() {
     super.initState();
-    // Navigate to home page after 3 seconds
-    Timer(const Duration(seconds: 3), () {
-      if (mounted) {
-        Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (context) => const HomePage()),
-        );
-      }
-    });
+    _checkAuthAndNavigate();
+  }
+
+  Future<void> _checkAuthAndNavigate() async {
+    // Wait for 3 seconds to show the loading screen
+    await Future.delayed(const Duration(seconds: 3));
+
+    if (!mounted) return;
+
+    // Check if user is logged in
+    final isLoggedIn = await _authService.isLoggedIn();
+
+    if (!mounted) return;
+
+    // Navigate based on login state
+    if (isLoggedIn) {
+      // User is already logged in, go to home page
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(builder: (context) => const HomePage()),
+      );
+    } else {
+      // User not logged in, go to login page
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(builder: (context) => const LoginPage()),
+      );
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
-    
+
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
@@ -40,7 +62,7 @@ class _LoadingPageState extends State<LoadingPage> {
                 children: [
                   // Top spacer
                   const Spacer(flex: 3),
-                  
+
                   // Center content (Cow + Logo)
                   Flexible(
                     flex: 5,
@@ -72,10 +94,10 @@ class _LoadingPageState extends State<LoadingPage> {
                       ],
                     ),
                   ),
-                  
+
                   // Bottom spacer
                   const Spacer(flex: 4),
-                  
+
                   // Bottom Text (2 lines only)
                   Padding(
                     padding: EdgeInsets.fromLTRB(
@@ -94,7 +116,10 @@ class _LoadingPageState extends State<LoadingPage> {
                           fontWeight: FontWeight.w400,
                         ),
                         children: const [
-                          TextSpan(text: 'Welcome to Ease Milker app the automated milking\n'),
+                          TextSpan(
+                            text:
+                                'Welcome to Ease Milker app the automated milking\n',
+                          ),
                           TextSpan(text: 'machine monitoring'),
                         ],
                       ),

@@ -2,12 +2,16 @@ import 'package:flutter/material.dart';
 import '../widgets/top_header.dart';
 import '../Home page/home_page.dart';
 import '../Shop page/booking_page.dart';
+import '../login/login_page.dart';
+import '../login/auth_service.dart';
 import 'alert_sound_dialog.dart';
 import 'alert_sound_service.dart';
 
 /// SettingsPage - implements the app settings UI similar to the provided design.
 class SettingsPage extends StatelessWidget {
   const SettingsPage({super.key});
+
+  static final AuthService _authService = AuthService();
 
   Widget _buildTile(
     BuildContext context,
@@ -238,7 +242,8 @@ class SettingsPage extends StatelessWidget {
                                       Navigator.push(
                                         context,
                                         MaterialPageRoute(
-                                          builder: (context) => const BookingPage(),
+                                          builder: (context) =>
+                                              const BookingPage(),
                                         ),
                                       );
                                     },
@@ -330,7 +335,66 @@ class SettingsPage extends StatelessWidget {
                               ),
                               child: OutlinedButton.icon(
                                 onPressed: () {
-                                  // add logout logic
+                                  // Show confirmation dialog before logout
+                                  showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return AlertDialog(
+                                        title: const Text('Logout'),
+                                        content: const Text(
+                                          'Are you sure you want to logout?',
+                                        ),
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(
+                                            12,
+                                          ),
+                                        ),
+                                        actions: [
+                                          TextButton(
+                                            onPressed: () {
+                                              Navigator.of(context).pop();
+                                            },
+                                            child: const Text(
+                                              'Cancel',
+                                              style: TextStyle(
+                                                color: Colors.grey,
+                                              ),
+                                            ),
+                                          ),
+                                          TextButton(
+                                            onPressed: () async {
+                                              // Close dialog
+                                              Navigator.of(context).pop();
+
+                                              // Clear login state
+                                              await _authService
+                                                  .clearLoginState();
+
+                                              if (!context.mounted) return;
+
+                                              // Navigate to login page and remove all previous routes
+                                              Navigator.of(
+                                                context,
+                                              ).pushAndRemoveUntil(
+                                                MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      const LoginPage(),
+                                                ),
+                                                (route) => false,
+                                              );
+                                            },
+                                            child: const Text(
+                                              'Logout',
+                                              style: TextStyle(
+                                                color: Color(0xFF0B57A7),
+                                                fontWeight: FontWeight.w600,
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      );
+                                    },
+                                  );
                                 },
                                 icon: const Icon(
                                   Icons.logout,
