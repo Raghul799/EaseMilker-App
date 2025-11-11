@@ -216,13 +216,12 @@ class SettingsPage extends StatelessWidget {
                                     null,
                                     onTap: () {
                                       // Navigate to HomePage and open the Shop tab (index 3)
-                                      Navigator.pushAndRemoveUntil(
+                                      Navigator.push(
                                         context,
                                         MaterialPageRoute(
                                           builder: (context) =>
                                               const HomePage(initialIndex: 3),
                                         ),
-                                        (route) => false,
                                       );
                                     },
                                   ),
