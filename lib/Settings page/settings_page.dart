@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import '../widgets/top_header.dart';
 import '../Home page/home_page.dart';
+import 'alert_sound_dialog.dart';
+import 'alert_sound_service.dart';
 
 /// SettingsPage - implements the app settings UI similar to the provided design.
 class SettingsPage extends StatelessWidget {
@@ -159,6 +161,28 @@ class SettingsPage extends StatelessWidget {
                                     ),
                                     'Alert Sound',
                                     null,
+                                    onTap: () async {
+                                      // Get current alert sound state
+                                      final service =
+                                          AlertSoundService.instance;
+                                      final currentValue = await service
+                                          .getAlertSoundEnabled();
+
+                                      // Check if widget is still mounted before using context
+                                      if (!context.mounted) return;
+
+                                      // Show the alert sound dialog
+                                      await showAlertSoundDialog(
+                                        context,
+                                        currentValue: currentValue,
+                                        onChanged: (bool newValue) async {
+                                          // Save the new value
+                                          await service.setAlertSoundEnabled(
+                                            newValue,
+                                          );
+                                        },
+                                      );
+                                    },
                                   ),
                                   _buildTile(
                                     context,

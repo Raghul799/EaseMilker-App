@@ -5,6 +5,7 @@ import '../Shop page/shop_page.dart';
 import '../widgets/top_header.dart';
 import '../Settings page/settings_page.dart';
 import '../Premium page/premium_page.dart';
+import '../Settings page/alert_sound_service.dart';
 
 class HomePage extends StatefulWidget {
   final int initialIndex;
@@ -17,11 +18,29 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   late int _selectedIndex;
+  bool _alertSoundEnabled = true;
 
   @override
   void initState() {
     super.initState();
     _selectedIndex = widget.initialIndex;
+    _loadAlertSoundState();
+  }
+
+  Future<void> _loadAlertSoundState() async {
+    final service = AlertSoundService.instance;
+    final enabled = await service.getAlertSoundEnabled();
+    setState(() {
+      _alertSoundEnabled = enabled;
+    });
+  }
+
+  Future<void> _setAlertSoundState(bool enabled) async {
+    final service = AlertSoundService.instance;
+    await service.setAlertSoundEnabled(enabled);
+    setState(() {
+      _alertSoundEnabled = enabled;
+    });
   }
 
   @override
@@ -392,12 +411,22 @@ class _HomePageState extends State<HomePage> {
                                             Row(
                                               children: [
                                                 ElevatedButton(
-                                                  onPressed: () {},
+                                                  onPressed: () {
+                                                    _setAlertSoundState(true);
+                                                  },
                                                   style: ElevatedButton.styleFrom(
                                                     backgroundColor:
-                                                        const Color(0xFF2874F0),
+                                                        _alertSoundEnabled
+                                                        ? const Color(
+                                                            0xFF2874F0,
+                                                          )
+                                                        : Colors.white,
                                                     foregroundColor:
-                                                        Colors.white,
+                                                        _alertSoundEnabled
+                                                        ? Colors.white
+                                                        : const Color(
+                                                            0xFFA6A6A6,
+                                                          ),
                                                     padding:
                                                         const EdgeInsets.symmetric(
                                                           horizontal: 24,
@@ -409,6 +438,13 @@ class _HomePageState extends State<HomePage> {
                                                             5,
                                                           ),
                                                     ),
+                                                    side: _alertSoundEnabled
+                                                        ? null
+                                                        : const BorderSide(
+                                                            color: Color(
+                                                              0xFFE0E0E0,
+                                                            ),
+                                                          ),
                                                     elevation: 0,
                                                   ),
                                                   child: const Text(
@@ -421,18 +457,34 @@ class _HomePageState extends State<HomePage> {
                                                 ),
                                                 const SizedBox(width: 8),
                                                 OutlinedButton(
-                                                  onPressed: () {},
+                                                  onPressed: () {
+                                                    _setAlertSoundState(false);
+                                                  },
                                                   style: OutlinedButton.styleFrom(
+                                                    backgroundColor:
+                                                        !_alertSoundEnabled
+                                                        ? const Color(
+                                                            0xFF2874F0,
+                                                          )
+                                                        : Colors.white,
                                                     foregroundColor:
-                                                        const Color(0xFFA6A6A6),
+                                                        !_alertSoundEnabled
+                                                        ? Colors.white
+                                                        : const Color(
+                                                            0xFFA6A6A6,
+                                                          ),
                                                     padding:
                                                         const EdgeInsets.symmetric(
                                                           horizontal: 20,
                                                           vertical: 8,
                                                         ),
-                                                    side: const BorderSide(
-                                                      color: Color(0xFFE0E0E0),
-                                                    ),
+                                                    side: !_alertSoundEnabled
+                                                        ? null
+                                                        : const BorderSide(
+                                                            color: Color(
+                                                              0xFFE0E0E0,
+                                                            ),
+                                                          ),
                                                     shape: RoundedRectangleBorder(
                                                       borderRadius:
                                                           BorderRadius.circular(
