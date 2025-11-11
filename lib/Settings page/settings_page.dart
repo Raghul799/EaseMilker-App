@@ -5,7 +5,7 @@ import '../widgets/top_header.dart';
 class SettingsPage extends StatelessWidget {
   const SettingsPage({super.key});
 
-  Widget _buildTile(BuildContext context, Widget iconWidget, String title, String? subtitle) {
+  Widget _buildTile(BuildContext context, Widget iconWidget, String title, String? subtitle, {VoidCallback? onTap}) {
     return ListTile(
       contentPadding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
       leading: Container(
@@ -26,7 +26,7 @@ class SettingsPage extends StatelessWidget {
       ),
       subtitle: subtitle == null ? null : Text(subtitle, style: const TextStyle(fontSize: 12, color: Color(0xFF9E9E9E))),
       trailing: const Icon(Icons.chevron_right, color: Color(0xFF9E9E9E)),
-      onTap: () {
+      onTap: onTap ?? () {
         // placeholder: later you can wire each tile to real actions
       },
     );
@@ -198,6 +198,9 @@ class SettingsPage extends StatelessWidget {
                                   const Icon(Icons.business_outlined, color: Color(0xFF0B57A7), size: 22),
                                   'About us',
                                   'get details and know what we provide',
+                                  onTap: () {
+                                    Navigator.pushNamed(context, '/about-us');
+                                  },
                                 ),
                               ],
                             ),

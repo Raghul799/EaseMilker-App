@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'Settings page/settings_page.dart';
+import 'Settings page/about_us_page.dart';
 import 'loading page/loading_page.dart';
 
 void main() {
@@ -16,6 +17,7 @@ class MainApp extends StatelessWidget {
       home: const LoadingPage(),
       routes: {
         '/settings': (context) => const SettingsPage(),
+        '/about-us': (context) => const AboutUsPage(),
       },
     );
   }
