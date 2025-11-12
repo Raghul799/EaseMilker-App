@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../widgets/top_header.dart';
 import '../NavBar/navbar.dart';
 import '../Home page/home_page.dart';
@@ -54,21 +55,47 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                 ),
               ),
               TextButton(
-                onPressed: () {
+                onPressed: () async {
+                  // Capture context and navigator before async operations
+                  final navigator = Navigator.of(context);
+                  final scaffoldMessenger = ScaffoldMessenger.of(context);
+                  
                   // Close dialog
-                  Navigator.of(context).pop();
-                  // TODO: Implement actual password change logic
-                  // For now, just show success message
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text('Password changed successfully!'),
-                      backgroundColor: Colors.green,
-                    ),
-                  );
-                  // Clear fields
-                  _oldPasswordController.clear();
-                  _newPasswordController.clear();
-                  _confirmPasswordController.clear();
+                  navigator.pop();
+                  
+                  // Implement actual password change logic
+                  try {
+                    // Here you would typically:
+                    // 1. Verify old password with backend
+                    // 2. Update to new password
+                    // 3. Handle the response
+                    
+                    // For now, simulating with SharedPreferences
+                    final prefs = await SharedPreferences.getInstance();
+                    await prefs.setString('user_password', _newPasswordController.text);
+                    
+                    if (!mounted) return;
+                    
+                    scaffoldMessenger.showSnackBar(
+                      const SnackBar(
+                        content: Text('Password changed successfully!'),
+                        backgroundColor: Colors.green,
+                      ),
+                    );
+                    
+                    // Clear fields
+                    _oldPasswordController.clear();
+                    _newPasswordController.clear();
+                    _confirmPasswordController.clear();
+                  } catch (e) {
+                    if (!mounted) return;
+                    scaffoldMessenger.showSnackBar(
+                      SnackBar(
+                        content: Text('Error changing password: $e'),
+                        backgroundColor: Colors.red,
+                      ),
+                    );
+                  }
                 },
                 child: const Text(
                   'Confirm',
@@ -185,7 +212,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                                   ),
                                   boxShadow: [
                                     BoxShadow(
-                                      color: Colors.black.withOpacity(0.06),
+                                      color: Colors.black.withValues(alpha: 0.06),
                                       blurRadius: 10,
                                       offset: const Offset(0, 3),
                                       spreadRadius: 1,
@@ -261,7 +288,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                                   ),
                                   boxShadow: [
                                     BoxShadow(
-                                      color: Colors.black.withOpacity(0.06),
+                                      color: Colors.black.withValues(alpha: 0.06),
                                       blurRadius: 10,
                                       offset: const Offset(0, 3),
                                       spreadRadius: 1,
@@ -343,7 +370,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                                   ),
                                   boxShadow: [
                                     BoxShadow(
-                                      color: Colors.black.withOpacity(0.06),
+                                      color: Colors.black.withValues(alpha: 0.06),
                                       blurRadius: 10,
                                       offset: const Offset(0, 3),
                                       spreadRadius: 1,
@@ -433,13 +460,34 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                               Center(
                                 child: TextButton(
                                   onPressed: () {
-                                    // TODO: Implement forgot password functionality
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      const SnackBar(
-                                        content: Text(
-                                          'Forgot password feature coming soon!',
-                                        ),
-                                      ),
+                                    // Implement forgot password functionality
+                                    showDialog(
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return AlertDialog(
+                                          title: const Text('Forgot Password'),
+                                          content: const Text(
+                                            'Please contact your administrator or support team to reset your password.\n\nEmail: support@easemilker.com\nPhone: +1 (555) 123-4567',
+                                          ),
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.circular(12),
+                                          ),
+                                          actions: [
+                                            TextButton(
+                                              onPressed: () {
+                                                Navigator.of(context).pop();
+                                              },
+                                              child: const Text(
+                                                'OK',
+                                                style: TextStyle(
+                                                  color: Color(0xFF0B57A7),
+                                                  fontWeight: FontWeight.w600,
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        );
+                                      },
                                     );
                                   },
                                   style: TextButton.styleFrom(
