@@ -11,7 +11,8 @@ class MessagePage extends StatefulWidget {
 }
 
 class _MessagePageState extends State<MessagePage> {
-  final int _selectedIndex = -1; // No tab selected initially since this is accessed via bell icon
+  final int _selectedIndex =
+      -1; // No tab selected initially since this is accessed via bell icon
 
   // Sample message data based on the image
   final List<Map<String, dynamic>> _messages = [
@@ -36,127 +37,275 @@ class _MessagePageState extends State<MessagePage> {
     // Use the same pattern as other pages - navigate to HomePage with the selected tab index
     Navigator.pushAndRemoveUntil(
       context,
-      MaterialPageRoute(
-        builder: (context) => HomePage(initialIndex: index),
-      ),
+      MaterialPageRoute(builder: (context) => HomePage(initialIndex: index)),
       (route) => false,
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
-    double headerHeight = size.height * 0.22;
-    if (headerHeight < 110) headerHeight = 110;
-    if (headerHeight > 180) headerHeight = 180;
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final size = MediaQuery.of(context).size;
+        final screenWidth = size.width;
+        final screenHeight = size.height;
 
-    return Scaffold(
-      body: Stack(
-        children: [
-          // Background Gradient
-          Container(
-            decoration: const BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment(0.2, -0.98),
-                end: Alignment(-0.2, 0.98),
-                colors: [Color(0xFF006CC7), Color(0xFF68B6FF)],
-                stops: [0.0246, 0.3688],
-              ),
-            ),
-          ),
+        // Calculate responsive values based on screen dimensions
+        // Support for various screen sizes: small (< 360), medium (360-400), large (> 400)
 
-          // Main content
-          Column(
+        // Responsive header height calculation
+        double headerHeight = size.height * 0.22;
+        if (headerHeight < 100) headerHeight = 100;
+        if (headerHeight > 180) headerHeight = 180;
+
+        // Responsive border radius based on screen width
+        final borderRadius = screenWidth < 360
+            ? 20.0
+            : screenWidth < 400
+            ? 25.0
+            : 30.0;
+
+        // Responsive horizontal padding
+        final horizontalPadding = screenWidth < 360
+            ? 12.0
+            : screenWidth < 400
+            ? 16.0
+            : 20.0;
+
+        // Responsive title font size
+        final titleFontSize = screenWidth < 360
+            ? 17.0
+            : screenWidth < 400
+            ? 19.0
+            : 20.0;
+
+        return Scaffold(
+          body: Stack(
             children: [
-              // Header area with TopHeader
-              SafeArea(
-                bottom: false,
-                child: SizedBox(
-                  height: headerHeight,
-                  child: const Align(
-                    alignment: Alignment.center,
-                    child: TopHeader(
-                      name: 'Dhanush Kumar S',
-                      idText: 'EM0214KI',
-                      avatarAsset: 'assets/images/Frame 298.png',
-                      isMessagePage: true,
-                    ),
+              // Background Gradient
+              Container(
+                decoration: const BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment(0.2, -0.98),
+                    end: Alignment(-0.2, 0.98),
+                    colors: [Color(0xFF006CC7), Color(0xFF68B6FF)],
+                    stops: [0.0246, 0.3688],
                   ),
                 ),
               ),
 
-              // Content area (white rounded) fills remaining space
-              Expanded(
-                child: ClipRRect(
-                  borderRadius: const BorderRadius.only(
-                    topLeft: Radius.circular(30),
-                    topRight: Radius.circular(30),
-                  ),
-                  child: Container(
-                    width: double.infinity,
-                    decoration: const BoxDecoration(
-                      color: Color(0xFFF5F5F5),
-                      borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(30),
-                        topRight: Radius.circular(30),
+              // Main content
+              Column(
+                children: [
+                  // Header area with TopHeader
+                  SafeArea(
+                    bottom: false,
+                    child: SizedBox(
+                      height: headerHeight,
+                      child: const Align(
+                        alignment: Alignment.center,
+                        child: TopHeader(
+                          name: 'Dhanush Kumar S',
+                          idText: 'EM0214KI',
+                          avatarAsset: 'assets/images/Frame 298.png',
+                          isMessagePage: true,
+                        ),
                       ),
                     ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        // Message title section
-                        Container(
-                          width: double.infinity,
-                          padding: const EdgeInsets.fromLTRB(20, 20, 20, 16),
-                          decoration: const BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(30),
-                              topRight: Radius.circular(30),
-                            ),
-                          ),
-                          child: const Text(
-                            'Message',
-                            style: TextStyle(
-                              fontFamily: 'Poppins',
-                              fontSize: 20,
-                              fontWeight: FontWeight.w600,
-                              color: Colors.black,
-                            ),
-                          ),
-                        ),
+                  ),
 
-                        // Message list
-                        Expanded(
-                          child: ListView.builder(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 20,
-                              vertical: 8,
-                            ),
-                            itemCount: _messages.length,
-                            itemBuilder: (context, index) {
-                              final message = _messages[index];
-                              return _buildMessageCard(message);
-                            },
+                  // Content area (white rounded) fills remaining space
+                  Expanded(
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(borderRadius),
+                        topRight: Radius.circular(borderRadius),
+                      ),
+                      child: Container(
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                          color: const Color(0xFFF5F5F5),
+                          borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(borderRadius),
+                            topRight: Radius.circular(borderRadius),
                           ),
                         ),
-                      ],
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            // Message title section
+                            Container(
+                              width: double.infinity,
+                              padding: EdgeInsets.fromLTRB(
+                                horizontalPadding,
+                                screenHeight < 600 ? 16 : 20,
+                                horizontalPadding,
+                                screenHeight < 600 ? 12 : 16,
+                              ),
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(borderRadius),
+                                  topRight: Radius.circular(borderRadius),
+                                ),
+                              ),
+                              child: Text(
+                                'Message',
+                                style: TextStyle(
+                                  fontFamily: 'Poppins',
+                                  fontSize: titleFontSize,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.black,
+                                ),
+                              ),
+                            ),
+
+                            // Message list
+                            Expanded(
+                              child: ListView.builder(
+                                padding: EdgeInsets.symmetric(
+                                  horizontal: horizontalPadding,
+                                  vertical: screenHeight < 600 ? 4 : 8,
+                                ),
+                                itemCount: _messages.length,
+                                itemBuilder: (context, index) {
+                                  final message = _messages[index];
+                                  return _buildMessageCard(
+                                    message,
+                                    screenWidth,
+                                    screenHeight,
+                                  );
+                                },
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
                     ),
                   ),
-                ),
+                ],
               ),
             ],
           ),
-        ],
-      ),
-      bottomNavigationBar: AppNavBar(
-        selectedIndex: _selectedIndex,
-        onTap: _onNavBarTap,
-      ),
+          bottomNavigationBar: AppNavBar(
+            selectedIndex: _selectedIndex,
+            onTap: _onNavBarTap,
+          ),
+        );
+      },
     );
   }
 
-  Widget _buildMessageCard(Map<String, dynamic> message) {
+  Widget _buildMessageCard(
+    Map<String, dynamic> message,
+    double screenWidth,
+    double screenHeight,
+  ) {
+    // Comprehensive responsive sizing for all screen sizes
+    // Breakpoints: Small (<360), Medium (360-400), Large (400-450), XLarge (>450)
+
+    // Avatar sizing
+    final avatarSize = screenWidth < 360
+        ? 38.0
+        : screenWidth < 400
+        ? 42.0
+        : screenWidth < 450
+        ? 44.0
+        : 46.0;
+
+    // Card spacing
+    final cardMargin = screenHeight < 600
+        ? 6.0
+        : screenHeight < 700
+        ? 10.0
+        : 12.0;
+
+    final cardPadding = screenWidth < 360
+        ? 10.0
+        : screenWidth < 400
+        ? 14.0
+        : 16.0;
+
+    final cardBorderRadius = screenWidth < 360
+        ? 10.0
+        : screenWidth < 400
+        ? 11.0
+        : 12.0;
+
+    final avatarBorderWidth = screenWidth < 360 ? 1.0 : 1.5;
+
+    // Font sizes based on screen width
+    final titleFontSize = screenWidth < 360
+        ? 13.5
+        : screenWidth < 400
+        ? 14.5
+        : 15.0;
+
+    final subtitleFontSize = screenWidth < 360
+        ? 11.5
+        : screenWidth < 400
+        ? 12.5
+        : 13.0;
+
+    final timeFontSize = screenWidth < 360
+        ? 9.0
+        : screenWidth < 400
+        ? 9.5
+        : 10.0;
+
+    final avatarFontSize = screenWidth < 360
+        ? 16.0
+        : screenWidth < 400
+        ? 17.0
+        : 18.0;
+
+    final buttonTextSize = screenWidth < 360
+        ? 10.5
+        : screenWidth < 400
+        ? 11.5
+        : 12.0;
+
+    // Spacing between elements
+    final horizontalSpacing = screenWidth < 360
+        ? 8.0
+        : screenWidth < 400
+        ? 10.0
+        : 12.0;
+
+    final verticalSpacing = screenHeight < 600 ? 3.0 : 4.0;
+
+    final buttonSpacing = screenWidth < 360
+        ? 5.0
+        : screenWidth < 400
+        ? 6.0
+        : 8.0;
+
+    // Action button sizes
+    final actionButtonSize = screenWidth < 360
+        ? 28.0
+        : screenWidth < 400
+        ? 30.0
+        : 32.0;
+
+    final actionIconSize = screenWidth < 360
+        ? 15.0
+        : screenWidth < 400
+        ? 16.5
+        : 18.0;
+
+    // Done button padding
+    final doneButtonHorizontalPadding = screenWidth < 360
+        ? 10.0
+        : screenWidth < 400
+        ? 14.0
+        : 16.0;
+
+    final doneButtonVerticalPadding = screenWidth < 360
+        ? 4.0
+        : screenWidth < 400
+        ? 5.0
+        : 6.0;
+
     return InkWell(
       onTap: () {
         // When user clicks on notification, mark it as read
@@ -167,13 +316,13 @@ class _MessagePageState extends State<MessagePage> {
           });
         }
       },
-      borderRadius: BorderRadius.circular(12),
+      borderRadius: BorderRadius.circular(cardBorderRadius),
       child: Container(
-        margin: const EdgeInsets.only(bottom: 12),
-        padding: const EdgeInsets.all(16),
+        margin: EdgeInsets.only(bottom: cardMargin),
+        padding: EdgeInsets.all(cardPadding),
         decoration: BoxDecoration(
           color: Colors.white,
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(cardBorderRadius),
           boxShadow: [
             BoxShadow(
               color: Colors.black.withAlpha(10),
@@ -183,71 +332,81 @@ class _MessagePageState extends State<MessagePage> {
           ],
         ),
         child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             // Avatar with 'M' letter
             Container(
-              width: 44,
-              height: 44,
+              width: avatarSize,
+              height: avatarSize,
               decoration: BoxDecoration(
                 color: const Color(0xFFE3F2FD),
                 shape: BoxShape.circle,
                 border: Border.all(
                   color: const Color(0xFF2196F3),
-                  width: 1.5,
+                  width: avatarBorderWidth,
                 ),
               ),
-              child: const Center(
+              child: Center(
                 child: Text(
                   'M',
                   style: TextStyle(
-                    fontSize: 18,
+                    fontSize: avatarFontSize,
                     fontWeight: FontWeight.w600,
-                    color: Color(0xFF2196F3),
+                    color: const Color(0xFF2196F3),
                   ),
                 ),
               ),
             ),
 
-            const SizedBox(width: 12),
+            SizedBox(width: horizontalSpacing),
 
             // Message content
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
                 children: [
+                  // Title text
+                  Text(
+                    message['title'],
+                    style: TextStyle(
+                      fontFamily: 'Roboto',
+                      fontSize: titleFontSize,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.black,
+                      height: 1.2,
+                    ),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  SizedBox(height: verticalSpacing),
+                  // Subtitle and time row
                   Row(
                     children: [
                       Expanded(
                         child: Text(
-                          message['title'],
-                          style: const TextStyle(
+                          message['subtitle'],
+                          style: TextStyle(
                             fontFamily: 'Roboto',
-                            fontSize: 15,
-                            fontWeight: FontWeight.w600,
-                            color: Colors.black,
+                            fontSize: subtitleFontSize,
+                            color: const Color(0xFF757575),
+                            height: 1.2,
                           ),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
                         ),
                       ),
+                      SizedBox(width: buttonSpacing),
                       Text(
                         message['time'],
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontFamily: 'Roboto',
-                          fontSize: 10,
-                          color: Color(0xFF9E9E9E),
+                          fontSize: timeFontSize,
+                          color: const Color(0xFF9E9E9E),
+                          height: 1.2,
                         ),
                       ),
                     ],
-                  ),
-                  const SizedBox(height: 4),
-                  Text(
-                    message['subtitle'],
-                    style: const TextStyle(
-                      fontFamily: 'Roboto',
-                      fontSize: 13,
-                      color: Color(0xFF757575),
-                    ),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
                   ),
                 ],
               ),
@@ -255,7 +414,7 @@ class _MessagePageState extends State<MessagePage> {
 
             // Action buttons (check and close) for unread messages
             if (message['hasActions']) ...[
-              const SizedBox(width: 8),
+              SizedBox(width: buttonSpacing),
               Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
@@ -268,22 +427,22 @@ class _MessagePageState extends State<MessagePage> {
                         message['hasActions'] = false;
                       });
                     },
-                    borderRadius: BorderRadius.circular(20),
+                    borderRadius: BorderRadius.circular(actionButtonSize / 2),
                     child: Container(
-                      width: 32,
-                      height: 32,
+                      width: actionButtonSize,
+                      height: actionButtonSize,
                       decoration: const BoxDecoration(
                         color: Color(0xFF4CAF50),
                         shape: BoxShape.circle,
                       ),
-                      child: const Icon(
+                      child: Icon(
                         Icons.check,
                         color: Colors.white,
-                        size: 18,
+                        size: actionIconSize,
                       ),
                     ),
                   ),
-                  const SizedBox(width: 8),
+                  SizedBox(width: buttonSpacing),
                   // Close button
                   InkWell(
                     onTap: () {
@@ -296,18 +455,18 @@ class _MessagePageState extends State<MessagePage> {
                         }
                       });
                     },
-                    borderRadius: BorderRadius.circular(20),
+                    borderRadius: BorderRadius.circular(actionButtonSize / 2),
                     child: Container(
-                      width: 32,
-                      height: 32,
+                      width: actionButtonSize,
+                      height: actionButtonSize,
                       decoration: const BoxDecoration(
                         color: Color(0xFFF44336),
                         shape: BoxShape.circle,
                       ),
-                      child: const Icon(
+                      child: Icon(
                         Icons.close,
                         color: Colors.white,
-                        size: 18,
+                        size: actionIconSize,
                       ),
                     ),
                   ),
@@ -317,31 +476,31 @@ class _MessagePageState extends State<MessagePage> {
 
             // Done button with delete icon for read messages
             if (!message['hasActions'] && message['isRead']) ...[
-              const SizedBox(width: 8),
+              SizedBox(width: buttonSpacing),
               Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   // Done button
                   Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 16,
-                      vertical: 6,
+                    padding: EdgeInsets.symmetric(
+                      horizontal: doneButtonHorizontalPadding,
+                      vertical: doneButtonVerticalPadding,
                     ),
                     decoration: BoxDecoration(
                       color: const Color(0xFF2196F3),
                       borderRadius: BorderRadius.circular(15),
                     ),
-                    child: const Text(
+                    child: Text(
                       'Done',
                       style: TextStyle(
                         fontFamily: 'Roboto',
-                        fontSize: 12,
+                        fontSize: buttonTextSize,
                         fontWeight: FontWeight.w500,
                         color: Colors.white,
                       ),
                     ),
                   ),
-                  const SizedBox(width: 8),
+                  SizedBox(width: buttonSpacing),
                   // Delete icon
                   InkWell(
                     onTap: () {
@@ -354,18 +513,18 @@ class _MessagePageState extends State<MessagePage> {
                         }
                       });
                     },
-                    borderRadius: BorderRadius.circular(20),
+                    borderRadius: BorderRadius.circular(actionButtonSize / 2),
                     child: Container(
-                      width: 32,
-                      height: 32,
+                      width: actionButtonSize,
+                      height: actionButtonSize,
                       decoration: BoxDecoration(
                         color: const Color(0xFFF44336).withAlpha(230),
                         shape: BoxShape.circle,
                       ),
-                      child: const Icon(
+                      child: Icon(
                         Icons.delete_outline,
                         color: Colors.white,
-                        size: 18,
+                        size: actionIconSize,
                       ),
                     ),
                   ),
