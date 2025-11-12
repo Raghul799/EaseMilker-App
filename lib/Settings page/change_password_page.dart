@@ -1,0 +1,522 @@
+import 'package:flutter/material.dart';
+import '../widgets/top_header.dart';
+import '../NavBar/navbar.dart';
+import '../Home page/home_page.dart';
+
+/// ChangePasswordPage - allows users to change their password
+class ChangePasswordPage extends StatefulWidget {
+  const ChangePasswordPage({super.key});
+
+  @override
+  State<ChangePasswordPage> createState() => _ChangePasswordPageState();
+}
+
+class _ChangePasswordPageState extends State<ChangePasswordPage> {
+  final _formKey = GlobalKey<FormState>();
+  final _oldPasswordController = TextEditingController();
+  final _newPasswordController = TextEditingController();
+  final _confirmPasswordController = TextEditingController();
+
+  bool _obscureOldPassword = true;
+  bool _obscureNewPassword = true;
+  bool _obscureConfirmPassword = true;
+
+  @override
+  void dispose() {
+    _oldPasswordController.dispose();
+    _newPasswordController.dispose();
+    _confirmPasswordController.dispose();
+    super.dispose();
+  }
+
+  void _handleDone() {
+    if (_formKey.currentState!.validate()) {
+      // Show confirmation dialog
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text('Change Password'),
+            content: const Text(
+              'Are you sure you want to change your password?',
+            ),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12),
+            ),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: const Text(
+                  'Cancel',
+                  style: TextStyle(color: Colors.grey),
+                ),
+              ),
+              TextButton(
+                onPressed: () {
+                  // Close dialog
+                  Navigator.of(context).pop();
+                  // TODO: Implement actual password change logic
+                  // For now, just show success message
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text('Password changed successfully!'),
+                      backgroundColor: Colors.green,
+                    ),
+                  );
+                  // Clear fields
+                  _oldPasswordController.clear();
+                  _newPasswordController.clear();
+                  _confirmPasswordController.clear();
+                },
+                child: const Text(
+                  'Confirm',
+                  style: TextStyle(
+                    color: Color(0xFF0B57A7),
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ),
+            ],
+          );
+        },
+      );
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+    double headerHeight = size.height * 0.22;
+    if (headerHeight < 110) headerHeight = 110;
+    if (headerHeight > 180) headerHeight = 180;
+
+    return Scaffold(
+      backgroundColor: Colors.transparent,
+      body: Stack(
+        children: [
+          // Gradient background
+          Container(
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment(0.2, -0.98),
+                end: Alignment(-0.2, 0.98),
+                colors: [Color(0xFF006CC7), Color(0xFF68B6FF)],
+                stops: [0.0246, 0.3688],
+              ),
+            ),
+          ),
+
+          // Main column
+          Column(
+            children: [
+              SafeArea(
+                bottom: false,
+                child: SizedBox(
+                  height: headerHeight,
+                  child: const Align(
+                    alignment: Alignment.center,
+                    child: TopHeader(
+                      name: 'Dhanush Kumar S',
+                      idText: 'EM0214KI',
+                      avatarAsset: 'assets/images/Frame 298.png',
+                    ),
+                  ),
+                ),
+              ),
+
+              // White rounded content
+              Expanded(
+                child: ClipRRect(
+                  borderRadius: const BorderRadius.only(
+                    topLeft: Radius.circular(30),
+                    topRight: Radius.circular(30),
+                  ),
+                  child: Container(
+                    width: double.infinity,
+                    decoration: const BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(30),
+                        topRight: Radius.circular(30),
+                      ),
+                    ),
+                    child: SingleChildScrollView(
+                      padding: EdgeInsets.only(
+                        bottom: 90 + MediaQuery.of(context).padding.bottom,
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
+                        child: Form(
+                          key: _formKey,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              // Title
+                              const Text(
+                                'Change Password',
+                                style: TextStyle(
+                                  fontSize: 26,
+                                  fontWeight: FontWeight.w700,
+                                  color: Color(0xFF000000),
+                                ),
+                              ),
+
+                              const SizedBox(height: 24),
+
+                              // Old password field
+                              const Text(
+                                'Old password',
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  color: Color(0xFF000000),
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                              const SizedBox(height: 10),
+                              Container(
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(8),
+                                  border: Border.all(
+                                    color: const Color(0xFFDDDDDD),
+                                    width: 1,
+                                  ),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.black.withOpacity(0.06),
+                                      blurRadius: 10,
+                                      offset: const Offset(0, 3),
+                                      spreadRadius: 1,
+                                    ),
+                                  ],
+                                ),
+                                child: TextFormField(
+                                  controller: _oldPasswordController,
+                                  obscureText: _obscureOldPassword,
+                                  style: const TextStyle(
+                                    fontSize: 14,
+                                    color: Color(0xFF000000),
+                                  ),
+                                  decoration: InputDecoration(
+                                    hintText: 'Enter old password',
+                                    hintStyle: const TextStyle(
+                                      fontSize: 14,
+                                      color: Color(0xFFAAAAAA),
+                                      fontWeight: FontWeight.w400,
+                                    ),
+                                    border: InputBorder.none,
+                                    contentPadding: const EdgeInsets.symmetric(
+                                      horizontal: 16,
+                                      vertical: 16,
+                                    ),
+                                    suffixIcon: Padding(
+                                      padding: const EdgeInsets.only(right: 8),
+                                      child: IconButton(
+                                        icon: Icon(
+                                          _obscureOldPassword
+                                              ? Icons.visibility_off_outlined
+                                              : Icons.visibility_outlined,
+                                          color: const Color(0xFF9E9E9E),
+                                          size: 20,
+                                        ),
+                                        onPressed: () {
+                                          setState(() {
+                                            _obscureOldPassword =
+                                                !_obscureOldPassword;
+                                          });
+                                        },
+                                      ),
+                                    ),
+                                  ),
+                                  validator: (value) {
+                                    if (value == null || value.isEmpty) {
+                                      return 'Please enter your old password';
+                                    }
+                                    return null;
+                                  },
+                                ),
+                              ),
+
+                              const SizedBox(height: 20),
+
+                              // New password field
+                              const Text(
+                                'New password',
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  color: Color(0xFF000000),
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                              const SizedBox(height: 10),
+                              Container(
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(8),
+                                  border: Border.all(
+                                    color: const Color(0xFFDDDDDD),
+                                    width: 1,
+                                  ),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.black.withOpacity(0.06),
+                                      blurRadius: 10,
+                                      offset: const Offset(0, 3),
+                                      spreadRadius: 1,
+                                    ),
+                                  ],
+                                ),
+                                child: TextFormField(
+                                  controller: _newPasswordController,
+                                  obscureText: _obscureNewPassword,
+                                  style: const TextStyle(
+                                    fontSize: 14,
+                                    color: Color(0xFF000000),
+                                  ),
+                                  decoration: InputDecoration(
+                                    hintText: 'Enter new password',
+                                    hintStyle: const TextStyle(
+                                      fontSize: 14,
+                                      color: Color(0xFFAAAAAA),
+                                      fontWeight: FontWeight.w400,
+                                    ),
+                                    border: InputBorder.none,
+                                    contentPadding: const EdgeInsets.symmetric(
+                                      horizontal: 16,
+                                      vertical: 16,
+                                    ),
+                                    suffixIcon: Padding(
+                                      padding: const EdgeInsets.only(right: 8),
+                                      child: IconButton(
+                                        icon: Icon(
+                                          _obscureNewPassword
+                                              ? Icons.visibility_off_outlined
+                                              : Icons.visibility_outlined,
+                                          color: const Color(0xFF9E9E9E),
+                                          size: 20,
+                                        ),
+                                        onPressed: () {
+                                          setState(() {
+                                            _obscureNewPassword =
+                                                !_obscureNewPassword;
+                                          });
+                                        },
+                                      ),
+                                    ),
+                                  ),
+                                  validator: (value) {
+                                    if (value == null || value.isEmpty) {
+                                      return 'Please enter a new password';
+                                    }
+                                    if (value.length < 6) {
+                                      return 'Password must be at least 6 characters';
+                                    }
+                                    if (value == _oldPasswordController.text) {
+                                      return 'New password must be different from old password';
+                                    }
+                                    return null;
+                                  },
+                                ),
+                              ),
+
+                              const SizedBox(height: 20),
+
+                              // Confirm password field
+                              const Text(
+                                'Confirm password',
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  color: Color(0xFF000000),
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                              const SizedBox(height: 10),
+                              Container(
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(8),
+                                  border: Border.all(
+                                    color: const Color(0xFFDDDDDD),
+                                    width: 1,
+                                  ),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.black.withOpacity(0.06),
+                                      blurRadius: 10,
+                                      offset: const Offset(0, 3),
+                                      spreadRadius: 1,
+                                    ),
+                                  ],
+                                ),
+                                child: TextFormField(
+                                  controller: _confirmPasswordController,
+                                  obscureText: _obscureConfirmPassword,
+                                  style: const TextStyle(
+                                    fontSize: 14,
+                                    color: Color(0xFF000000),
+                                  ),
+                                  decoration: InputDecoration(
+                                    hintText: 'Re-enter new password',
+                                    hintStyle: const TextStyle(
+                                      fontSize: 14,
+                                      color: Color(0xFFAAAAAA),
+                                      fontWeight: FontWeight.w400,
+                                    ),
+                                    border: InputBorder.none,
+                                    contentPadding: const EdgeInsets.symmetric(
+                                      horizontal: 16,
+                                      vertical: 16,
+                                    ),
+                                    suffixIcon: Padding(
+                                      padding: const EdgeInsets.only(right: 8),
+                                      child: IconButton(
+                                        icon: Icon(
+                                          _obscureConfirmPassword
+                                              ? Icons.visibility_off_outlined
+                                              : Icons.visibility_outlined,
+                                          color: const Color(0xFF9E9E9E),
+                                          size: 20,
+                                        ),
+                                        onPressed: () {
+                                          setState(() {
+                                            _obscureConfirmPassword =
+                                                !_obscureConfirmPassword;
+                                          });
+                                        },
+                                      ),
+                                    ),
+                                  ),
+                                  validator: (value) {
+                                    if (value == null || value.isEmpty) {
+                                      return 'Please confirm your new password';
+                                    }
+                                    if (value != _newPasswordController.text) {
+                                      return 'Passwords do not match';
+                                    }
+                                    return null;
+                                  },
+                                ),
+                              ),
+
+                              const SizedBox(height: 24),
+
+                              // Done button
+                              SizedBox(
+                                width: double.infinity,
+                                height: 52,
+                                child: ElevatedButton(
+                                  onPressed: _handleDone,
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: const Color(0xFF1976D2),
+                                    foregroundColor: Colors.white,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(8),
+                                    ),
+                                    elevation: 2,
+                                  ),
+                                  child: const Text(
+                                    'Done',
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w600,
+                                      letterSpacing: 0.5,
+                                    ),
+                                  ),
+                                ),
+                              ),
+
+                              const SizedBox(height: 16),
+
+                              // Forget Password link
+                              Center(
+                                child: TextButton(
+                                  onPressed: () {
+                                    // TODO: Implement forgot password functionality
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      const SnackBar(
+                                        content: Text(
+                                          'Forgot password feature coming soon!',
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                  style: TextButton.styleFrom(
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: 12,
+                                      vertical: 8,
+                                    ),
+                                  ),
+                                  child: const Text(
+                                    'forget Password?',
+                                    style: TextStyle(
+                                      fontSize: 14,
+                                      color: Color(0xFF1976D2),
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                ),
+                              ),
+
+                              const SizedBox(height: 8),
+
+                              // Confirmation message
+                              Center(
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 24.0,
+                                  ),
+                                  child: Text(
+                                    '"Are you sure you want to change your password?" If yes remain it',
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                      color: Colors.grey[600],
+                                      height: 1.4,
+                                    ),
+                                  ),
+                                ),
+                              ),
+
+                              const SizedBox(height: 20),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+
+          // Bottom Navigation Bar
+          Positioned(
+            left: 0,
+            right: 0,
+            bottom: 0,
+            child: AppNavBar(
+              selectedIndex: 4, // Settings tab selected
+              onTap: (index) {
+                if (index == 4) {
+                  // Already on settings-related page, go back to settings
+                  Navigator.pop(context);
+                } else {
+                  // Navigate to HomePage with the selected tab index
+                  Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => HomePage(initialIndex: index),
+                    ),
+                    (route) => false,
+                  );
+                }
+              },
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}

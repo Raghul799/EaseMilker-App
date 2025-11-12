@@ -6,6 +6,7 @@ import '../login/login_page.dart';
 import '../login/auth_service.dart';
 import 'alert_sound_dialog.dart';
 import 'alert_sound_service.dart';
+import 'change_password_page.dart';
 
 /// SettingsPage - implements the app settings UI similar to the provided design.
 class SettingsPage extends StatelessWidget {
@@ -208,6 +209,15 @@ class SettingsPage extends StatelessWidget {
                                     ),
                                     'Change password',
                                     null,
+                                    onTap: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              const ChangePasswordPage(),
+                                        ),
+                                      );
+                                    },
                                   ),
                                   _buildTile(
                                     context,
