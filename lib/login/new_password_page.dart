@@ -2,86 +2,29 @@ import 'package:flutter/material.dart';
 import '../widgets/top_header.dart';
 import '../NavBar/navbar.dart';
 import '../Home page/home_page.dart';
-import 'new_password_page.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-/// ForgetPasswordPage - allows users to reset their password
-class ForgetPasswordPage extends StatefulWidget {
-  const ForgetPasswordPage({super.key});
+/// NewPasswordPage - allows users to set a new password after verification
+class NewPasswordPage extends StatefulWidget {
+  const NewPasswordPage({super.key});
 
   @override
-  State<ForgetPasswordPage> createState() => _ForgetPasswordPageState();
+  State<NewPasswordPage> createState() => _NewPasswordPageState();
 }
 
-class _ForgetPasswordPageState extends State<ForgetPasswordPage> {
+class _NewPasswordPageState extends State<NewPasswordPage> {
   final _formKey = GlobalKey<FormState>();
-  final _machineIdController = TextEditingController();
-  final _mobileNumberController = TextEditingController();
-  final _otpController = TextEditingController();
+  final _newPasswordController = TextEditingController();
+  final _confirmPasswordController = TextEditingController();
 
-  bool _otpSent = false;
-  bool _isLoadingOtp = false;
+  bool _obscureNewPassword = true;
+  bool _obscureConfirmPassword = true;
 
   @override
   void dispose() {
-    _machineIdController.dispose();
-    _mobileNumberController.dispose();
-    _otpController.dispose();
+    _newPasswordController.dispose();
+    _confirmPasswordController.dispose();
     super.dispose();
-  }
-
-  void _handleGetOTP() async {
-    // Validate machine ID and mobile number before sending OTP
-    if (_machineIdController.text.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Please enter your machine id first'),
-          backgroundColor: Colors.orange,
-        ),
-      );
-      return;
-    }
-
-    if (_mobileNumberController.text.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Please enter your mobile number'),
-          backgroundColor: Colors.orange,
-        ),
-      );
-      return;
-    }
-
-    if (_mobileNumberController.text.length < 10) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Please enter a valid mobile number'),
-          backgroundColor: Colors.orange,
-        ),
-      );
-      return;
-    }
-
-    setState(() {
-      _isLoadingOtp = true;
-    });
-
-    // Simulate API call to send OTP
-    await Future.delayed(const Duration(seconds: 2));
-
-    if (!mounted) return;
-
-    setState(() {
-      _isLoadingOtp = false;
-      _otpSent = true;
-    });
-
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text('OTP sent to ${_mobileNumberController.text}'),
-        backgroundColor: Colors.green,
-        duration: const Duration(seconds: 3),
-      ),
-    );
   }
 
   void _handleDone() {
@@ -91,9 +34,9 @@ class _ForgetPasswordPageState extends State<ForgetPasswordPage> {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: const Text('Forget Password'),
+            title: const Text('Change Password'),
             content: const Text(
-              'Are you sure you want to reset your password?',
+              'Are you sure you want to change your password?',
             ),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(12),
@@ -117,37 +60,40 @@ class _ForgetPasswordPageState extends State<ForgetPasswordPage> {
                   // Close dialog
                   navigator.pop();
 
-                  // Implement actual password reset logic
+                  // Implement actual password change logic
                   try {
                     // Here you would typically:
-                    // 1. Verify Machine ID with backend
-                    // 2. Verify mobile number
-                    // 3. Verify OTP
-                    // 4. Navigate to new password page
+                    // 1. Send new password to backend
+                    // 2. Handle the response
 
-                    // Simulating API call delay
-                    await Future.delayed(const Duration(seconds: 1));
+                    // For now, simulating with SharedPreferences
+                    final prefs = await SharedPreferences.getInstance();
+                    await prefs.setString(
+                      'user_password',
+                      _newPasswordController.text,
+                    );
 
                     if (!mounted) return;
 
                     scaffoldMessenger.showSnackBar(
                       const SnackBar(
-                        content: Text('OTP verified successfully!'),
+                        content: Text('Password changed successfully!'),
                         backgroundColor: Colors.green,
                       ),
                     );
 
-                    // Navigate to New Password Page
-                    navigator.push(
+                    // Navigate back to home or login
+                    navigator.pushAndRemoveUntil(
                       MaterialPageRoute(
-                        builder: (context) => const NewPasswordPage(),
+                        builder: (context) => const HomePage(initialIndex: 4),
                       ),
+                      (route) => false,
                     );
                   } catch (e) {
                     if (!mounted) return;
                     scaffoldMessenger.showSnackBar(
                       SnackBar(
-                        content: Text('Error verifying OTP: $e'),
+                        content: Text('Error changing password: $e'),
                         backgroundColor: Colors.red,
                       ),
                     );
@@ -256,9 +202,9 @@ class _ForgetPasswordPageState extends State<ForgetPasswordPage> {
 
                               SizedBox(height: isSmallScreen ? 18 : 24),
 
-                              // Machine Id field
+                              // New password field
                               const Text(
-                                'Machine Id',
+                                'new Password',
                                 style: TextStyle(
                                   fontSize: 14,
                                   color: Color(0xFF000000),
@@ -286,13 +232,14 @@ class _ForgetPasswordPageState extends State<ForgetPasswordPage> {
                                   ],
                                 ),
                                 child: TextFormField(
-                                  controller: _machineIdController,
+                                  controller: _newPasswordController,
+                                  obscureText: _obscureNewPassword,
                                   style: TextStyle(
                                     fontSize: isSmallScreen ? 13 : 14,
                                     color: const Color(0xFF000000),
                                   ),
                                   decoration: InputDecoration(
-                                    hintText: 'Enter machine id',
+                                    hintText: 'Enter new password',
                                     hintStyle: TextStyle(
                                       fontSize: isSmallScreen ? 13 : 14,
                                       color: const Color(0xFFAAAAAA),
@@ -303,10 +250,31 @@ class _ForgetPasswordPageState extends State<ForgetPasswordPage> {
                                       horizontal: isSmallScreen ? 12 : 16,
                                       vertical: isSmallScreen ? 14 : 16,
                                     ),
+                                    suffixIcon: Padding(
+                                      padding: const EdgeInsets.only(right: 8),
+                                      child: IconButton(
+                                        icon: Icon(
+                                          _obscureNewPassword
+                                              ? Icons.visibility_off_outlined
+                                              : Icons.visibility_outlined,
+                                          color: const Color(0xFF9E9E9E),
+                                          size: 20,
+                                        ),
+                                        onPressed: () {
+                                          setState(() {
+                                            _obscureNewPassword =
+                                                !_obscureNewPassword;
+                                          });
+                                        },
+                                      ),
+                                    ),
                                   ),
                                   validator: (value) {
                                     if (value == null || value.isEmpty) {
-                                      return 'Please enter your machine id';
+                                      return 'Please enter a new password';
+                                    }
+                                    if (value.length < 6) {
+                                      return 'Password must be at least 6 characters';
                                     }
                                     return null;
                                   },
@@ -315,151 +283,9 @@ class _ForgetPasswordPageState extends State<ForgetPasswordPage> {
 
                               const SizedBox(height: 20),
 
-                              // Mobile Number field with Get OTP button
+                              // Confirm password field
                               const Text(
-                                'Mobile Number',
-                                style: TextStyle(
-                                  fontSize: 14,
-                                  color: Color(0xFF000000),
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                              const SizedBox(height: 10),
-                              LayoutBuilder(
-                                builder: (context, constraints) {
-                                  final isVerySmallScreen =
-                                      constraints.maxWidth < 320;
-                                  return Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Expanded(
-                                        flex: isVerySmallScreen ? 2 : 3,
-                                        child: Container(
-                                          decoration: BoxDecoration(
-                                            color: Colors.white,
-                                            borderRadius: BorderRadius.circular(
-                                              8,
-                                            ),
-                                            border: Border.all(
-                                              color: const Color(0xFFDDDDDD),
-                                              width: 1,
-                                            ),
-                                            boxShadow: [
-                                              BoxShadow(
-                                                color: Colors.black.withValues(
-                                                  alpha: 0.06,
-                                                ),
-                                                blurRadius: 10,
-                                                offset: const Offset(0, 3),
-                                                spreadRadius: 1,
-                                              ),
-                                            ],
-                                          ),
-                                          child: TextFormField(
-                                            controller: _mobileNumberController,
-                                            keyboardType: TextInputType.phone,
-                                            style: TextStyle(
-                                              fontSize: isSmallScreen ? 13 : 14,
-                                              color: const Color(0xFF000000),
-                                            ),
-                                            decoration: InputDecoration(
-                                              hintText: 'Enter mobile number',
-                                              hintStyle: TextStyle(
-                                                fontSize: isSmallScreen
-                                                    ? 13
-                                                    : 14,
-                                                color: const Color(0xFFAAAAAA),
-                                                fontWeight: FontWeight.w400,
-                                              ),
-                                              border: InputBorder.none,
-                                              contentPadding:
-                                                  EdgeInsets.symmetric(
-                                                    horizontal: isSmallScreen
-                                                        ? 12
-                                                        : 16,
-                                                    vertical: isSmallScreen
-                                                        ? 14
-                                                        : 16,
-                                                  ),
-                                            ),
-                                            validator: (value) {
-                                              if (value == null ||
-                                                  value.isEmpty) {
-                                                return 'Enter mobile number';
-                                              }
-                                              if (value.length < 10) {
-                                                return 'Invalid number';
-                                              }
-                                              return null;
-                                            },
-                                          ),
-                                        ),
-                                      ),
-                                      SizedBox(width: isSmallScreen ? 8 : 12),
-                                      SizedBox(
-                                        height: isSmallScreen ? 48 : 52,
-                                        child: ElevatedButton(
-                                          onPressed: _isLoadingOtp
-                                              ? null
-                                              : _handleGetOTP,
-                                          style: ElevatedButton.styleFrom(
-                                            backgroundColor: _otpSent
-                                                ? Colors.green
-                                                : const Color(0xFF1976D2),
-                                            foregroundColor: Colors.white,
-                                            shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(8),
-                                            ),
-                                            elevation: 2,
-                                            padding: EdgeInsets.symmetric(
-                                              horizontal: isVerySmallScreen
-                                                  ? 12
-                                                  : (isSmallScreen ? 16 : 20),
-                                            ),
-                                          ),
-                                          child: _isLoadingOtp
-                                              ? SizedBox(
-                                                  width: isSmallScreen
-                                                      ? 18
-                                                      : 20,
-                                                  height: isSmallScreen
-                                                      ? 18
-                                                      : 20,
-                                                  child:
-                                                      const CircularProgressIndicator(
-                                                        color: Colors.white,
-                                                        strokeWidth: 2,
-                                                      ),
-                                                )
-                                              : FittedBox(
-                                                  fit: BoxFit.scaleDown,
-                                                  child: Text(
-                                                    _otpSent
-                                                        ? 'Resend'
-                                                        : 'Get OTP',
-                                                    style: TextStyle(
-                                                      fontSize: isSmallScreen
-                                                          ? 12
-                                                          : 14,
-                                                      fontWeight:
-                                                          FontWeight.w600,
-                                                    ),
-                                                  ),
-                                                ),
-                                        ),
-                                      ),
-                                    ],
-                                  );
-                                },
-                              ),
-
-                              const SizedBox(height: 20),
-
-                              // OTP field
-                              const Text(
-                                'OTP',
+                                'Confirm Password',
                                 style: TextStyle(
                                   fontSize: 14,
                                   color: Color(0xFF000000),
@@ -487,14 +313,14 @@ class _ForgetPasswordPageState extends State<ForgetPasswordPage> {
                                   ],
                                 ),
                                 child: TextFormField(
-                                  controller: _otpController,
-                                  keyboardType: TextInputType.number,
+                                  controller: _confirmPasswordController,
+                                  obscureText: _obscureConfirmPassword,
                                   style: TextStyle(
                                     fontSize: isSmallScreen ? 13 : 14,
                                     color: const Color(0xFF000000),
                                   ),
                                   decoration: InputDecoration(
-                                    hintText: 'Enter OTP',
+                                    hintText: 'Re-enter new password',
                                     hintStyle: TextStyle(
                                       fontSize: isSmallScreen ? 13 : 14,
                                       color: const Color(0xFFAAAAAA),
@@ -505,13 +331,31 @@ class _ForgetPasswordPageState extends State<ForgetPasswordPage> {
                                       horizontal: isSmallScreen ? 12 : 16,
                                       vertical: isSmallScreen ? 14 : 16,
                                     ),
+                                    suffixIcon: Padding(
+                                      padding: const EdgeInsets.only(right: 8),
+                                      child: IconButton(
+                                        icon: Icon(
+                                          _obscureConfirmPassword
+                                              ? Icons.visibility_off_outlined
+                                              : Icons.visibility_outlined,
+                                          color: const Color(0xFF9E9E9E),
+                                          size: 20,
+                                        ),
+                                        onPressed: () {
+                                          setState(() {
+                                            _obscureConfirmPassword =
+                                                !_obscureConfirmPassword;
+                                          });
+                                        },
+                                      ),
+                                    ),
                                   ),
                                   validator: (value) {
                                     if (value == null || value.isEmpty) {
-                                      return 'Please enter OTP';
+                                      return 'Please confirm your new password';
                                     }
-                                    if (value.length < 4) {
-                                      return 'Please enter a valid OTP';
+                                    if (value != _newPasswordController.text) {
+                                      return 'Passwords do not match';
                                     }
                                     return null;
                                   },
