@@ -3,6 +3,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../widgets/top_header.dart';
 import '../NavBar/navbar.dart';
 import '../Home page/home_page.dart';
+import '../widgets/done_page.dart';
 import 'forget_password_page.dart';
 
 /// ChangePasswordPage - allows users to change their password
@@ -77,17 +78,29 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                     
                     if (!mounted) return;
                     
-                    scaffoldMessenger.showSnackBar(
-                      const SnackBar(
-                        content: Text('Password changed successfully!'),
-                        backgroundColor: Colors.green,
-                      ),
-                    );
-                    
                     // Clear fields
                     _oldPasswordController.clear();
                     _newPasswordController.clear();
                     _confirmPasswordController.clear();
+                    
+                    // Navigate to Done page
+                    navigator.pushReplacement(
+                      MaterialPageRoute(
+                        builder: (ctx) => DonePage(
+                          message: 'Done!',
+                          onComplete: () {
+                            // Navigate back to settings after done page
+                            Navigator.of(ctx).pushAndRemoveUntil(
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    const HomePage(initialIndex: 4),
+                              ),
+                              (route) => false,
+                            );
+                          },
+                        ),
+                      ),
+                    );
                   } catch (e) {
                     if (!mounted) return;
                     scaffoldMessenger.showSnackBar(
