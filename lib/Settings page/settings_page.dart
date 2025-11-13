@@ -258,6 +258,16 @@ class SettingsPage extends StatelessWidget {
                                       );
                                     },
                                   ),
+                                  _buildTile(
+                                    context,
+                                    const Icon(
+                                      Icons.person_add_outlined,
+                                      color: Color(0xFF0B57A7),
+                                      size: 22,
+                                    ),
+                                    'Switch Account',
+                                    null,
+                                  ),
                                 ],
                               ),
                             ),
