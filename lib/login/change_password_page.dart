@@ -134,6 +134,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
     if (headerHeight > 180) headerHeight = 180;
 
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       backgroundColor: Colors.transparent,
       body: Stack(
         children: [

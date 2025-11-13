@@ -179,6 +179,7 @@ class _ForgetPasswordPageState extends State<ForgetPasswordPage> {
     if (headerHeight > 180) headerHeight = 180;
 
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       backgroundColor: Colors.transparent,
       body: Stack(
         children: [
