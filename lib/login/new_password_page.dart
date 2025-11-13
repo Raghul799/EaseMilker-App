@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../widgets/top_header.dart';
 import '../NavBar/navbar.dart';
 import '../Home page/home_page.dart';
+import '../widgets/done_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 /// NewPasswordPage - allows users to set a new password after verification
@@ -75,19 +76,23 @@ class _NewPasswordPageState extends State<NewPasswordPage> {
 
                     if (!mounted) return;
 
-                    scaffoldMessenger.showSnackBar(
-                      const SnackBar(
-                        content: Text('Password changed successfully!'),
-                        backgroundColor: Colors.green,
-                      ),
-                    );
-
-                    // Navigate back to home or login
-                    navigator.pushAndRemoveUntil(
+                    // Navigate to Done page
+                    navigator.pushReplacement(
                       MaterialPageRoute(
-                        builder: (context) => const HomePage(initialIndex: 4),
+                        builder: (ctx) => DonePage(
+                          message: 'Done!',
+                          onComplete: () {
+                            // Navigate back to home after done page
+                            Navigator.of(ctx).pushAndRemoveUntil(
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    const HomePage(initialIndex: 4),
+                              ),
+                              (route) => false,
+                            );
+                          },
+                        ),
                       ),
-                      (route) => false,
                     );
                   } catch (e) {
                     if (!mounted) return;
