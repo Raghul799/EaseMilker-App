@@ -3,6 +3,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../widgets/top_header.dart';
 import '../NavBar/navbar.dart';
 import '../Home page/home_page.dart';
+import 'forget_password_page.dart';
 
 /// ChangePasswordPage - allows users to change their password
 class ChangePasswordPage extends StatefulWidget {
@@ -460,34 +461,13 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                               Center(
                                 child: TextButton(
                                   onPressed: () {
-                                    // Implement forgot password functionality
-                                    showDialog(
-                                      context: context,
-                                      builder: (BuildContext context) {
-                                        return AlertDialog(
-                                          title: const Text('Forgot Password'),
-                                          content: const Text(
-                                            'Please contact your administrator or support team to reset your password.\n\nEmail: support@easemilker.com\nPhone: +1 (555) 123-4567',
-                                          ),
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.circular(12),
-                                          ),
-                                          actions: [
-                                            TextButton(
-                                              onPressed: () {
-                                                Navigator.of(context).pop();
-                                              },
-                                              child: const Text(
-                                                'OK',
-                                                style: TextStyle(
-                                                  color: Color(0xFF0B57A7),
-                                                  fontWeight: FontWeight.w600,
-                                                ),
-                                              ),
-                                            ),
-                                          ],
-                                        );
-                                      },
+                                    // Navigate to Forget Password page
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            const ForgetPasswordPage(),
+                                      ),
                                     );
                                   },
                                   style: TextButton.styleFrom(

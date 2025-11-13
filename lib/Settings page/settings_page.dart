@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../widgets/top_header.dart';
+import '../NavBar/navbar.dart';
 import '../Home page/home_page.dart';
 import '../Shop page/booking_page.dart';
 import '../login/login_page.dart';
@@ -109,6 +110,9 @@ class SettingsPage extends StatelessWidget {
                       ),
                     ),
                     child: SingleChildScrollView(
+                      padding: EdgeInsets.only(
+                        bottom: 90 + MediaQuery.of(context).padding.bottom,
+                      ),
                       child: Padding(
                         padding: const EdgeInsets.symmetric(
                           horizontal: 16,
@@ -446,6 +450,30 @@ class SettingsPage extends StatelessWidget {
                 ),
               ),
             ],
+          ),
+
+          // Bottom Navigation Bar
+          Positioned(
+            left: 0,
+            right: 0,
+            bottom: 0,
+            child: AppNavBar(
+              selectedIndex: 4, // Settings tab selected
+              onTap: (index) {
+                if (index == 4) {
+                  // Already on settings page, do nothing
+                  return;
+                } else {
+                  // Navigate to HomePage with the selected tab index
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => HomePage(initialIndex: index),
+                    ),
+                  );
+                }
+              },
+            ),
           ),
         ],
       ),
