@@ -4,9 +4,9 @@ import '../Home page/home_page.dart';
 import '../Shop page/booking_page.dart';
 import '../login/login_page.dart';
 import '../login/auth_service.dart';
+import '../login/change_password_page.dart';
 import 'alert_sound_dialog.dart';
 import 'alert_sound_service.dart';
-import 'change_password_page.dart';
 
 /// SettingsPage - implements the app settings UI similar to the provided design.
 class SettingsPage extends StatelessWidget {

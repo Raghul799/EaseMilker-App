@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'Settings page/settings_page.dart';
 import 'Settings page/about_us_page.dart';
 import 'Settings page/help_contact_page.dart';
-import 'Settings page/change_password_page.dart';
+import 'login/change_password_page.dart';
 import 'loading page/loading_page.dart';
 import 'widgets/message_page.dart';
 
