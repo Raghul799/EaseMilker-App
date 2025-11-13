@@ -143,11 +143,79 @@ class _AlertSoundDialogState extends State<AlertSoundDialog> {
     final bool isSelected = isEnabled == value;
 
     return GestureDetector(
-      onTap: () {
-        setState(() {
-          isEnabled = value;
-        });
-        widget.onChanged(value);
+      onTap: () async {
+        // If turning off, show confirmation dialog
+        if (!value) {
+          final confirmed = await showDialog<bool>(
+            context: context,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(16),
+                ),
+                title: const Text(
+                  'Turn Off Alert Sound',
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+                content: const Text(
+                  'Are you sure you want to turn off the EaseMilker alert sound?',
+                  style: TextStyle(fontSize: 14),
+                ),
+                actions: [
+                  TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pop(false);
+                    },
+                    child: const Text(
+                      'Cancel',
+                      style: TextStyle(
+                        color: Color(0xFF9E9E9E),
+                        fontSize: 14,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ),
+                  ElevatedButton(
+                    onPressed: () {
+                      Navigator.of(context).pop(true);
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color(0xFF0B57A7),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                    ),
+                    child: const Text(
+                      'Turn Off',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 14,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ),
+                ],
+              );
+            },
+          );
+
+          // Only proceed if user confirmed
+          if (confirmed == true) {
+            setState(() {
+              isEnabled = value;
+            });
+            widget.onChanged(value);
+          }
+        } else {
+          // If turning on, no confirmation needed
+          setState(() {
+            isEnabled = value;
+          });
+          widget.onChanged(value);
+        }
       },
       child: Container(
         width: 80,
