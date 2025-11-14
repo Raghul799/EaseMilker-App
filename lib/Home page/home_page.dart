@@ -5,6 +5,7 @@ import '../Shop page/shop_page.dart';
 import '../widgets/top_header.dart';
 import '../Settings page/settings_page.dart';
 import '../Premium page/premium_page.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class HomePage extends StatefulWidget {
   final int initialIndex;
@@ -27,10 +28,17 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     _selectedIndex = widget.initialIndex;
-    // Only show the machine connection dialog if Home tab is active.
-    // This prevents the dialog from appearing when navigating to other
-    // tabs (for example, when opening the Shop tab from Settings).
-    if (_selectedIndex == 0) {
+    _loadPreferences();
+  }
+
+  Future<void> _loadPreferences() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      _isConnected = prefs.getBool('isConnected') ?? false;
+      _machineId = prefs.getString('machineId') ?? '';
+    });
+    // Only show the machine connection dialog if Home tab is active and not connected.
+    if (_selectedIndex == 0 && !_isConnected) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         _showMachineConnectionDialog();
       });
@@ -84,11 +92,8 @@ class _HomePageState extends State<HomePage> {
               onPressed: () {
                 final enteredId = machineIdController.text.trim();
                 if (enteredId.isNotEmpty) {
-                  setState(() {
-                    _machineId = enteredId;
-                    _isConnected = true; // Also set connected for the UI
-                  });
-                  Navigator.of(context).pop();
+                  Navigator.of(context).pop(); // Close the input dialog
+                  _showWifiLoadingDialog(enteredId);
                 } else {
                   // Show error or do nothing
                   ScaffoldMessenger.of(context).showSnackBar(
@@ -116,6 +121,64 @@ class _HomePageState extends State<HomePage> {
         );
       },
     );
+  }
+
+  void _showWifiLoadingDialog(String machineId) {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16),
+          ),
+          content: Row(
+            children: [
+              const CircularProgressIndicator(),
+              const SizedBox(width: 16),
+              Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text(
+                    'Connecting to WiFi...',
+                    style: TextStyle(
+                      fontFamily: 'Poppins',
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                  Text(
+                    'Machine ID: $machineId',
+                    style: TextStyle(
+                      fontFamily: 'Poppins',
+                      fontSize: 12,
+                      color: Colors.grey[600],
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        );
+      },
+    );
+
+    // Simulate connection delay
+    Future.delayed(const Duration(seconds: 3), () async {
+      if (mounted) {
+        Navigator.of(context).pop(); // Close loading dialog
+        setState(() {
+          _machineId = machineId;
+          _isConnected = true;
+          _isEaseMilkerOn = true; // Turn on Easemilker after connection
+          _isMachineWorking = false; // Turn off machine working after connection
+        });
+        // Save connection state
+        final prefs = await SharedPreferences.getInstance();
+        await prefs.setBool('isConnected', true);
+        await prefs.setString('machineId', machineId);
+      }
+    });
   }
 
   @override
@@ -427,6 +490,10 @@ class _HomePageState extends State<HomePage> {
                                                   _isEaseMilkerOn = false;
                                                   _isConnected = false; // Disconnect when turned off
                                                 });
+                                                // Save disconnection
+                                                final prefs = await SharedPreferences.getInstance();
+                                                await prefs.setBool('isConnected', false);
+                                                await prefs.setString('machineId', '');
                                               }
                                             } else {
                                               // If turning ON, just toggle and connect
@@ -442,7 +509,7 @@ class _HomePageState extends State<HomePage> {
                                             decoration: BoxDecoration(
                                               borderRadius: BorderRadius.circular(20),
                                               color: _isEaseMilkerOn 
-                                                ? const Color(0xFF81C784) 
+                                                ? const Color(0xFF4CAF50) 
                                                 : Colors.grey[300],
                                             ),
                                             padding: const EdgeInsets.all(2),
@@ -473,12 +540,12 @@ class _HomePageState extends State<HomePage> {
 
                         SizedBox(height: screenHeight * 0.025),
 
-                        // Milking off section
+                        // Milking section
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            const Text(
-                              'Milking off',
+                            Text(
+                              _isMachineWorking ? 'Milking On' : 'Milking off',
                               style: TextStyle(
                                 fontFamily: 'Poppins',
                                 fontSize: 16,
@@ -579,7 +646,7 @@ class _HomePageState extends State<HomePage> {
                                     return Container(
                                       width: double.infinity,
                                       height: screenHeight * 0.20,
-                                      color: const Color(0xFF81C784),
+                                      color: const Color(0xFF4CAF50),
                                       child: const Center(
                                         child: Icon(
                                           Icons.image,
@@ -620,10 +687,65 @@ class _HomePageState extends State<HomePage> {
                                   Row(
                                     children: [
                                       GestureDetector(
-                                        onTap: () {
-                                          setState(() {
-                                            _isMachineWorking = true;
-                                          });
+                                        onTap: () async {
+                                          // If machine is not working, show confirmation to turn on
+                                          if (!_isMachineWorking) {
+                                            final result = await showDialog<bool>(
+                                              context: context,
+                                              builder: (context) => AlertDialog(
+                                                shape: RoundedRectangleBorder(
+                                                  borderRadius: BorderRadius.circular(16),
+                                                ),
+                                                title: const Text(
+                                                  'Turn On Machine',
+                                                  style: TextStyle(
+                                                    fontFamily: 'Poppins',
+                                                    fontWeight: FontWeight.w600,
+                                                  ),
+                                                ),
+                                                content: const Text(
+                                                  'Do you want to turn on the machine?',
+                                                  style: TextStyle(
+                                                    fontFamily: 'Poppins',
+                                                  ),
+                                                ),
+                                                actions: [
+                                                  TextButton(
+                                                    onPressed: () => Navigator.pop(context, false),
+                                                    child: Text(
+                                                      'Cancel',
+                                                      style: TextStyle(
+                                                        fontFamily: 'Poppins',
+                                                        color: Colors.grey[600],
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  ElevatedButton(
+                                                    onPressed: () => Navigator.pop(context, true),
+                                                    style: ElevatedButton.styleFrom(
+                                                      backgroundColor: const Color(0xFF4CAF50),
+                                                      shape: RoundedRectangleBorder(
+                                                        borderRadius: BorderRadius.circular(8),
+                                                      ),
+                                                    ),
+                                                    child: const Text(
+                                                      'Turn On',
+                                                      style: TextStyle(
+                                                        fontFamily: 'Poppins',
+                                                        color: Colors.white,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            );
+                                            
+                                            if (result == true) {
+                                              setState(() {
+                                                _isMachineWorking = true;
+                                              });
+                                            }
+                                          }
                                         },
                                         child: Container(
                                           padding: const EdgeInsets.symmetric(
@@ -632,12 +754,12 @@ class _HomePageState extends State<HomePage> {
                                           ),
                                           decoration: BoxDecoration(
                                             color: _isMachineWorking
-                                                ? const Color(0xFF81C784)
+                                                ? const Color(0xFF4CAF50)
                                                 : Colors.white,
                                             borderRadius: BorderRadius.circular(6),
                                             border: Border.all(
                                               color: _isMachineWorking
-                                                  ? const Color(0xFF81C784)
+                                                  ? const Color(0xFF4CAF50)
                                                   : Colors.grey[300]!,
                                             ),
                                           ),
@@ -714,11 +836,6 @@ class _HomePageState extends State<HomePage> {
                                                 _isMachineWorking = false;
                                               });
                                             }
-                                          } else {
-                                            // If turning on, just toggle
-                                            setState(() {
-                                              _isMachineWorking = true;
-                                            });
                                           }
                                         },
                                         child: Container(
