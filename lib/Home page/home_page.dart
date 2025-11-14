@@ -21,11 +21,101 @@ class _HomePageState extends State<HomePage> {
   bool _isConnected = false; // Set to true to show connected state
   bool _isEaseMilkerOn = false;
   bool _isMachineWorking = true;
+  String _machineId = '';
 
   @override
   void initState() {
     super.initState();
     _selectedIndex = widget.initialIndex;
+    // Only show the machine connection dialog if Home tab is active.
+    // This prevents the dialog from appearing when navigating to other
+    // tabs (for example, when opening the Shop tab from Settings).
+    if (_selectedIndex == 0) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        _showMachineConnectionDialog();
+      });
+    }
+  }
+
+  void _showMachineConnectionDialog() {
+    final TextEditingController machineIdController = TextEditingController();
+
+    showDialog(
+      context: context,
+      barrierDismissible: false, // Prevent dismissing by tapping outside
+      builder: (BuildContext context) {
+        return AlertDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16),
+          ),
+          title: const Text(
+            'Connect to Machine',
+            style: TextStyle(
+              fontFamily: 'Poppins',
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Text(
+                'Please enter the Machine ID to connect:',
+                style: TextStyle(
+                  fontFamily: 'Poppins',
+                ),
+              ),
+              const SizedBox(height: 16),
+              TextField(
+                controller: machineIdController,
+                decoration: InputDecoration(
+                  labelText: 'Machine ID',
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                ),
+                style: const TextStyle(
+                  fontFamily: 'Poppins',
+                ),
+              ),
+            ],
+          ),
+          actions: [
+            ElevatedButton(
+              onPressed: () {
+                final enteredId = machineIdController.text.trim();
+                if (enteredId.isNotEmpty) {
+                  setState(() {
+                    _machineId = enteredId;
+                    _isConnected = true; // Also set connected for the UI
+                  });
+                  Navigator.of(context).pop();
+                } else {
+                  // Show error or do nothing
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text('Please enter a valid Machine ID'),
+                    ),
+                  );
+                }
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: const Color(0xFF2196F3),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8),
+                ),
+              ),
+              child: const Text(
+                'Connect',
+                style: TextStyle(
+                  fontFamily: 'Poppins',
+                  color: Colors.white,
+                ),
+              ),
+            ),
+          ],
+        );
+      },
+    );
   }
 
   @override
@@ -187,7 +277,7 @@ class _HomePageState extends State<HomePage> {
                                     ),
                                     const SizedBox(height: 8),
                                     const Text(
-                                      '14 litres',
+                                      '0 litres',
                                       style: TextStyle(
                                         fontFamily: 'Poppins',
                                         fontSize: 18,
@@ -258,7 +348,7 @@ class _HomePageState extends State<HomePage> {
                                     ),
                                     const SizedBox(height: 2),
                                     Text(
-                                      _isConnected ? 'em0214ki- Connected' : 'em0214ki- Disconnected',
+                                      _isConnected ? '$_machineId- Connected' : 'em0214ki- Disconnected',
                                       style: TextStyle(
                                         fontFamily: 'Poppins',
                                         fontSize: 9,
