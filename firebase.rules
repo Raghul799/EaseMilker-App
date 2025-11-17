@@ -1,0 +1,65 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Users can read/write their own user doc and tokens
+    match /users/{userId} {
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+
+      match /fcmTokens/{tokenId} {
+        allow read, write: if request.auth != null && request.auth.uid == userId;
+      }
+    }
+
+    // Machines are owned. Only owner can read/write limited fields.
+    match /machines/{machineId} {
+      allow read: if isOwner(machineId);
+      // Allow owner to set bind/unbind
+      allow update, create: if isOwnerFieldWrite(machineId);
+      // Deny delete from client
+      allow delete: if false;
+
+      // Logs are read-only to owner; writes come from Admin SDK (bypasses rules)
+      match /logs/{dayDoc} {
+        allow read: if isOwner(machineId);
+        allow write: if false; // ingestion uses Admin SDK
+
+        match /entries/{entryId} {
+          allow read: if isOwner(machineId);
+          allow write: if false;
+        }
+      }
+
+      match /alerts/{dayDoc} {
+        allow read: if isOwner(machineId);
+        allow write: if false;
+
+        match /entries/{entryId} {
+          allow read: if isOwner(machineId);
+          allow write: if false;
+        }
+      }
+
+      match /summaries/{period} {
+        allow read: if isOwner(machineId);
+        allow write: if false; // Admin SDK only
+
+        match /entries/{entryId} {
+          allow read: if isOwner(machineId);
+          allow write: if false;
+        }
+      }
+    }
+
+    function isOwner(machineId) {
+      return request.auth != null &&
+             exists(/databases/$(database)/documents/machines/$(machineId)) &&
+             get(/databases/$(database)/documents/machines/$(machineId)).data.ownerId == request.auth.uid;
+    }
+
+    function isOwnerFieldWrite(machineId) {
+      return request.auth != null &&
+             (request.method() == 'create' || request.method() == 'update') &&
+             (request.resource.data.ownerId == request.auth.uid);
+    }
+  }
+}

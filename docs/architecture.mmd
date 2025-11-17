@@ -1,0 +1,13 @@
+%% docs/architecture.mmd
+%% Mermaid diagram for EaseMilker backend architecture
+flowchart LR
+    ESP[ESP32 Devices] -- MQTT --> EMQX[(EMQX Broker)]
+    EMQX -- topics easemilker/{machineId}/{data|alert|status} --> ING[MQTT Ingestion Service]
+    ING -- writes --> FS[(Firestore)]
+    ING -- FCM Alerts --> FCM[(Firebase Cloud Messaging)]
+    APP[Flutter Mobile App] -- Auth --> FBAuth[(Firebase Auth)]
+    APP <--> FS
+    APP -- Receives --> FCM
+    APP -. optional direct MQTT .-> EMQX
+    API[Onboarding/Logs API] <--> FS
+    API -. hosted with ING .- ING

@@ -1,11 +1,16 @@
+import 'dart:async';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
 import '../NavBar/navbar.dart';
 import '../History page/history_page.dart';
+import '../Premium page/premium_page.dart';
+import '../Settings page/settings_page.dart';
 import '../Shop page/shop_page.dart';
 import '../widgets/top_header.dart';
-import '../Settings page/settings_page.dart';
-import '../Premium page/premium_page.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import '../services/firebase_mqtt_service.dart';
 
 class HomePage extends StatefulWidget {
   final int initialIndex;
@@ -23,6 +28,15 @@ class _HomePageState extends State<HomePage> {
   bool _isEaseMilkerOn = false;
   bool _isMachineWorking = true;
   String _machineId = '';
+  double _todayLitres = 0.0;
+  double _liveFlowLitres = 0.0;
+
+  // Subscriptions
+  StreamSubscription? _connSub;
+  StreamSubscription? _powerSub;
+  StreamSubscription? _milkSub;
+  StreamSubscription? _todaySub;
+  StreamSubscription? _flowSub;
 
   @override
   void initState() {
@@ -33,16 +47,57 @@ class _HomePageState extends State<HomePage> {
 
   Future<void> _loadPreferences() async {
     final prefs = await SharedPreferences.getInstance();
+    final wasConnected = prefs.getBool('isConnected') ?? false;
+    final savedId = prefs.getString('machineId') ?? '';
+    if (!mounted) return;
     setState(() {
-      _isConnected = prefs.getBool('isConnected') ?? false;
-      _machineId = prefs.getString('machineId') ?? '';
+      _isConnected = wasConnected;
+      _machineId = savedId;
     });
+    if (savedId.isNotEmpty) {
+      _attachServiceStreams();
+      // Attempt background connect if previously connected
+      Future.microtask(() => FirebaseMqttService.instance.connectWithMachineId(savedId));
+    }
     // Only show the machine connection dialog if Home tab is active and not connected.
     if (_selectedIndex == 0 && !_isConnected) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         _showMachineConnectionDialog();
       });
     }
+  }
+
+  void _attachServiceStreams() {
+    _connSub ??= FirebaseMqttService.instance.connected$.listen((v) {
+      if (!mounted) return;
+      setState(() => _isConnected = v);
+    });
+    _powerSub ??= FirebaseMqttService.instance.powerOn$.listen((v) {
+      if (!mounted) return;
+      setState(() => _isEaseMilkerOn = v);
+    });
+    _milkSub ??= FirebaseMqttService.instance.milking$.listen((v) {
+      if (!mounted) return;
+      setState(() => _isMachineWorking = v);
+    });
+    _todaySub ??= FirebaseMqttService.instance.todayLitres$.listen((v) {
+      if (!mounted) return;
+      setState(() => _todayLitres = v);
+    });
+    _flowSub ??= FirebaseMqttService.instance.liveFlowLitres$.listen((v) {
+      if (!mounted) return;
+      setState(() => _liveFlowLitres = v);
+    });
+  }
+
+  @override
+  void dispose() {
+    _connSub?.cancel();
+    _powerSub?.cancel();
+    _milkSub?.cancel();
+    _todaySub?.cancel();
+    _flowSub?.cancel();
+    super.dispose();
   }
 
   void _showMachineConnectionDialog() {
@@ -162,23 +217,68 @@ class _HomePageState extends State<HomePage> {
         );
       },
     );
+    _connectToMachineWithDialog(machineId);
+  }
 
-    // Simulate connection delay
-    Future.delayed(const Duration(seconds: 3), () async {
-      if (mounted) {
-        Navigator.of(context).pop(); // Close loading dialog
-        setState(() {
-          _machineId = machineId;
-          _isConnected = true;
-          _isEaseMilkerOn = true; // Turn on Easemilker after connection
-          _isMachineWorking = false; // Turn off machine working after connection
-        });
-        // Save connection state
-        final prefs = await SharedPreferences.getInstance();
-        await prefs.setBool('isConnected', true);
-        await prefs.setString('machineId', machineId);
-      }
-    });
+  Future<void> _connectToMachineWithDialog(String machineId) async {
+    // Perform actual backend connection while dialog shows
+    final ok = await FirebaseMqttService.instance.connectWithMachineId(machineId);
+    if (!mounted) return;
+    Navigator.of(context).pop(); // Close loading dialog only after attempt finishes
+    if (ok) {
+      _attachServiceStreams();
+      if (!mounted) return;
+      setState(() {
+        _machineId = machineId;
+        _isEaseMilkerOn = true; // Automatically turn ON when connected
+        _isMachineWorking = true; // Set machine as working
+      });
+      
+      // Send power ON command to the machine
+      await FirebaseMqttService.instance.sendPowerCommand(true);
+      
+      final prefs = await SharedPreferences.getInstance();
+      // No Navigator/Scaffold calls right after this await; safe without extra check
+      await prefs.setBool('isConnected', true);
+      await prefs.setString('machineId', machineId);
+      // Mark connected in Firestore immediately
+      await FirebaseFirestore.instance.collection('machines').doc(machineId).set({
+        'connectionStatus': 'Connected',
+        'updatedAt': FieldValue.serverTimestamp(),
+      }, SetOptions(merge: true));
+      
+      // Show success dialog
+      if (!mounted) return;
+      showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: const Text('Connected!'),
+          content: Text('Successfully connected to machine $machineId\nMachine is now ON'),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: const Text('OK'),
+            ),
+          ],
+        ),
+      );
+    } else {
+      if (!mounted) return;
+      // Show error dialog instead of just snackbar
+      showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: const Text('Connection Failed'),
+          content: Text('Failed to connect to machine $machineId.\n\nPlease check:\n• Machine ID is correct\n• Machine is powered on\n• Network connection is stable'),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: const Text('OK'),
+            ),
+          ],
+        ),
+      );
+    }
   }
 
   @override
@@ -339,9 +439,9 @@ class _HomePageState extends State<HomePage> {
                                       },
                                     ),
                                     const SizedBox(height: 8),
-                                    const Text(
-                                      '0 litres',
-                                      style: TextStyle(
+                                    Text(
+                                      '${_todayLitres.toStringAsFixed(1)} litres',
+                                      style: const TextStyle(
                                         fontFamily: 'Poppins',
                                         fontSize: 18,
                                         fontWeight: FontWeight.w600,
@@ -433,6 +533,17 @@ class _HomePageState extends State<HomePage> {
                                         ),
                                         GestureDetector(
                                           onTap: () async {
+                                            // Check if machine is connected first
+                                            if (!_isConnected) {
+                                              ScaffoldMessenger.of(context).showSnackBar(
+                                                const SnackBar(
+                                                  content: Text('Please connect to machine first'),
+                                                  backgroundColor: Colors.orange,
+                                                ),
+                                              );
+                                              return;
+                                            }
+
                                             // If turning OFF, show confirmation
                                             if (_isEaseMilkerOn) {
                                               final result = await showDialog<bool>(
@@ -468,7 +579,7 @@ class _HomePageState extends State<HomePage> {
                                                     ElevatedButton(
                                                       onPressed: () => Navigator.pop(context, true),
                                                       style: ElevatedButton.styleFrom(
-                                                        backgroundColor: const Color(0xFF2196F3),
+                                                        backgroundColor: Colors.redAccent,
                                                         shape: RoundedRectangleBorder(
                                                           borderRadius: BorderRadius.circular(8),
                                                         ),
@@ -486,21 +597,73 @@ class _HomePageState extends State<HomePage> {
                                               );
                                               
                                               if (result == true) {
+                                                await FirebaseMqttService.instance.sendPowerCommand(false);
+                                                if (!mounted) return;
                                                 setState(() {
                                                   _isEaseMilkerOn = false;
-                                                  _isConnected = false; // Disconnect when turned off
+                                                  _isMachineWorking = false;
                                                 });
-                                                // Save disconnection
-                                                final prefs = await SharedPreferences.getInstance();
-                                                await prefs.setBool('isConnected', false);
-                                                await prefs.setString('machineId', '');
                                               }
                                             } else {
-                                              // If turning ON, just toggle and connect
-                                              setState(() {
-                                                _isEaseMilkerOn = true;
-                                                _isConnected = true; // Connect when turned on
-                                              });
+                                              // If turning ON, show confirmation
+                                              final result = await showDialog<bool>(
+                                                context: context,
+                                                builder: (context) => AlertDialog(
+                                                  shape: RoundedRectangleBorder(
+                                                    borderRadius: BorderRadius.circular(16),
+                                                  ),
+                                                  title: const Text(
+                                                    'Turn On Easemilker',
+                                                    style: TextStyle(
+                                                      fontFamily: 'Poppins',
+                                                      fontWeight: FontWeight.w600,
+                                                    ),
+                                                  ),
+                                                  content: const Text(
+                                                    'Do you want to turn on the Easemilker?',
+                                                    style: TextStyle(
+                                                      fontFamily: 'Poppins',
+                                                    ),
+                                                  ),
+                                                  actions: [
+                                                    TextButton(
+                                                      onPressed: () => Navigator.pop(context, false),
+                                                      child: Text(
+                                                        'Cancel',
+                                                        style: TextStyle(
+                                                          fontFamily: 'Poppins',
+                                                          color: Colors.grey[600],
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    ElevatedButton(
+                                                      onPressed: () => Navigator.pop(context, true),
+                                                      style: ElevatedButton.styleFrom(
+                                                        backgroundColor: const Color(0xFF4CAF50),
+                                                        shape: RoundedRectangleBorder(
+                                                          borderRadius: BorderRadius.circular(8),
+                                                        ),
+                                                      ),
+                                                      child: const Text(
+                                                        'Turn On',
+                                                        style: TextStyle(
+                                                          fontFamily: 'Poppins',
+                                                          color: Colors.white,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              );
+
+                                              if (result == true) {
+                                                await FirebaseMqttService.instance.sendPowerCommand(true);
+                                                if (!mounted) return;
+                                                setState(() {
+                                                  _isEaseMilkerOn = true;
+                                                  _isMachineWorking = true;
+                                                });
+                                              }
                                             }
                                           },
                                           child: Container(
@@ -556,7 +719,7 @@ class _HomePageState extends State<HomePage> {
                             // Refresh button
                             GestureDetector(
                               onTap: () {
-                                // Refresh action
+                                FirebaseMqttService.instance.refresh();
                               },
                               child: Container(
                                 padding: const EdgeInsets.all(6),
@@ -594,9 +757,9 @@ class _HomePageState extends State<HomePage> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              const Text(
-                                '0.0 litre ...',
-                                style: TextStyle(
+                              Text(
+                                '${_liveFlowLitres.toStringAsFixed(1)} litre ...',
+                                style: const TextStyle(
                                   fontFamily: 'Poppins',
                                   fontSize: 18,
                                   fontWeight: FontWeight.w600,
@@ -741,8 +904,11 @@ class _HomePageState extends State<HomePage> {
                                             );
                                             
                                             if (result == true) {
+                                              await FirebaseMqttService.instance.sendPowerCommand(true);
+                                              if (!mounted) return;
                                               setState(() {
                                                 _isMachineWorking = true;
+                                                _isEaseMilkerOn = true;
                                               });
                                             }
                                           }
@@ -832,6 +998,8 @@ class _HomePageState extends State<HomePage> {
                                             );
                                             
                                             if (result == true) {
+                                              await FirebaseMqttService.instance.sendPowerCommand(false);
+                                              if (!mounted) return;
                                               setState(() {
                                                 _isMachineWorking = false;
                                               });

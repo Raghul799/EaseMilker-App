@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "486142504172",
+    "project_id": "ease-milker-app",
+    "storage_bucket": "ease-milker-app.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:486142504172:android:48648287eddfa40d7d49c9",
+        "android_client_info": {
+          "package_name": "com.example.easemilker"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBNmJY_vBLUo8AF6WglZlrllX_pqWIl7TY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
