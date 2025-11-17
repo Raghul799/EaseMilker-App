@@ -57,3 +57,4 @@ android/.gradle/
 .flutter-plugins
 .metadata
 .packages
+service-accounts/
