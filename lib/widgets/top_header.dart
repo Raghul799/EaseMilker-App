@@ -9,17 +9,19 @@ class TopHeader extends StatelessWidget {
     required this.idText,
     this.avatarAsset,
     this.isMessagePage = false,
+    this.padding = const EdgeInsets.fromLTRB(16, 32, 16, 12),
   });
 
   final String name;
   final String idText;
   final String? avatarAsset;
   final bool isMessagePage;
+  final EdgeInsets padding;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(20, 12, 20, 0),
+      padding: padding,
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
