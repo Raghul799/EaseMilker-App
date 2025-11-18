@@ -1,101 +1,168 @@
 import 'package:flutter/material.dart';
 import '../widgets/top_header.dart';
 
-// HistoryPage: This page intentionally omits any embedded bottom navigation bar.
-// The app's root or the navigation host (e.g., `HomePage`) should provide the shared
-// `AppNavBar` (as used in `lib/Home page/home_page.dart`).
-
 class HistoryPage extends StatelessWidget {
   const HistoryPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
-    // Header height matches HomePage logic so the visual language is consistent
-    double headerHeight = size.height * 0.22;
-    if (headerHeight < 110) headerHeight = 110;
-    if (headerHeight > 180) headerHeight = 180;
-
     return Scaffold(
       body: Container(
-        width: double.infinity,
-        height: double.infinity,
         decoration: const BoxDecoration(
-          // Use the exact alignment/stops and colors used in the design file
           gradient: LinearGradient(
-            begin: Alignment(0.2, -0.98), // angle matching the design
-            end: Alignment(-0.2, 0.98),
-            colors: [
-              Color(0xFF006CC7), // rgba(0,108,199,1)
-              Color(0xFF68B6FF), // rgba(104,182,255,1)
-            ],
-            stops: [0.0246, 0.3688],
+            begin: Alignment(0.09, -0.96),
+            end: Alignment(0.61, 0.27),
+            colors: [Color(0xFF006CC7), Color(0xFF68B6FF)],
           ),
         ),
         child: SafeArea(
           child: Column(
             children: [
-              // Top App Bar area sized to match HomePage header height
-              SizedBox(
-                height: headerHeight,
-                child: Align(
-                  alignment: Alignment.center,
-                  child: _buildTopAppBar(),
-                ),
+              // Use default TopHeader widget with increased top and bottom padding
+              const TopHeader(
+                name: 'Dhanush Kumar S',
+                idText: 'EM0214KI',
+                avatarAsset: 'assets/images/Frame 298.png',
+                padding: EdgeInsets.fromLTRB(16, 70, 16, 40),
               ),
-              const SizedBox(height: 8),
-
-              // White sheet content area with rounded top corners
+              
+              // Main Content Area
               Expanded(
                 child: Container(
                   width: double.infinity,
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: const BorderRadius.only(
+                  decoration: const BoxDecoration(
+                    color: Color(0xFFF2F8FD),
+                    borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(30),
                       topRight: Radius.circular(30),
                     ),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Color(0x14000000),
-                        blurRadius: 10,
-                        offset: const Offset(0, -2),
-                      ),
-                    ],
                   ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const SizedBox(height: 24),
-                      const Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 20),
-                        child: Text(
-                          'HISTORY',
-                          style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.w700,
-                            color: Colors.black87,
-                            letterSpacing: 1.0,
+                  child: SingleChildScrollView(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          // HISTORY Title
+                          const Padding(
+                            padding: EdgeInsets.only(top: 30, bottom: 18),
+                            child: Text(
+                              'HISTORY',
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 16,
+                                fontFamily: 'Inter',
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
                           ),
-                        ),
-                      ),
-                      const SizedBox(height: 20),
-
-                      // Scrollable cards
-                      Expanded(
-                        child: SingleChildScrollView(
-                          padding: const EdgeInsets.symmetric(horizontal: 20),
-                          child: Column(
-                            children: const [
-                              _HistoryCard(),
-                              SizedBox(height: 16),
-                              _HistoryCard(),
-                              SizedBox(height: 90), // breathing room above nav
-                            ],
+                          
+                          // Search Bar
+                          Container(
+                            height: 40,
+                            padding: const EdgeInsets.symmetric(horizontal: 16),
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(4),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black.withValues(alpha: 0.08),
+                                  blurRadius: 4,
+                                  offset: const Offset(0, 2),
+                                ),
+                              ],
+                            ),
+                            child: const Row(
+                              children: [
+                                Icon(Icons.search, size: 16, color: Color(0xFF8C8C8C)),
+                                SizedBox(width: 10),
+                                Text(
+                                  'Search By Machine Id',
+                                  style: TextStyle(
+                                    color: Color(0xFF8C8C8C),
+                                    fontSize: 12,
+                                    fontFamily: 'Poppins',
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
-                        ),
+                          
+                          const SizedBox(height: 24),
+                          
+                          // Summary Card - Using home_page.dart structure
+                          _buildTotalMilkingCard(
+                            MediaQuery.of(context).size.width,
+                            MediaQuery.of(context).size.height,
+                          ),
+                          
+                          const SizedBox(height: 24),
+                          
+                          // Easemilker 1 Section
+                          const Text(
+                            'Easemilker 1',
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 16,
+                              fontFamily: 'Inter',
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                          
+                          const SizedBox(height: 12),
+                          
+                          // Easemilker 1 Table - Horizontal Scroll
+                          SizedBox(
+                            height: 240,
+                            child: ListView.builder(
+                              scrollDirection: Axis.horizontal,
+                              physics: const BouncingScrollPhysics(),
+                              itemCount: 2,
+                              itemBuilder: (context, index) {
+                                return Padding(
+                                  padding: EdgeInsets.only(right: index == 0 ? 12 : 0),
+                                  child: _buildMachineTable('Dec-2024'),
+                                );
+                              },
+                            ),
+                          ),
+                          
+                          const SizedBox(height: 24),
+                          
+                          // Easemilker 2 Section
+                          const Text(
+                            'Easemilker 2',
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 16,
+                              fontFamily: 'Inter',
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                          
+                          const SizedBox(height: 12),
+                          
+                          // Easemilker 2 Table - Horizontal Scroll - NO OVERFLOW
+                          SizedBox(
+                            height: 240,
+                            child: ListView.builder(
+                              scrollDirection: Axis.horizontal,
+                              physics: const BouncingScrollPhysics(),
+                              itemCount: 2,
+                              itemBuilder: (context, index) {
+                                return Padding(
+                                  padding: EdgeInsets.only(right: index == 0 ? 12 : 0),
+                                  child: _buildMachineTable('Dec-2024'),
+                                );
+                              },
+                            ),
+                          ),
+                          
+                          const SizedBox(height: 100),
+                        ],
                       ),
-                    ],
+                    ),
                   ),
                 ),
               ),
@@ -103,191 +170,437 @@ class HistoryPage extends StatelessWidget {
           ),
         ),
       ),
-      // Bottom navigation is provided by the root scaffold
-      // to allow sharing between pages.
-      // bottomNavigationBar intentionally omitted.
     );
   }
-
-  Widget _buildTopAppBar() {
-    return const TopHeader(
-      name: 'Dhanush Kumar S',
-      idText: 'EM0214KI',
-      avatarAsset: 'assets/images/Frame 298.png',
+  
+  Widget _buildMachineTable(String month) {
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        // Make table width responsive - use parent constraints or default
+        double tableWidth = constraints.maxWidth > 0 ? constraints.maxWidth.clamp(240.0, 280.0) : 250.0;
+        double fontSize = (tableWidth * 0.048).clamp(10.0, 14.0);
+        double smallFontSize = (tableWidth * 0.042).clamp(9.0, 12.0);
+        
+        return Container(
+          width: tableWidth,
+          constraints: const BoxConstraints(
+            maxHeight: 230,
+          ),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(8),
+            boxShadow: const [
+              BoxShadow(
+                color: Color(0x1A000000),
+                blurRadius: 4,
+                offset: Offset(0, 2),
+              ),
+            ],
+          ),
+          child: Column(
+            children: [
+              // Month Header with Download Icon
+              Container(
+                padding: EdgeInsets.symmetric(
+                  horizontal: tableWidth * 0.048,
+                  vertical: tableWidth * 0.032,
+                ),
+                decoration: const BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(8),
+                    topRight: Radius.circular(8),
+                  ),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      month,
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: fontSize,
+                        fontFamily: 'Inter',
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    Icon(
+                      Icons.file_download_outlined,
+                      size: tableWidth * 0.064,
+                      color: Colors.black,
+                    ),
+                  ],
+                ),
+              ),
+              
+              // Table Header
+              Container(
+                padding: EdgeInsets.symmetric(
+                  horizontal: tableWidth * 0.048,
+                  vertical: tableWidth * 0.032,
+                ),
+                decoration: const BoxDecoration(
+                  color: Color(0xFFD8D8F5),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(
+                      flex: 5,
+                      child: Text(
+                        'Date',
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: fontSize * 0.93,
+                          fontFamily: 'Inter',
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      flex: 5,
+                      child: Text(
+                        'Milk liter',
+                        textAlign: TextAlign.right,
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: fontSize * 0.93,
+                          fontFamily: 'Inter',
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              
+              // Table Rows - Wrapped in Expanded for proper constraint handling
+              Expanded(
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      _buildTableRow(
+                        date: '10/10/2024',
+                        liters: '13.5 litres',
+                        fontSize: smallFontSize,
+                        tableWidth: tableWidth,
+                      ),
+                      _buildTableRow(
+                        date: '11/10/2024',
+                        liters: '14.2 litres',
+                        fontSize: smallFontSize,
+                        tableWidth: tableWidth,
+                      ),
+                      _buildTableRow(
+                        date: '12/10/2024',
+                        liters: '15.8 litres',
+                        fontSize: smallFontSize,
+                        tableWidth: tableWidth,
+                      ),
+                      _buildTableRow(
+                        date: '13/10/2024',
+                        liters: '16.5 litres',
+                        isLast: true,
+                        fontSize: smallFontSize,
+                        tableWidth: tableWidth,
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              
+              // Total Row
+              Container(
+                padding: EdgeInsets.symmetric(
+                  horizontal: tableWidth * 0.048,
+                  vertical: tableWidth * 0.032,
+                ),
+                decoration: const BoxDecoration(
+                  color: Color(0xFFE0E0E0),
+                  borderRadius: BorderRadius.only(
+                    bottomLeft: Radius.circular(8),
+                    bottomRight: Radius.circular(8),
+                  ),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(
+                      flex: 5,
+                      child: Text(
+                        'Total',
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: smallFontSize,
+                          fontFamily: 'Inter',
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      flex: 5,
+                      child: Text(
+                        '150 litres',
+                        textAlign: TextAlign.right,
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: smallFontSize,
+                          fontFamily: 'Inter',
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
-
-}
-
-class _HistoryCard extends StatelessWidget {
-  const _HistoryCard();
-
-  @override
-  Widget build(BuildContext context) {
+  
+  Widget _buildTableRow({
+    String date = '10/10/2024',
+    String liters = '13.5 litres',
+    bool isLast = false,
+    double fontSize = 12.0,
+    double tableWidth = 250.0,
+  }) {
     return Container(
+      padding: EdgeInsets.symmetric(
+        horizontal: tableWidth * 0.056,
+        vertical: tableWidth * 0.048,
+      ),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
-        boxShadow: [
+        border: isLast ? null : const Border(
+          bottom: BorderSide(
+            width: 0.5,
+            color: Color(0xFFE0E0E0),
+          ),
+        ),
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Expanded(
+            flex: 5,
+            child: Text(
+              date,
+              style: TextStyle(
+                color: Colors.black,
+                fontSize: fontSize,
+                fontFamily: 'Inter',
+                fontWeight: FontWeight.w400,
+              ),
+            ),
+          ),
+          Expanded(
+            flex: 5,
+            child: Text(
+              liters,
+              textAlign: TextAlign.right,
+              style: TextStyle(
+                color: Colors.black,
+                fontSize: fontSize,
+                fontFamily: 'Inter',
+                fontWeight: FontWeight.w400,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+  
+  Widget _buildTotalMilkingCard(double screenWidth, double screenHeight) {
+    return Container(
+      width: double.infinity,
+      padding: EdgeInsets.all(screenWidth * 0.025),
+      decoration: ShapeDecoration(
+        color: Colors.white,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10),
+        ),
+        shadows: const [
           BoxShadow(
-            color: Color(0x14000000),
-            blurRadius: 8,
-            offset: const Offset(0, 3),
+            color: Color(0x19000000),
+            blurRadius: 4,
+            offset: Offset(0, 4),
             spreadRadius: 0,
           ),
         ],
       ),
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
+      child: Container(
+        padding: EdgeInsets.all(screenWidth * 0.025),
+        decoration: ShapeDecoration(
+          color: Colors.white,
+          shape: RoundedRectangleBorder(
+            side: BorderSide(
+              width: 0.87,
+              color: Colors.black.withValues(alpha: 0.28),
+            ),
+            borderRadius: BorderRadius.circular(6),
+          ),
+        ),
+        child: Stack(
           children: [
-            // Card Header
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text(
-                  'Dec-2024',
-                  style: TextStyle(
-                    fontSize: 15,
-                    fontWeight: FontWeight.w600,
-                    color: Colors.black87,
+                // Milk tank image
+                Container(
+                  width: screenWidth * 0.20,
+                  height: screenWidth * 0.26,
+                  decoration: const BoxDecoration(
+                    image: DecorationImage(
+                      image: AssetImage('assets/images/image 198.png'),
+                      fit: BoxFit.contain,
+                    ),
                   ),
                 ),
-                const Icon(
-                  Icons.download_outlined,
-                  color: Colors.black87,
-                  size: 22,
+
+                SizedBox(width: screenWidth * 0.03),
+
+                // Text content
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const SizedBox(height: 4),
+                      Padding(
+                        padding: const EdgeInsets.only(right: 30),
+                        child: Text(
+                          'Total Milking :384 litres',
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: screenWidth * 0.035,
+                            fontFamily: 'Inter',
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 2),
+                      Text(
+                        'December Month',
+                        style: TextStyle(
+                          color: const Color(0xFF8C8C8C),
+                          fontSize: screenWidth * 0.026,
+                          fontFamily: 'Inter',
+                          fontWeight: FontWeight.w400,
+                        ),
+                      ),
+                      const SizedBox(height: 10),
+                      Text(
+                        'Machine order :',
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: screenWidth * 0.026,
+                          fontFamily: 'Inter',
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                      const SizedBox(height: 6),
+                      // Machine Pills
+                      SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        physics: const BouncingScrollPhysics(),
+                        child: Row(
+                          children: [
+                            _buildMachinePill(
+                              'easemilker :1',
+                              '78 litres milk',
+                              const Color(0xFF8DC201),
+                              screenWidth,
+                              screenHeight,
+                            ),
+                            const SizedBox(width: 3),
+                            _buildMachinePill(
+                              'easemilker :2',
+                              '78 litres milk',
+                              const Color(0xFFC2E760),
+                              screenWidth,
+                              screenHeight,
+                            ),
+                            const SizedBox(width: 3),
+                            _buildMachinePill(
+                              'easemilker :3',
+                              '78 litres milk',
+                              const Color(0xFFDEE5E7),
+                              screenWidth,
+                              screenHeight,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ],
             ),
-            const SizedBox(height: 16),
-
-            // Table
-            _buildDataTable(),
+            
+            // Refresh Icon - Positioned at top right corner
+            Positioned(
+              top: -5,
+              right: -5,
+              child: GestureDetector(
+                onTap: () {
+                  // Refresh logic here
+                },
+                child: Container(
+                  width: screenWidth * 0.11, // increased hit area
+                  height: screenWidth * 0.11, // increased hit area
+                  color: Colors.transparent,
+                  child: Center(
+                    child: Icon(
+                      Icons.autorenew_rounded,
+                      color: const Color(0xFF00A3FF),
+                      size: screenWidth * 0.065, // larger icon
+                    ),
+                  ),
+                ),
+              ),
+            ),
           ],
         ),
       ),
     );
   }
 
-  Widget _buildDataTable() {
+  Widget _buildMachinePill(String label, String value, Color bgColor, double screenWidth, double screenHeight) {
     return Container(
+      padding: const EdgeInsets.symmetric(
+        horizontal: 6,
+        vertical: 4,
+      ),
       decoration: BoxDecoration(
-        border: Border.all(
-          color: const Color(0xFFE0E0E0), // Light gray border
-          width: 0.5,
-        ),
-        borderRadius: BorderRadius.circular(8),
+        color: bgColor,
+        borderRadius: BorderRadius.circular(4),
       ),
       child: Column(
-        children: [
-          // Table Header
-          Container(
-            decoration: const BoxDecoration(
-              color: Color(0xFFE8E6FA), // #E8E6FA light lavender
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(7),
-                topRight: Radius.circular(7),
-              ),
-            ),
-            padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
-            child: const Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  'Date',
-                  style: TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w600,
-                    color: Colors.black87,
-                  ),
-                ),
-                Text(
-                  'Milk liter',
-                  style: TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w600,
-                    color: Colors.black87,
-                  ),
-                ),
-              ],
-            ),
-          ),
-
-          // Table Rows
-          _buildTableRow('10/10/2024', '13.5 litres', showBorder: true),
-          _buildTableRow('10/10/2024', '13.5 litres', showBorder: true),
-          _buildTableRow('10/10/2024', '13.5 litres', showBorder: true),
-          _buildTableRow('10/10/2024', '13.5 litres', showBorder: false),
-
-          // Total Row
-          Container(
-            decoration: const BoxDecoration(
-              color: Color(0xFFE6E6E6), // #E6E6E6 light gray
-              borderRadius: BorderRadius.only(
-                bottomLeft: Radius.circular(7),
-                bottomRight: Radius.circular(7),
-              ),
-            ),
-            padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
-            child: const Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  'Total',
-                  style: TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w600,
-                    color: Colors.black87,
-                  ),
-                ),
-                Text(
-                  '150 litres',
-                  style: TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w600,
-                    color: Colors.black87,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildTableRow(String date, String milk, {required bool showBorder}) {
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.white,
-        border: showBorder
-            ? const Border(
-                bottom: BorderSide(
-                  color: Color(0xFFE0E0E0), // Light gray separator
-                  width: 1,
-                ),
-              )
-            : null,
-      ),
-      padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            date,
-            style: const TextStyle(
-              fontSize: 13,
-              color: Colors.black87,
-              fontWeight: FontWeight.normal,
+            label,
+            style: TextStyle(
+              color: bgColor.computeLuminance() > 0.5 ? const Color(0xFF656565) : Colors.white,
+              fontSize: screenWidth * 0.016,
+              fontFamily: 'Inter',
+              fontWeight: FontWeight.w300,
+              height: 1.2,
             ),
           ),
           Text(
-            milk,
-            style: const TextStyle(
-              fontSize: 13,
-              color: Colors.black87,
-              fontWeight: FontWeight.normal,
+            value,
+            style: TextStyle(
+              color: Colors.black,
+              fontSize: screenWidth * 0.022,
+              fontFamily: 'Inter',
+              fontWeight: FontWeight.w600,
+              height: 1.2,
             ),
           ),
         ],
