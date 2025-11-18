@@ -5,6 +5,7 @@ import '../Shop page/shop_page.dart';
 import '../Settings page/settings_page.dart';
 import '../Premium page/premium_page.dart';
 import '../widgets/top_header.dart';
+import 'control_easemilker_dialog.dart';
 
 class HomePage extends StatefulWidget {
   final int initialIndex;
@@ -22,6 +23,19 @@ class _HomePageState extends State<HomePage> {
   // Machine states
   final Map<String, bool> _machineStates = {
     'Easemilker 1': true,
+    'Easemilker 2 (1)': false,
+    'Easemilker 2 (2)': false,
+  };
+
+  // Alert sound and disconnect states for each machine
+  final Map<String, bool> _alertSoundStates = {
+    'Easemilker 1': true,
+    'Easemilker 2 (1)': true,
+    'Easemilker 2 (2)': true,
+  };
+
+  final Map<String, bool> _disconnectStates = {
+    'Easemilker 1': false,
     'Easemilker 2 (1)': false,
     'Easemilker 2 (2)': false,
   };
@@ -54,6 +68,24 @@ class _HomePageState extends State<HomePage> {
     setState(() {
       _machineStates[machineName] = !(_machineStates[machineName] ?? false);
     });
+  }
+
+  void _showControlDialog(String machineName) {
+    showControlEasemilkerDialog(
+      context,
+      currentAlertSound: _alertSoundStates[machineName] ?? true,
+      currentDisconnect: _disconnectStates[machineName] ?? false,
+      onAlertSoundChanged: (value) {
+        setState(() {
+          _alertSoundStates[machineName] = value;
+        });
+      },
+      onDisconnectChanged: (value) {
+        setState(() {
+          _disconnectStates[machineName] = value;
+        });
+      },
+    );
   }
 
   @override
@@ -216,6 +248,7 @@ class _HomePageState extends State<HomePage> {
                                     'em0214ki- Connected',
                                     'Milk : 15 litres',
                                     _machineStates['Easemilker 1'] ?? true,
+                                    'Easemilker 1',
                                   ),
 
                                   SizedBox(height: screenHeight * 0.014),
@@ -227,6 +260,7 @@ class _HomePageState extends State<HomePage> {
                                     'em0214ki- Disconnected',
                                     'Milk : 0 litre',
                                     _machineStates['Easemilker 2 (1)'] ?? false,
+                                    'Easemilker 2 (1)',
                                   ),
 
                                   SizedBox(height: screenHeight * 0.014),
@@ -238,6 +272,7 @@ class _HomePageState extends State<HomePage> {
                                     'em0214ki- Connected',
                                     'Milk : 15 litres',
                                     _machineStates['Easemilker 2 (2)'] ?? false,
+                                    'Easemilker 2 (2)',
                                   ),
 
                                   // Bottom padding for navbar
@@ -489,10 +524,8 @@ class _HomePageState extends State<HomePage> {
     String subtitle,
     String milkText,
     bool isOn,
+    String machineName,
   ) {
-    String machineName = title == 'Easemilker 1' 
-        ? 'Easemilker 1' 
-        : (subtitle.contains('Disconnected') ? 'Easemilker 2 (1)' : 'Easemilker 2 (2)');
     
     return Container(
       width: double.infinity,
@@ -601,10 +634,13 @@ class _HomePageState extends State<HomePage> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
-                Icon(
-                  Icons.more_vert,
-                  size: 20,
-                  color: Colors.grey[600],
+                GestureDetector(
+                  onTap: () => _showControlDialog(machineName),
+                  child: Icon(
+                    Icons.more_vert,
+                    size: 20,
+                    color: Colors.grey[600],
+                  ),
                 ),
                 SizedBox(height: screenHeight * 0.025),
                 Row(
