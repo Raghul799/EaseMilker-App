@@ -16,9 +16,13 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin, AutomaticKeepAliveClientMixin {
   late int _selectedIndex;
   final TextEditingController _searchController = TextEditingController();
+  AnimationController? _refreshController;
+
+  @override
+  bool get wantKeepAlive => true;
   
   // Machine states
   final Map<String, bool> _machineStates = {
@@ -44,17 +48,29 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     _selectedIndex = widget.initialIndex;
+    _refreshController = AnimationController(
+      duration: const Duration(milliseconds: 800),
+      vsync: this,
+    );
   }
 
   @override
   void dispose() {
     _searchController.dispose();
+    _refreshController?.dispose();
     super.dispose();
   }
 
   void _refreshData() {
+    _refreshController?.repeat();
     setState(() {
       // Refresh logic here
+    });
+    Future.delayed(const Duration(milliseconds: 800), () {
+      if (mounted) {
+        _refreshController?.stop();
+        _refreshController?.reset();
+      }
     });
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
@@ -90,6 +106,11 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
+    _refreshController ??= AnimationController(
+      duration: const Duration(milliseconds: 800),
+      vsync: this,
+    );
     return Scaffold(
       body: IndexedStack(
         index: _selectedIndex,
@@ -126,9 +147,13 @@ class _HomePageState extends State<HomePage> {
         Container(
           decoration: const BoxDecoration(
             gradient: LinearGradient(
-              begin: Alignment(0.09, -0.00),
-              end: Alignment(0.61, 0.27),
-              colors: [Color.fromARGB(255, 44, 151, 234), Color(0xFF68B6FF)],
+              begin: Alignment(0.2, -0.98),
+              end: Alignment(-0.2, 0.98),
+              colors: [
+                Color(0xFF006CC7),
+                Color(0xFF68B6FF),
+              ],
+              stops: [0.0246, 0.3688],
             ),
           ),
         ),
@@ -503,11 +528,20 @@ class _HomePageState extends State<HomePage> {
                 height: screenWidth * 0.11, // increased hit area
                 color: Colors.transparent,
                 child: Center(
-                  child: Icon(
-                    Icons.autorenew_rounded,
-                    color: const Color(0xFF00A3FF),
-                    size: screenWidth * 0.065, // larger icon
-                  ),
+                  child: _refreshController != null
+                      ? RotationTransition(
+                          turns: _refreshController!,
+                          child: Icon(
+                            Icons.autorenew_rounded,
+                            color: const Color(0xFF00A3FF),
+                            size: screenWidth * 0.065, // larger icon
+                          ),
+                        )
+                      : Icon(
+                          Icons.autorenew_rounded,
+                          color: const Color(0xFF00A3FF),
+                          size: screenWidth * 0.065, // larger icon
+                        ),
                 ),
               ),
             ),

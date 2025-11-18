@@ -1,18 +1,71 @@
 import 'package:flutter/material.dart';
 import '../widgets/top_header.dart';
 
-class HistoryPage extends StatelessWidget {
+class HistoryPage extends StatefulWidget {
   const HistoryPage({super.key});
 
   @override
+  State<HistoryPage> createState() => _HistoryPageState();
+}
+
+class _HistoryPageState extends State<HistoryPage> with SingleTickerProviderStateMixin, AutomaticKeepAliveClientMixin {
+  AnimationController? _refreshController;
+
+  @override
+  bool get wantKeepAlive => true;
+
+  @override
+  void initState() {
+    super.initState();
+    _refreshController = AnimationController(
+      duration: const Duration(milliseconds: 800),
+      vsync: this,
+    );
+  }
+
+  @override
+  void dispose() {
+    _refreshController?.dispose();
+    super.dispose();
+  }
+
+  void _refreshData() {
+    _refreshController?.repeat();
+    setState(() {
+      // Refresh logic here - this will rebuild the widget
+    });
+    Future.delayed(const Duration(milliseconds: 800), () {
+      if (mounted) {
+        _refreshController?.stop();
+        _refreshController?.reset();
+      }
+    });
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('Data refreshed'),
+        duration: Duration(seconds: 1),
+      ),
+    );
+  }
+
+  @override
   Widget build(BuildContext context) {
+    super.build(context);
+    _refreshController ??= AnimationController(
+      duration: const Duration(milliseconds: 800),
+      vsync: this,
+    );
     return Scaffold(
       body: Container(
         decoration: const BoxDecoration(
           gradient: LinearGradient(
-            begin: Alignment(0.09, -0.96),
-            end: Alignment(0.61, 0.27),
-            colors: [Color(0xFF006CC7), Color(0xFF68B6FF)],
+            begin: Alignment(0.2, -0.98),
+            end: Alignment(-0.2, 0.98),
+            colors: [
+              Color(0xFF006CC7),
+              Color(0xFF68B6FF),
+            ],
+            stops: [0.0246, 0.3688],
           ),
         ),
         child: SafeArea(
@@ -23,7 +76,7 @@ class HistoryPage extends StatelessWidget {
                 name: 'Dhanush Kumar S',
                 idText: 'EM0214KI',
                 avatarAsset: 'assets/images/Frame 298.png',
-                padding: EdgeInsets.fromLTRB(16, 70, 16, 40),
+                padding: EdgeInsets.fromLTRB(16, 71, 16, 41),
               ),
               
               // Main Content Area
@@ -546,19 +599,26 @@ class HistoryPage extends StatelessWidget {
               top: -5,
               right: -5,
               child: GestureDetector(
-                onTap: () {
-                  // Refresh logic here
-                },
+                onTap: _refreshData,
                 child: Container(
                   width: screenWidth * 0.11, // increased hit area
                   height: screenWidth * 0.11, // increased hit area
                   color: Colors.transparent,
                   child: Center(
-                    child: Icon(
-                      Icons.autorenew_rounded,
-                      color: const Color(0xFF00A3FF),
-                      size: screenWidth * 0.065, // larger icon
-                    ),
+                    child: _refreshController != null
+                        ? RotationTransition(
+                            turns: _refreshController!,
+                            child: Icon(
+                              Icons.autorenew_rounded,
+                              color: const Color(0xFF00A3FF),
+                              size: screenWidth * 0.065, // larger icon
+                            ),
+                          )
+                        : Icon(
+                            Icons.autorenew_rounded,
+                            color: const Color(0xFF00A3FF),
+                            size: screenWidth * 0.065, // larger icon
+                          ),
                   ),
                 ),
               ),
