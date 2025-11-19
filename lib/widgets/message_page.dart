@@ -162,21 +162,59 @@ class _MessagePageState extends State<MessagePage> {
 
                             // Message list
                             Expanded(
-                              child: ListView.builder(
-                                padding: EdgeInsets.symmetric(
-                                  horizontal: horizontalPadding,
-                                  vertical: screenHeight < 600 ? 4 : 8,
-                                ),
-                                itemCount: _messages.length,
-                                itemBuilder: (context, index) {
-                                  final message = _messages[index];
-                                  return _buildMessageCard(
-                                    message,
-                                    screenWidth,
-                                    screenHeight,
-                                  );
-                                },
-                              ),
+                              child: _messages.isEmpty
+                                  ? Center(
+                                      child: Padding(
+                                        padding: EdgeInsets.symmetric(
+                                          horizontal: horizontalPadding,
+                                        ),
+                                        child: Column(
+                                          mainAxisSize: MainAxisSize.min,
+                                          crossAxisAlignment: CrossAxisAlignment.center,
+                                          children: [
+                                            Icon(
+                                              Icons.notifications_none,
+                                              size: 64,
+                                              color: Colors.grey[400],
+                                            ),
+                                            const SizedBox(height: 16),
+                                            Text(
+                                              'No notifications',
+                                              style: TextStyle(
+                                                fontSize: 18,
+                                                fontWeight: FontWeight.w500,
+                                                color: Colors.grey[600],
+                                                fontFamily: 'Poppins',
+                                              ),
+                                            ),
+                                            const SizedBox(height: 8),
+                                            Text(
+                                              'You have no new messages',
+                                              style: TextStyle(
+                                                fontSize: 14,
+                                                color: Colors.grey[500],
+                                                fontFamily: 'Roboto',
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    )
+                                  : ListView.builder(
+                                      padding: EdgeInsets.symmetric(
+                                        horizontal: horizontalPadding,
+                                        vertical: screenHeight < 600 ? 4 : 8,
+                                      ),
+                                      itemCount: _messages.length,
+                                      itemBuilder: (context, index) {
+                                        final message = _messages[index];
+                                        return _buildMessageCard(
+                                          message,
+                                          screenWidth,
+                                          screenHeight,
+                                        );
+                                      },
+                                    ),
                             ),
                           ],
                         ),
@@ -449,10 +487,6 @@ class _MessagePageState extends State<MessagePage> {
                       // Delete action
                       setState(() {
                         _messages.remove(message);
-                        // If all notifications are cleared, exit the message page
-                        if (_messages.isEmpty) {
-                          Navigator.pop(context);
-                        }
                       });
                     },
                     borderRadius: BorderRadius.circular(actionButtonSize / 2),
@@ -481,22 +515,31 @@ class _MessagePageState extends State<MessagePage> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   // Done button
-                  Container(
-                    padding: EdgeInsets.symmetric(
-                      horizontal: doneButtonHorizontalPadding,
-                      vertical: doneButtonVerticalPadding,
-                    ),
-                    decoration: BoxDecoration(
-                      color: const Color(0xFF2196F3),
-                      borderRadius: BorderRadius.circular(15),
-                    ),
-                    child: Text(
-                      'Done',
-                      style: TextStyle(
-                        fontFamily: 'Roboto',
-                        fontSize: buttonTextSize,
-                        fontWeight: FontWeight.w500,
-                        color: Colors.white,
+                  InkWell(
+                    onTap: () {
+                      // Remove the notification when Done is clicked
+                      setState(() {
+                        _messages.remove(message);
+                      });
+                    },
+                    borderRadius: BorderRadius.circular(15),
+                    child: Container(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: doneButtonHorizontalPadding,
+                        vertical: doneButtonVerticalPadding,
+                      ),
+                      decoration: BoxDecoration(
+                        color: const Color(0xFF2196F3),
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                      child: Text(
+                        'Done',
+                        style: TextStyle(
+                          fontFamily: 'Roboto',
+                          fontSize: buttonTextSize,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.white,
+                        ),
                       ),
                     ),
                   ),
@@ -507,10 +550,6 @@ class _MessagePageState extends State<MessagePage> {
                       // Delete action for read messages
                       setState(() {
                         _messages.remove(message);
-                        // If all notifications are cleared, exit the message page
-                        if (_messages.isEmpty) {
-                          Navigator.pop(context);
-                        }
                       });
                     },
                     borderRadius: BorderRadius.circular(actionButtonSize / 2),

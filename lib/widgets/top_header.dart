@@ -121,12 +121,15 @@ class TopHeader extends StatelessWidget {
             child: Align(
               alignment: Alignment.centerRight,
               child: IconButton(
-                onPressed: isMessagePage
-                    ? null
-                    : () {
-                        // Navigate to Message page when user taps the bell icon
-                        Navigator.pushNamed(context, '/messages');
-                      },
+                onPressed: () {
+                  if (isMessagePage) {
+                    // Navigate back when on message page
+                    Navigator.pop(context);
+                  } else {
+                    // Navigate to Message page when user taps the bell icon
+                    Navigator.pushNamed(context, '/messages');
+                  }
+                },
                 padding: EdgeInsets.zero,
                 constraints: const BoxConstraints(),
                 icon: Icon(
