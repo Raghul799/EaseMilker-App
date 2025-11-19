@@ -168,19 +168,19 @@ Widget _buildVariantCard(
                   ),
                 ),
                 Container(
-                  width: 32,
-                  height: 32,
+                  width: 26,
+                  height: 26,
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
                     border: Border.all(
-                      color: const Color(0xFFE0E0E0),
+                      color: const Color.fromARGB(255, 13, 11, 11),
                       width: 1.5,
                     ),
                   ),
                   child: const Icon(
                     Icons.close,
-                    size: 20,
-                    color: Color(0xFF666666),
+                    size: 15,
+                    color: Colors.black,
                   ),
                 ),
               ],
@@ -189,20 +189,23 @@ Widget _buildVariantCard(
             const SizedBox(height: 0),
 
             // Logo
-            Center(
+            Padding(
+              padding: const EdgeInsets.only(top: 24.0),
+              child: Center(
               child: Image.asset(
                 'assets/images/Group 24.png',
                 width: 200,
-                height: 100,
+                height: 90,
                 fit: BoxFit.contain,
                 errorBuilder: (context, error, stackTrace) {
-                  return Container(
-                    width: 200, 
-                    height: 100, 
-                    alignment: Alignment.center,
-                    child: const Icon(Icons.image, size: 40, color: Colors.grey),
-                  );
+                return Container(
+                  width: 200,
+                  height: 90,
+                  alignment: Alignment.center,
+                  child: const Icon(Icons.image, size: 40, color: Colors.grey),
+                );
                 },
+              ),
               ),
             ),
 
@@ -210,24 +213,25 @@ Widget _buildVariantCard(
 
             // Orange Warning Box
             Container(
-              padding: const EdgeInsets.all(12),
+              padding: const EdgeInsets.all(1),
               decoration: BoxDecoration(
                 color: isAccessible
-                    ? const Color(0xFFFFCC80).withValues(alpha: 0.5)
+                    ? const Color(0xFFFFCA96).withValues(alpha: 1)
                     : const Color(0xFFF5F5F5),
                 // Orange border for the warning box
                 border: isAccessible
                     ? Border.all(color: const Color(0xFFFF9800), width: 1.5)
                     : null,
-                borderRadius: BorderRadius.circular(8),
+                borderRadius: BorderRadius.circular(6),
               ),
               child: Row(
                 children: [
+                  const SizedBox(width: 6),
                   Icon(
                     Icons.error_outline,
-                    size: 20,
+                    size: 12,
                     color: isAccessible
-                        ? const Color(0xFFE65100)
+                        ? const Color.fromARGB(255, 0, 0, 0)
                         : const Color(0xFF666666),
                   ),
                   const SizedBox(width: 8),
@@ -236,10 +240,10 @@ Widget _buildVariantCard(
                       description,
                       style: TextStyle(
                         fontFamily: 'Poppins',
-                        fontSize: 12,
+                        fontSize: 9,
                         fontWeight: FontWeight.w500,
                         color: isAccessible
-                            ? const Color(0xFFE65100)
+                            ? const Color.fromARGB(255, 0, 0, 0)
                             : const Color(0xFF666666),
                         height: 1.4,
                       ),

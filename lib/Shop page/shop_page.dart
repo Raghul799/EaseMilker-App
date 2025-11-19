@@ -77,7 +77,7 @@ class ShopPage extends StatelessWidget {
                                   'Shop',
                                   style: TextStyle(
                                     fontFamily: 'Poppins',
-                                    fontSize: 24,
+                                    fontSize: 20,
                                     fontWeight: FontWeight.bold,
                                     color: Colors.black,
                                   ),
@@ -93,8 +93,8 @@ class ShopPage extends StatelessWidget {
                                   },
                                   borderRadius: BorderRadius.circular(24),
                                   child: Container(
-                                    width: 48,
-                                    height: 48,
+                                    width: 40,
+                                    height: 40,
                                     decoration: BoxDecoration(
                                       shape: BoxShape.circle,
                                       border: Border.all(
@@ -105,7 +105,7 @@ class ShopPage extends StatelessWidget {
                                     child: const Icon(
                                       Icons.shopping_bag_outlined,
                                       color: Color(0xFF2874F0),
-                                      size: 24,
+                                      size: 20,
                                     ),
                                   ),
                                 ),
