@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../widgets/top_header.dart';
+import '../widgets/user_top_header.dart';
 import '../Home page/home_page.dart';
 import '../Shop page/booking_page.dart';
 import '../login/login_page.dart';
@@ -81,7 +81,7 @@ class SettingsPage extends StatelessWidget {
                   height: headerHeight,
                   child: const Align(
                     alignment: Alignment.center,
-                    child: TopHeader(
+                    child: UserTopHeader(
                       name: 'Dhanush Kumar S',
                       idText: 'EM0214KI',
                       avatarAsset: 'assets/images/Frame 298.png',
@@ -256,16 +256,16 @@ class SettingsPage extends StatelessWidget {
                                       );
                                     },
                                   ),
-                            //       _buildTile(
-                            //         context,
-                            //         const Icon(
-                            //           Icons.person_add_outlined,
-                            //           color: Color(0xFF0B57A7),
-                            //           size: 22,
-                            //         ),
-                            //         'Switch Account',
-                            //         null,
-                            //       ),
+                                  //       _buildTile(
+                                  //         context,
+                                  //         const Icon(
+                                  //           Icons.person_add_outlined,
+                                  //           color: Color(0xFF0B57A7),
+                                  //           size: 22,
+                                  //         ),
+                                  //         'Switch Account',
+                                  //         null,
+                                  //       ),
                                 ],
                               ),
                             ),
@@ -325,19 +325,6 @@ class SettingsPage extends StatelessWidget {
                                         context,
                                         '/help-contact',
                                       );
-                                    },
-                                  ),
-                                  _buildTile(
-                                    context,
-                                    const Icon(
-                                      Icons.business_outlined,
-                                      color: Color(0xFF0B57A7),
-                                      size: 22,
-                                    ),
-                                    'About us',
-                                    'get details and know what we provide',
-                                    onTap: () {
-                                      Navigator.pushNamed(context, '/about-us');
                                     },
                                   ),
                                 ],

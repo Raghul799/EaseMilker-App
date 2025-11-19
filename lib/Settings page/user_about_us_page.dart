@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
-import '../widgets/top_header.dart';
-import '../NavBar/navbar.dart';
-import '../Home page/home_page.dart';
+import '../widgets/user_top_header.dart';
 
-/// AboutUsPage - displays information about Ease Milker
-class AboutUsPage extends StatelessWidget {
-  const AboutUsPage({super.key});
+/// UserAboutUsPage - displays information about Ease Milker for users
+class UserAboutUsPage extends StatelessWidget {
+  const UserAboutUsPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +38,7 @@ class AboutUsPage extends StatelessWidget {
                   height: headerHeight,
                   child: const Align(
                     alignment: Alignment.center,
-                    child: TopHeader(
+                    child: UserTopHeader(
                       name: 'Dhanush Kumar S',
                       idText: 'EM0214KI',
                       avatarAsset: 'assets/images/Frame 298.png',
@@ -66,9 +64,6 @@ class AboutUsPage extends StatelessWidget {
                       ),
                     ),
                     child: SingleChildScrollView(
-                      padding: EdgeInsets.only(
-                        bottom: 90 + MediaQuery.of(context).padding.bottom,
-                      ),
                       child: Padding(
                         padding: const EdgeInsets.fromLTRB(24, 32, 24, 0),
                         child: Column(
@@ -297,7 +292,10 @@ class AboutUsPage extends StatelessWidget {
                               ],
                             ),
 
-                            const SizedBox(height: 24),
+                            SizedBox(
+                              height:
+                                  24 + MediaQuery.of(context).padding.bottom,
+                            ),
                           ],
                         ),
                       ),
@@ -306,32 +304,6 @@ class AboutUsPage extends StatelessWidget {
                 ),
               ),
             ],
-          ),
-
-          // Bottom Navigation Bar
-          Positioned(
-            left: 0,
-            right: 0,
-            bottom: 0,
-            child: AppNavBar(
-              selectedIndex: 4, // Settings tab selected
-              onTap: (index) {
-                if (index == 4) {
-                  // Already on settings-related page (About Us), go back to settings
-                  Navigator.pop(context);
-                } else {
-                  // Navigate to HomePage with the selected tab index
-                  // This will show the correct tab in the IndexedStack
-                  Navigator.pushAndRemoveUntil(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => HomePage(initialIndex: index),
-                    ),
-                    (route) => false,
-                  );
-                }
-              },
-            ),
           ),
         ],
       ),

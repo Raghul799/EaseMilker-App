@@ -15,7 +15,8 @@ class _SignupDialogState extends State<SignupDialog> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _phoneController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  final TextEditingController _confirmPasswordController = TextEditingController();
+  final TextEditingController _confirmPasswordController =
+      TextEditingController();
   final _formKey = GlobalKey<FormState>();
   final AuthService _authService = AuthService();
   bool _obscurePassword = true;
@@ -103,297 +104,302 @@ class _SignupDialogState extends State<SignupDialog> {
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-              // "Create Account" heading
-              const Text(
-                'Create Account',
-                style: TextStyle(
-                  fontSize: 18,
-                  color: Colors.black,
-                  fontFamily: 'Inter',
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-
-              const SizedBox(height: 28),
-
-              // Name TextField
-              Container(
-                height: 52,
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(8),
-                  border: Border.all(
-                    width: 1,
-                    color: const Color(0xFFD0D0D0),
-                  ),
-                ),
-                child: TextFormField(
-                  controller: _nameController,
-                  style: const TextStyle(
-                    fontSize: 14,
-                    fontFamily: 'Inter',
-                    color: Colors.black,
-                  ),
-                  decoration: const InputDecoration(
-                    hintText: 'Name',
-                    hintStyle: TextStyle(
-                      color: Color(0xFF9D9D9D),
-                      fontSize: 14,
-                      fontFamily: 'Inter',
-                      fontWeight: FontWeight.w400,
-                    ),
-                    contentPadding: EdgeInsets.symmetric(
-                      horizontal: 16,
-                      vertical: 14,
-                    ),
-                    border: InputBorder.none,
-                  ),
-                  validator: (value) {
-                    if (value == null || value.trim().isEmpty) {
-                      return 'Please enter your name';
-                    }
-                    return null;
-                  },
-                ),
-              ),
-
-              const SizedBox(height: 18),
-
-              // Email TextField
-              Container(
-                height: 52,
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(8),
-                  border: Border.all(
-                    width: 1,
-                    color: const Color(0xFFD0D0D0),
-                  ),
-                ),
-                child: TextFormField(
-                  controller: _emailController,
-                  keyboardType: TextInputType.emailAddress,
-                  style: const TextStyle(
-                    fontSize: 14,
-                    fontFamily: 'Inter',
-                    color: Colors.black,
-                  ),
-                  decoration: const InputDecoration(
-                    hintText: 'Email',
-                    hintStyle: TextStyle(
-                      color: Color(0xFF9D9D9D),
-                      fontSize: 14,
-                      fontFamily: 'Inter',
-                      fontWeight: FontWeight.w400,
-                    ),
-                    contentPadding: EdgeInsets.symmetric(
-                      horizontal: 16,
-                      vertical: 14,
-                    ),
-                    border: InputBorder.none,
-                  ),
-                  validator: (value) {
-                    if (value == null || value.trim().isEmpty) {
-                      return 'Please enter your email';
-                    }
-                    if (!value.contains('@')) {
-                      return 'Please enter a valid email';
-                    }
-                    return null;
-                  },
-                ),
-              ),
-
-              const SizedBox(height: 16),
-
-              // Phone Number TextField
-              Container(
-                height: 52,
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(8),
-                  border: Border.all(
-                    width: 1,
-                    color: const Color(0xFFD0D0D0),
-                  ),
-                ),
-                child: TextFormField(
-                  controller: _phoneController,
-                  keyboardType: TextInputType.phone,
-                  style: const TextStyle(
-                    fontSize: 14,
-                    fontFamily: 'Inter',
-                    color: Colors.black,
-                  ),
-                  decoration: const InputDecoration(
-                    hintText: 'Phone number',
-                    hintStyle: TextStyle(
-                      color: Color(0xFF9D9D9D),
-                      fontSize: 14,
-                      fontFamily: 'Inter',
-                      fontWeight: FontWeight.w400,
-                    ),
-                    contentPadding: EdgeInsets.symmetric(
-                      horizontal: 16,
-                      vertical: 14,
-                    ),
-                    border: InputBorder.none,
-                  ),
-                  validator: (value) {
-                    if (value == null || value.trim().isEmpty) {
-                      return 'Please enter your phone number';
-                    }
-                    return null;
-                  },
-                ),
-              ),
-
-              const SizedBox(height: 16),
-
-              // Password TextField
-              Container(
-                height: 52,
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(8),
-                  border: Border.all(
-                    width: 1,
-                    color: const Color(0xFFD0D0D0),
-                  ),
-                ),
-                child: TextFormField(
-                  controller: _passwordController,
-                  obscureText: _obscurePassword,
-                  style: const TextStyle(
-                    fontSize: 14,
-                    fontFamily: 'Inter',
-                    color: Colors.black,
-                  ),
-                  decoration: InputDecoration(
-                    hintText: 'Password',
-                    hintStyle: const TextStyle(
-                      color: Color(0xFF9D9D9D),
-                      fontSize: 14,
-                      fontFamily: 'Inter',
-                      fontWeight: FontWeight.w400,
-                    ),
-                    contentPadding: const EdgeInsets.symmetric(
-                      horizontal: 16,
-                      vertical: 14,
-                    ),
-                    suffixIcon: IconButton(
-                      icon: Icon(
-                        _obscurePassword ? Icons.visibility_off : Icons.visibility,
-                        color: const Color(0xFF9D9D9D),
-                        size: 20,
-                      ),
-                      onPressed: () {
-                        setState(() {
-                          _obscurePassword = !_obscurePassword;
-                        });
-                      },
-                    ),
-                    border: InputBorder.none,
-                  ),
-                  validator: (value) {
-                    if (value == null || value.trim().isEmpty) {
-                      return 'Please enter a password';
-                    }
-                    if (value.length < 6) {
-                      return 'Password must be at least 6 characters';
-                    }
-                    return null;
-                  },
-                ),
-              ),
-
-              const SizedBox(height: 16),
-
-              // Confirm Password TextField
-              Container(
-                height: 50,
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(8),
-                  border: Border.all(
-                    width: 1,
-                    color: const Color(0xFFD0D0D0),
-                  ),
-                ),
-                child: TextFormField(
-                  controller: _confirmPasswordController,
-                  obscureText: _obscureConfirmPassword,
-                  style: const TextStyle(
-                    fontSize: 14,
-                    fontFamily: 'Inter',
-                    color: Colors.black,
-                  ),
-                  decoration: InputDecoration(
-                    hintText: 'confirm Password',
-                    hintStyle: const TextStyle(
-                      color: Color(0xFF9D9D9D),
-                      fontSize: 14,
-                      fontFamily: 'Inter',
-                      fontWeight: FontWeight.w400,
-                    ),
-                    contentPadding: const EdgeInsets.symmetric(
-                      horizontal: 16,
-                      vertical: 14,
-                    ),
-                    suffixIcon: IconButton(
-                      icon: Icon(
-                        _obscureConfirmPassword ? Icons.visibility_off : Icons.visibility,
-                        color: const Color(0xFF9D9D9D),
-                        size: 20,
-                      ),
-                      onPressed: () {
-                        setState(() {
-                          _obscureConfirmPassword = !_obscureConfirmPassword;
-                        });
-                      },
-                    ),
-                    border: InputBorder.none,
-                  ),
-                  validator: (value) {
-                    if (value == null || value.trim().isEmpty) {
-                      return 'Please confirm your password';
-                    }
-                    return null;
-                  },
-                ),
-              ),
-
-              const SizedBox(height: 24),
-
-              // Sign up Button
-              GestureDetector(
-                onTap: _handleSignup,
-                child: Container(
-                  width: double.infinity,
-                  height: 52,
-                  decoration: BoxDecoration(
-                    color: const Color(0xFF0A57FF),
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: const Center(
-                    child: Text(
-                      'Sign up',
+                    // "Create Account" heading
+                    const Text(
+                      'Create Account',
                       style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 14,
+                        fontSize: 18,
+                        color: Colors.black,
                         fontFamily: 'Inter',
                         fontWeight: FontWeight.w600,
                       ),
                     ),
-                  ),
+
+                    const SizedBox(height: 28),
+
+                    // Name TextField
+                    Container(
+                      height: 52,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(8),
+                        border: Border.all(
+                          width: 1,
+                          color: const Color(0xFFD0D0D0),
+                        ),
+                      ),
+                      child: TextFormField(
+                        controller: _nameController,
+                        style: const TextStyle(
+                          fontSize: 14,
+                          fontFamily: 'Inter',
+                          color: Colors.black,
+                        ),
+                        decoration: const InputDecoration(
+                          hintText: 'Name',
+                          hintStyle: TextStyle(
+                            color: Color(0xFF9D9D9D),
+                            fontSize: 14,
+                            fontFamily: 'Inter',
+                            fontWeight: FontWeight.w400,
+                          ),
+                          contentPadding: EdgeInsets.symmetric(
+                            horizontal: 16,
+                            vertical: 14,
+                          ),
+                          border: InputBorder.none,
+                        ),
+                        validator: (value) {
+                          if (value == null || value.trim().isEmpty) {
+                            return 'Please enter your name';
+                          }
+                          return null;
+                        },
+                      ),
+                    ),
+
+                    const SizedBox(height: 18),
+
+                    // Email TextField
+                    Container(
+                      height: 52,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(8),
+                        border: Border.all(
+                          width: 1,
+                          color: const Color(0xFFD0D0D0),
+                        ),
+                      ),
+                      child: TextFormField(
+                        controller: _emailController,
+                        keyboardType: TextInputType.emailAddress,
+                        style: const TextStyle(
+                          fontSize: 14,
+                          fontFamily: 'Inter',
+                          color: Colors.black,
+                        ),
+                        decoration: const InputDecoration(
+                          hintText: 'Email',
+                          hintStyle: TextStyle(
+                            color: Color(0xFF9D9D9D),
+                            fontSize: 14,
+                            fontFamily: 'Inter',
+                            fontWeight: FontWeight.w400,
+                          ),
+                          contentPadding: EdgeInsets.symmetric(
+                            horizontal: 16,
+                            vertical: 14,
+                          ),
+                          border: InputBorder.none,
+                        ),
+                        validator: (value) {
+                          if (value == null || value.trim().isEmpty) {
+                            return 'Please enter your email';
+                          }
+                          if (!value.contains('@')) {
+                            return 'Please enter a valid email';
+                          }
+                          return null;
+                        },
+                      ),
+                    ),
+
+                    const SizedBox(height: 16),
+
+                    // Phone Number TextField
+                    Container(
+                      height: 52,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(8),
+                        border: Border.all(
+                          width: 1,
+                          color: const Color(0xFFD0D0D0),
+                        ),
+                      ),
+                      child: TextFormField(
+                        controller: _phoneController,
+                        keyboardType: TextInputType.phone,
+                        style: const TextStyle(
+                          fontSize: 14,
+                          fontFamily: 'Inter',
+                          color: Colors.black,
+                        ),
+                        decoration: const InputDecoration(
+                          hintText: 'Phone number',
+                          hintStyle: TextStyle(
+                            color: Color(0xFF9D9D9D),
+                            fontSize: 14,
+                            fontFamily: 'Inter',
+                            fontWeight: FontWeight.w400,
+                          ),
+                          contentPadding: EdgeInsets.symmetric(
+                            horizontal: 16,
+                            vertical: 14,
+                          ),
+                          border: InputBorder.none,
+                        ),
+                        validator: (value) {
+                          if (value == null || value.trim().isEmpty) {
+                            return 'Please enter your phone number';
+                          }
+                          return null;
+                        },
+                      ),
+                    ),
+
+                    const SizedBox(height: 16),
+
+                    // Password TextField
+                    Container(
+                      height: 52,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(8),
+                        border: Border.all(
+                          width: 1,
+                          color: const Color(0xFFD0D0D0),
+                        ),
+                      ),
+                      child: TextFormField(
+                        controller: _passwordController,
+                        obscureText: _obscurePassword,
+                        style: const TextStyle(
+                          fontSize: 14,
+                          fontFamily: 'Inter',
+                          color: Colors.black,
+                        ),
+                        decoration: InputDecoration(
+                          hintText: 'Password',
+                          hintStyle: const TextStyle(
+                            color: Color(0xFF9D9D9D),
+                            fontSize: 14,
+                            fontFamily: 'Inter',
+                            fontWeight: FontWeight.w400,
+                          ),
+                          contentPadding: const EdgeInsets.symmetric(
+                            horizontal: 16,
+                            vertical: 14,
+                          ),
+                          suffixIcon: IconButton(
+                            icon: Icon(
+                              _obscurePassword
+                                  ? Icons.visibility_off
+                                  : Icons.visibility,
+                              color: const Color(0xFF9D9D9D),
+                              size: 20,
+                            ),
+                            onPressed: () {
+                              setState(() {
+                                _obscurePassword = !_obscurePassword;
+                              });
+                            },
+                          ),
+                          border: InputBorder.none,
+                        ),
+                        validator: (value) {
+                          if (value == null || value.trim().isEmpty) {
+                            return 'Please enter a password';
+                          }
+                          if (value.length < 6) {
+                            return 'Password must be at least 6 characters';
+                          }
+                          return null;
+                        },
+                      ),
+                    ),
+
+                    const SizedBox(height: 16),
+
+                    // Confirm Password TextField
+                    Container(
+                      height: 50,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(8),
+                        border: Border.all(
+                          width: 1,
+                          color: const Color(0xFFD0D0D0),
+                        ),
+                      ),
+                      child: TextFormField(
+                        controller: _confirmPasswordController,
+                        obscureText: _obscureConfirmPassword,
+                        style: const TextStyle(
+                          fontSize: 14,
+                          fontFamily: 'Inter',
+                          color: Colors.black,
+                        ),
+                        decoration: InputDecoration(
+                          hintText: 'confirm Password',
+                          hintStyle: const TextStyle(
+                            color: Color(0xFF9D9D9D),
+                            fontSize: 14,
+                            fontFamily: 'Inter',
+                            fontWeight: FontWeight.w400,
+                          ),
+                          contentPadding: const EdgeInsets.symmetric(
+                            horizontal: 16,
+                            vertical: 14,
+                          ),
+                          suffixIcon: IconButton(
+                            icon: Icon(
+                              _obscureConfirmPassword
+                                  ? Icons.visibility_off
+                                  : Icons.visibility,
+                              color: const Color(0xFF9D9D9D),
+                              size: 20,
+                            ),
+                            onPressed: () {
+                              setState(() {
+                                _obscureConfirmPassword =
+                                    !_obscureConfirmPassword;
+                              });
+                            },
+                          ),
+                          border: InputBorder.none,
+                        ),
+                        validator: (value) {
+                          if (value == null || value.trim().isEmpty) {
+                            return 'Please confirm your password';
+                          }
+                          return null;
+                        },
+                      ),
+                    ),
+
+                    const SizedBox(height: 24),
+
+                    // Sign up Button
+                    GestureDetector(
+                      onTap: _handleSignup,
+                      child: Container(
+                        width: double.infinity,
+                        height: 52,
+                        decoration: BoxDecoration(
+                          color: const Color(0xFF0A57FF),
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: const Center(
+                          child: Text(
+                            'Sign up',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 14,
+                              fontFamily: 'Inter',
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
-            ],
+            ),
           ),
         ),
-      ),
-      ),
-      ),
       ),
     );
   }

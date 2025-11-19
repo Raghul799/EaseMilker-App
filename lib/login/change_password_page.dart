@@ -61,28 +61,31 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                   // Capture context and navigator before async operations
                   final navigator = Navigator.of(context);
                   final scaffoldMessenger = ScaffoldMessenger.of(context);
-                  
+
                   // Close dialog
                   navigator.pop();
-                  
+
                   // Implement actual password change logic
                   try {
                     // Here you would typically:
                     // 1. Verify old password with backend
                     // 2. Update to new password
                     // 3. Handle the response
-                    
+
                     // For now, simulating with SharedPreferences
                     final prefs = await SharedPreferences.getInstance();
-                    await prefs.setString('user_password', _newPasswordController.text);
-                    
+                    await prefs.setString(
+                      'user_password',
+                      _newPasswordController.text,
+                    );
+
                     if (!mounted) return;
-                    
+
                     // Clear fields
                     _oldPasswordController.clear();
                     _newPasswordController.clear();
                     _confirmPasswordController.clear();
-                    
+
                     // Navigate to Done page
                     navigator.pushReplacement(
                       MaterialPageRoute(
@@ -227,7 +230,9 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                                   ),
                                   boxShadow: [
                                     BoxShadow(
-                                      color: Colors.black.withValues(alpha: 0.06),
+                                      color: Colors.black.withValues(
+                                        alpha: 0.06,
+                                      ),
                                       blurRadius: 10,
                                       offset: const Offset(0, 3),
                                       spreadRadius: 1,
@@ -303,7 +308,9 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                                   ),
                                   boxShadow: [
                                     BoxShadow(
-                                      color: Colors.black.withValues(alpha: 0.06),
+                                      color: Colors.black.withValues(
+                                        alpha: 0.06,
+                                      ),
                                       blurRadius: 10,
                                       offset: const Offset(0, 3),
                                       spreadRadius: 1,
@@ -385,7 +392,9 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                                   ),
                                   boxShadow: [
                                     BoxShadow(
-                                      color: Colors.black.withValues(alpha: 0.06),
+                                      color: Colors.black.withValues(
+                                        alpha: 0.06,
+                                      ),
                                       blurRadius: 10,
                                       offset: const Offset(0, 3),
                                       spreadRadius: 1,

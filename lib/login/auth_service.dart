@@ -19,7 +19,10 @@ class AuthService {
   }
 
   /// Save login state after successful authentication
-  Future<void> saveLoginState(String machineId, {String userType = 'admin'}) async {
+  Future<void> saveLoginState(
+    String machineId, {
+    String userType = 'admin',
+  }) async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setBool(_isLoggedInKey, true);
     await prefs.setString(_machineIdKey, machineId);

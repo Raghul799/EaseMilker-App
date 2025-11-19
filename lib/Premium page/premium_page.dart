@@ -111,7 +111,7 @@ class PremiumPage extends StatelessWidget {
     );
   }
 
-Widget _buildVariantCard(
+  Widget _buildVariantCard(
     BuildContext context, {
     required String variantName,
     required String description,
@@ -119,12 +119,12 @@ Widget _buildVariantCard(
   }) {
     return Container(
       width: double.infinity,
-      
+
       // 1. Outer Card Style (White background, Shadow, Rounded Corners)
       // Note: No border here.
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(24), 
+        borderRadius: BorderRadius.circular(24),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withValues(alpha: 0.1),
@@ -133,24 +133,21 @@ Widget _buildVariantCard(
           ),
         ],
       ),
-      
+
       // 2. Padding creates the gap between the white edge and the gray line
-      padding: const EdgeInsets.all(10), 
-      
+      padding: const EdgeInsets.all(10),
+
       // 3. Inner Container (The Gray Line)
       child: Container(
         decoration: BoxDecoration(
           // This is the gray line "inside" the card
-          border: Border.all(
-            color: const Color(0xFFB0B0B0), 
-            width: 1.5,
-          ),
-          borderRadius: BorderRadius.circular(16), 
+          border: Border.all(color: const Color(0xFFB0B0B0), width: 1.5),
+          borderRadius: BorderRadius.circular(16),
         ),
-        
+
         // 4. Padding creates space between the gray line and the text content
         padding: const EdgeInsets.all(16),
-        
+
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -177,11 +174,7 @@ Widget _buildVariantCard(
                       width: 1.5,
                     ),
                   ),
-                  child: const Icon(
-                    Icons.close,
-                    size: 15,
-                    color: Colors.black,
-                  ),
+                  child: const Icon(Icons.close, size: 15, color: Colors.black),
                 ),
               ],
             ),
@@ -192,20 +185,24 @@ Widget _buildVariantCard(
             Padding(
               padding: const EdgeInsets.only(top: 24.0),
               child: Center(
-              child: Image.asset(
-                'assets/images/Group 24.png',
-                width: 200,
-                height: 90,
-                fit: BoxFit.contain,
-                errorBuilder: (context, error, stackTrace) {
-                return Container(
+                child: Image.asset(
+                  'assets/images/Group 24.png',
                   width: 200,
                   height: 90,
-                  alignment: Alignment.center,
-                  child: const Icon(Icons.image, size: 40, color: Colors.grey),
-                );
-                },
-              ),
+                  fit: BoxFit.contain,
+                  errorBuilder: (context, error, stackTrace) {
+                    return Container(
+                      width: 200,
+                      height: 90,
+                      alignment: Alignment.center,
+                      child: const Icon(
+                        Icons.image,
+                        size: 40,
+                        color: Colors.grey,
+                      ),
+                    );
+                  },
+                ),
               ),
             ),
 

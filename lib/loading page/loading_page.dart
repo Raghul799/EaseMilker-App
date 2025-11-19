@@ -36,7 +36,7 @@ class _LoadingPageState extends State<LoadingPage> {
     if (isLoggedIn) {
       // Get user type
       final userType = await _authService.getUserType();
-      
+
       if (!mounted) return;
 
       // Navigate to appropriate home page based on user type

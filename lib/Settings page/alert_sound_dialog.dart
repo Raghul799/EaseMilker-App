@@ -155,10 +155,7 @@ class _AlertSoundDialogState extends State<AlertSoundDialog> {
                 ),
                 title: const Text(
                   'Turn Off Alert Sound',
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w600,
-                  ),
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
                 ),
                 content: const Text(
                   'Are you sure you want to turn off the EaseMilker alert sound?',

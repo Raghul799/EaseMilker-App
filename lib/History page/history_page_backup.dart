@@ -116,7 +116,6 @@ class HistoryPage extends StatelessWidget {
       avatarAsset: 'assets/images/Frame 298.png',
     );
   }
-
 }
 
 class _HistoryCard extends StatelessWidget {

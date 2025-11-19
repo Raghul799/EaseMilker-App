@@ -36,10 +36,7 @@ class _DonePageState extends State<DonePage>
     );
 
     // Scale animation for the gear icon
-    _scaleAnimation = Tween<double>(
-      begin: 0.0,
-      end: 1.0,
-    ).animate(
+    _scaleAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
       CurvedAnimation(
         parent: _controller,
         curve: const Interval(0.0, 0.5, curve: Curves.elasticOut),
@@ -47,10 +44,7 @@ class _DonePageState extends State<DonePage>
     );
 
     // Fade animation for the text
-    _fadeAnimation = Tween<double>(
-      begin: 0.0,
-      end: 1.0,
-    ).animate(
+    _fadeAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
       CurvedAnimation(
         parent: _controller,
         curve: const Interval(0.4, 0.8, curve: Curves.easeIn),
@@ -58,10 +52,7 @@ class _DonePageState extends State<DonePage>
     );
 
     // Checkmark drawing animation
-    _checkmarkAnimation = Tween<double>(
-      begin: 0.0,
-      end: 1.0,
-    ).animate(
+    _checkmarkAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
       CurvedAnimation(
         parent: _controller,
         curve: const Interval(0.3, 0.7, curve: Curves.easeInOut),
@@ -69,10 +60,7 @@ class _DonePageState extends State<DonePage>
     );
 
     // Rotation animation for the gear
-    _rotationAnimation = Tween<double>(
-      begin: 0.0,
-      end: 2 * math.pi,
-    ).animate(
+    _rotationAnimation = Tween<double>(begin: 0.0, end: 2 * math.pi).animate(
       CurvedAnimation(
         parent: _controller,
         curve: const Interval(0.0, 0.5, curve: Curves.easeOut),
@@ -83,16 +71,18 @@ class _DonePageState extends State<DonePage>
     _controller.forward();
 
     // Navigate back or call callback after display duration
-    Future.delayed(widget.displayDuration + const Duration(milliseconds: 1200),
-        () {
-      if (mounted) {
-        if (widget.onComplete != null) {
-          widget.onComplete!();
-        } else {
-          Navigator.of(context).pop();
+    Future.delayed(
+      widget.displayDuration + const Duration(milliseconds: 1200),
+      () {
+        if (mounted) {
+          if (widget.onComplete != null) {
+            widget.onComplete!();
+          } else {
+            Navigator.of(context).pop();
+          }
         }
-      }
-    });
+      },
+    );
   }
 
   @override
@@ -218,7 +208,7 @@ class GearIconPainter extends CustomPainter {
         ..strokeJoin = StrokeJoin.round;
 
       final checkPath = Path();
-      
+
       // Checkmark coordinates
       final startX = center.dx - radius * 0.25;
       final startY = center.dy;

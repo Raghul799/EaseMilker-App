@@ -16,7 +16,8 @@ class ControlEasemilkerDialog extends StatefulWidget {
   });
 
   @override
-  State<ControlEasemilkerDialog> createState() => _ControlEasemilkerDialogState();
+  State<ControlEasemilkerDialog> createState() =>
+      _ControlEasemilkerDialogState();
 }
 
 class _ControlEasemilkerDialogState extends State<ControlEasemilkerDialog> {
@@ -141,11 +142,7 @@ class _ControlEasemilkerDialogState extends State<ControlEasemilkerDialog> {
       ),
       child: Row(
         children: [
-          Icon(
-            icon,
-            color: const Color(0xFF0B57A7),
-            size: screenWidth * 0.06,
-          ),
+          Icon(icon, color: const Color(0xFF0B57A7), size: screenWidth * 0.06),
           SizedBox(width: screenWidth * 0.03),
           Expanded(
             child: Text(
@@ -166,7 +163,9 @@ class _ControlEasemilkerDialogState extends State<ControlEasemilkerDialog> {
               height: screenWidth * 0.065,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(20),
-                color: value ? const Color(0xFF8DC201) : const Color(0xFFD9D9D9),
+                color: value
+                    ? const Color(0xFF8DC201)
+                    : const Color(0xFFD9D9D9),
               ),
               child: AnimatedAlign(
                 duration: const Duration(milliseconds: 200),

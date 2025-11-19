@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'Settings page/settings_page.dart';
 import 'Settings page/about_us_page.dart';
+import 'Settings page/user_about_us_page.dart';
 import 'Settings page/help_contact_page.dart';
 import 'login/change_password_page.dart';
 import 'loading page/loading_page.dart';
@@ -21,6 +22,7 @@ class MainApp extends StatelessWidget {
       routes: {
         '/settings': (context) => const SettingsPage(),
         '/about-us': (context) => const AboutUsPage(),
+        '/user-about-us': (context) => const UserAboutUsPage(),
         '/help-contact': (context) => const HelpContactPage(),
         '/change-password': (context) => const ChangePasswordPage(),
         '/messages': (context) => const MessagePage(),

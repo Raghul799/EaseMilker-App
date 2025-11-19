@@ -170,7 +170,8 @@ class _MessagePageState extends State<MessagePage> {
                                         ),
                                         child: Column(
                                           mainAxisSize: MainAxisSize.min,
-                                          crossAxisAlignment: CrossAxisAlignment.center,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
                                           children: [
                                             Icon(
                                               Icons.notifications_none,

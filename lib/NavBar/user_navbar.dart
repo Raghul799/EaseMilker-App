@@ -23,89 +23,90 @@ class AppNavBar extends StatelessWidget {
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
-      child: LayoutBuilder(builder: (context, outer) {
-        const navBarHeight = 56.0;
-        const iconSize = 24.0;
+      child: LayoutBuilder(
+        builder: (context, outer) {
+          const navBarHeight = 56.0;
+          const iconSize = 24.0;
 
-        return Container(
-          height: navBarHeight + bottomPadding,
-          decoration: BoxDecoration(
-            gradient: const LinearGradient(
-              begin: Alignment.centerLeft,
-              end: Alignment.centerRight,
-              colors: [
-                Color(0xFF0786F0),
-                Color(0xFF044D8A),
+          return Container(
+            height: navBarHeight + bottomPadding,
+            decoration: BoxDecoration(
+              gradient: const LinearGradient(
+                begin: Alignment.centerLeft,
+                end: Alignment.centerRight,
+                colors: [Color(0xFF0786F0), Color(0xFF044D8A)],
+              ),
+              borderRadius: BorderRadius.circular(10),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withAlpha(46),
+                  blurRadius: 10,
+                  offset: const Offset(0, -2),
+                ),
               ],
             ),
-            borderRadius: BorderRadius.circular(10),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withAlpha(46),
-                blurRadius: 10,
-                offset: const Offset(0, -2),
-              ),
-            ],
-          ),
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(10),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: List.generate(_iconPaths.length, (index) {
-                final isSelected = index == selectedIndex;
-                final currentIconSize = index == 0 ? 20.0 : 28.0; // Apartment smaller, shop and settings larger
-                return Expanded(
-                  child: InkWell(
-                    onTap: () => onTap(index),
-                    borderRadius: BorderRadius.circular(12),
-                    splashColor: Colors.white24,
-                    highlightColor: Colors.white10,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        SizedBox(
-                          height: iconSize,
-                          child: Align(
-                            alignment: Alignment.center,
-                            child: Opacity(
-                              opacity: isSelected ? 1.0 : 0.6,
-                              child: Image.asset(
-                                _iconPaths[index],
-                                width: currentIconSize,
-                                height: currentIconSize,
-                                fit: BoxFit.contain,
-                                filterQuality: FilterQuality.high,
-                                isAntiAlias: true,
-                                errorBuilder: (context, error, stackTrace) {
-                                  return Icon(
-                                    Icons.error_outline,
-                                    size: currentIconSize,
-                                    color: Colors.red,
-                                  );
-                                },
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(10),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: List.generate(_iconPaths.length, (index) {
+                  final isSelected = index == selectedIndex;
+                  final currentIconSize = index == 0
+                      ? 20.0
+                      : 28.0; // Apartment smaller, shop and settings larger
+                  return Expanded(
+                    child: InkWell(
+                      onTap: () => onTap(index),
+                      borderRadius: BorderRadius.circular(12),
+                      splashColor: Colors.white24,
+                      highlightColor: Colors.white10,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          SizedBox(
+                            height: iconSize,
+                            child: Align(
+                              alignment: Alignment.center,
+                              child: Opacity(
+                                opacity: isSelected ? 1.0 : 0.6,
+                                child: Image.asset(
+                                  _iconPaths[index],
+                                  width: currentIconSize,
+                                  height: currentIconSize,
+                                  fit: BoxFit.contain,
+                                  filterQuality: FilterQuality.high,
+                                  isAntiAlias: true,
+                                  errorBuilder: (context, error, stackTrace) {
+                                    return Icon(
+                                      Icons.error_outline,
+                                      size: currentIconSize,
+                                      color: Colors.red,
+                                    );
+                                  },
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                        const SizedBox(height: 4),
-                        AnimatedContainer(
-                          duration: const Duration(milliseconds: 200),
-                          height: 3,
-                          width: isSelected ? 40 : 0,
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(2),
+                          const SizedBox(height: 4),
+                          AnimatedContainer(
+                            duration: const Duration(milliseconds: 200),
+                            height: 3,
+                            width: isSelected ? 40 : 0,
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(2),
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
-                  ),
-                );
-              }),
+                  );
+                }),
+              ),
             ),
-          ),
-        );
-      }),
+          );
+        },
+      ),
     );
   }
 }

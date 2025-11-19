@@ -8,7 +8,8 @@ class HistoryPage extends StatefulWidget {
   State<HistoryPage> createState() => _HistoryPageState();
 }
 
-class _HistoryPageState extends State<HistoryPage> with SingleTickerProviderStateMixin, AutomaticKeepAliveClientMixin {
+class _HistoryPageState extends State<HistoryPage>
+    with SingleTickerProviderStateMixin, AutomaticKeepAliveClientMixin {
   AnimationController? _refreshController;
 
   @override
@@ -61,10 +62,7 @@ class _HistoryPageState extends State<HistoryPage> with SingleTickerProviderStat
           gradient: LinearGradient(
             begin: Alignment(0.2, -0.98),
             end: Alignment(-0.2, 0.98),
-            colors: [
-              Color(0xFF006CC7),
-              Color(0xFF68B6FF),
-            ],
+            colors: [Color(0xFF006CC7), Color(0xFF68B6FF)],
             stops: [0.0246, 0.3688],
           ),
         ),
@@ -78,7 +76,7 @@ class _HistoryPageState extends State<HistoryPage> with SingleTickerProviderStat
                 avatarAsset: 'assets/images/Frame 298.png',
                 padding: EdgeInsets.fromLTRB(16, 71, 16, 41),
               ),
-              
+
               // Main Content Area
               Expanded(
                 child: Container(
@@ -109,7 +107,7 @@ class _HistoryPageState extends State<HistoryPage> with SingleTickerProviderStat
                               ),
                             ),
                           ),
-                          
+
                           // Search Bar
                           Container(
                             height: 40,
@@ -127,7 +125,11 @@ class _HistoryPageState extends State<HistoryPage> with SingleTickerProviderStat
                             ),
                             child: const Row(
                               children: [
-                                Icon(Icons.search, size: 16, color: Color(0xFF8C8C8C)),
+                                Icon(
+                                  Icons.search,
+                                  size: 16,
+                                  color: Color(0xFF8C8C8C),
+                                ),
                                 SizedBox(width: 10),
                                 Text(
                                   'Search By Machine Id',
@@ -141,17 +143,17 @@ class _HistoryPageState extends State<HistoryPage> with SingleTickerProviderStat
                               ],
                             ),
                           ),
-                          
+
                           const SizedBox(height: 24),
-                          
+
                           // Summary Card - Using home_page.dart structure
                           _buildTotalMilkingCard(
                             MediaQuery.of(context).size.width,
                             MediaQuery.of(context).size.height,
                           ),
-                          
+
                           const SizedBox(height: 24),
-                          
+
                           // Easemilker 1 Section
                           const Text(
                             'Easemilker 1',
@@ -162,9 +164,9 @@ class _HistoryPageState extends State<HistoryPage> with SingleTickerProviderStat
                               fontWeight: FontWeight.w600,
                             ),
                           ),
-                          
+
                           const SizedBox(height: 12),
-                          
+
                           // Easemilker 1 Table - Horizontal Scroll
                           SizedBox(
                             height: 240,
@@ -174,15 +176,17 @@ class _HistoryPageState extends State<HistoryPage> with SingleTickerProviderStat
                               itemCount: 2,
                               itemBuilder: (context, index) {
                                 return Padding(
-                                  padding: EdgeInsets.only(right: index == 0 ? 12 : 0),
+                                  padding: EdgeInsets.only(
+                                    right: index == 0 ? 12 : 0,
+                                  ),
                                   child: _buildMachineTable('Dec-2024'),
                                 );
                               },
                             ),
                           ),
-                          
+
                           const SizedBox(height: 24),
-                          
+
                           // Easemilker 2 Section
                           const Text(
                             'Easemilker 2',
@@ -193,9 +197,9 @@ class _HistoryPageState extends State<HistoryPage> with SingleTickerProviderStat
                               fontWeight: FontWeight.w600,
                             ),
                           ),
-                          
+
                           const SizedBox(height: 12),
-                          
+
                           // Easemilker 2 Table - Horizontal Scroll - NO OVERFLOW
                           SizedBox(
                             height: 240,
@@ -205,13 +209,15 @@ class _HistoryPageState extends State<HistoryPage> with SingleTickerProviderStat
                               itemCount: 2,
                               itemBuilder: (context, index) {
                                 return Padding(
-                                  padding: EdgeInsets.only(right: index == 0 ? 12 : 0),
+                                  padding: EdgeInsets.only(
+                                    right: index == 0 ? 12 : 0,
+                                  ),
                                   child: _buildMachineTable('Dec-2024'),
                                 );
                               },
                             ),
                           ),
-                          
+
                           const SizedBox(height: 100),
                         ],
                       ),
@@ -225,20 +231,20 @@ class _HistoryPageState extends State<HistoryPage> with SingleTickerProviderStat
       ),
     );
   }
-  
+
   Widget _buildMachineTable(String month) {
     return LayoutBuilder(
       builder: (context, constraints) {
         // Make table width responsive - use parent constraints or default
-        double tableWidth = constraints.maxWidth > 0 ? constraints.maxWidth.clamp(240.0, 280.0) : 250.0;
+        double tableWidth = constraints.maxWidth > 0
+            ? constraints.maxWidth.clamp(240.0, 280.0)
+            : 250.0;
         double fontSize = (tableWidth * 0.048).clamp(10.0, 14.0);
         double smallFontSize = (tableWidth * 0.042).clamp(9.0, 12.0);
-        
+
         return Container(
           width: tableWidth,
-          constraints: const BoxConstraints(
-            maxHeight: 230,
-          ),
+          constraints: const BoxConstraints(maxHeight: 230),
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(8),
@@ -285,16 +291,14 @@ class _HistoryPageState extends State<HistoryPage> with SingleTickerProviderStat
                   ],
                 ),
               ),
-              
+
               // Table Header
               Container(
                 padding: EdgeInsets.symmetric(
                   horizontal: tableWidth * 0.048,
                   vertical: tableWidth * 0.032,
                 ),
-                decoration: const BoxDecoration(
-                  color: Color(0xFFD8D8F5),
-                ),
+                decoration: const BoxDecoration(color: Color(0xFFD8D8F5)),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -326,7 +330,7 @@ class _HistoryPageState extends State<HistoryPage> with SingleTickerProviderStat
                   ],
                 ),
               ),
-              
+
               // Table Rows - Wrapped in Expanded for proper constraint handling
               Expanded(
                 child: SingleChildScrollView(
@@ -361,7 +365,7 @@ class _HistoryPageState extends State<HistoryPage> with SingleTickerProviderStat
                   ),
                 ),
               ),
-              
+
               // Total Row
               Container(
                 padding: EdgeInsets.symmetric(
@@ -412,7 +416,7 @@ class _HistoryPageState extends State<HistoryPage> with SingleTickerProviderStat
       },
     );
   }
-  
+
   Widget _buildTableRow({
     String date = '10/10/2024',
     String liters = '13.5 litres',
@@ -427,12 +431,11 @@ class _HistoryPageState extends State<HistoryPage> with SingleTickerProviderStat
       ),
       decoration: BoxDecoration(
         color: Colors.white,
-        border: isLast ? null : const Border(
-          bottom: BorderSide(
-            width: 0.5,
-            color: Color(0xFFE0E0E0),
-          ),
-        ),
+        border: isLast
+            ? null
+            : const Border(
+                bottom: BorderSide(width: 0.5, color: Color(0xFFE0E0E0)),
+              ),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -466,16 +469,14 @@ class _HistoryPageState extends State<HistoryPage> with SingleTickerProviderStat
       ),
     );
   }
-  
+
   Widget _buildTotalMilkingCard(double screenWidth, double screenHeight) {
     return Container(
       width: double.infinity,
       padding: EdgeInsets.all(screenWidth * 0.025),
       decoration: ShapeDecoration(
         color: Colors.white,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
         shadows: const [
           BoxShadow(
             color: Color(0x19000000),
@@ -593,7 +594,7 @@ class _HistoryPageState extends State<HistoryPage> with SingleTickerProviderStat
                 ),
               ],
             ),
-            
+
             // Refresh Icon - Positioned at top right corner
             Positioned(
               top: -5,
@@ -629,12 +630,15 @@ class _HistoryPageState extends State<HistoryPage> with SingleTickerProviderStat
     );
   }
 
-  Widget _buildMachinePill(String label, String value, Color bgColor, double screenWidth, double screenHeight) {
+  Widget _buildMachinePill(
+    String label,
+    String value,
+    Color bgColor,
+    double screenWidth,
+    double screenHeight,
+  ) {
     return Container(
-      padding: const EdgeInsets.symmetric(
-        horizontal: 6,
-        vertical: 4,
-      ),
+      padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 4),
       decoration: BoxDecoration(
         color: bgColor,
         borderRadius: BorderRadius.circular(4),
@@ -646,7 +650,9 @@ class _HistoryPageState extends State<HistoryPage> with SingleTickerProviderStat
           Text(
             label,
             style: TextStyle(
-              color: bgColor.computeLuminance() > 0.5 ? const Color(0xFF656565) : Colors.white,
+              color: bgColor.computeLuminance() > 0.5
+                  ? const Color(0xFF656565)
+                  : Colors.white,
               fontSize: screenWidth * 0.016,
               fontFamily: 'Inter',
               fontWeight: FontWeight.w300,

@@ -80,9 +80,10 @@ class _LoginPageState extends State<LoginPage> {
   Future<void> _handleGoogleSignIn() async {
     try {
       // Try lightweight auth first, then full authentication
-      GoogleSignInAccount? account = await GoogleSignIn.instance.attemptLightweightAuthentication();
+      GoogleSignInAccount? account = await GoogleSignIn.instance
+          .attemptLightweightAuthentication();
       account ??= await GoogleSignIn.instance.authenticate();
-      
+
       // Save login state as admin for Google sign-in
       await _authService.saveLoginState(account.email, userType: 'admin');
 
@@ -112,10 +113,7 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   void _navigateToCreateAccount() {
-    showDialog(
-      context: context,
-      builder: (context) => const SignupDialog(),
-    );
+    showDialog(context: context, builder: (context) => const SignupDialog());
   }
 
   @override
@@ -132,303 +130,303 @@ class _LoginPageState extends State<LoginPage> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                  const SizedBox(height: 80),
+                    const SizedBox(height: 80),
 
-                  // Ease Milker Logo
-                  Center(
-                    child: Image.asset(
-                      'assets/images/Group 24.png',
-                      height: 75,
-                      fit: BoxFit.contain,
-                    ),
-                  ),
-
-                  const SizedBox(height: 40),
-
-                  // "Login" heading
-                  const Text(
-                    'Login',
-                    style: TextStyle(
-                      fontSize: 16,
-                      color: Colors.black,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-
-                  const SizedBox(height: 16),
-
-                  // Phone Number TextField
-                  TextFormField(
-                    controller: _phoneController,
-                    keyboardType: TextInputType.phone,
-                    decoration: InputDecoration(
-                      hintText: 'Phone Number',
-                      hintStyle: const TextStyle(
-                        color: Color(0xFF9D9D9D),
-                        fontSize: 14,
-                      ),
-                      contentPadding: const EdgeInsets.symmetric(
-                        horizontal: 16,
-                        vertical: 10,
-                      ),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8),
-                        borderSide: const BorderSide(
-                          color: Color(0xFFB8B8B8),
-                          width: 1,
-                        ),
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8),
-                        borderSide: const BorderSide(
-                          color: Color(0xFFB8B8B8),
-                          width: 1,
-                        ),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8),
-                        borderSide: const BorderSide(
-                          color: Color(0xFF0A57FF),
-                          width: 1.5,
-                        ),
+                    // Ease Milker Logo
+                    Center(
+                      child: Image.asset(
+                        'assets/images/Group 24.png',
+                        height: 75,
+                        fit: BoxFit.contain,
                       ),
                     ),
-                    validator: (value) {
-                      if (value == null || value.trim().isEmpty) {
-                        return 'Please enter Phone Number';
-                      }
-                      return null;
-                    },
-                  ),
 
-                  const SizedBox(height: 12),
+                    const SizedBox(height: 40),
 
-                  // Password TextField
-                  TextFormField(
-                    controller: _passwordController,
-                    obscureText: _obscurePassword,
-                    decoration: InputDecoration(
-                      hintText: 'Password',
-                      hintStyle: const TextStyle(
-                        color: Color(0xFF9D9D9D),
-                        fontSize: 14,
-                      ),
-                      contentPadding: const EdgeInsets.symmetric(
-                        horizontal: 16,
-                        vertical: 10,
-                      ),
-                      suffixIcon: IconButton(
-                        icon: Icon(
-                          _obscurePassword ? Icons.visibility_off : Icons.visibility,
-                          color: const Color(0xFF9D9D9D),
-                          size: 20,
-                        ),
-                        onPressed: () {
-                          setState(() {
-                            _obscurePassword = !_obscurePassword;
-                          });
-                        },
-                      ),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8),
-                        borderSide: const BorderSide(
-                          color: Color(0xFFB8B8B8),
-                          width: 1,
-                        ),
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8),
-                        borderSide: const BorderSide(
-                          color: Color(0xFFB8B8B8),
-                          width: 1,
-                        ),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8),
-                        borderSide: const BorderSide(
-                          color: Color(0xFF0A57FF),
-                          width: 1.5,
-                        ),
+                    // "Login" heading
+                    const Text(
+                      'Login',
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: Colors.black,
+                        fontWeight: FontWeight.w600,
                       ),
                     ),
-                    validator: (value) {
-                      if (value == null || value.trim().isEmpty) {
-                        return 'Please enter Password';
-                      }
-                      return null;
-                    },
-                  ),
 
-                  const SizedBox(height: 25),
+                    const SizedBox(height: 16),
 
-                  // Remember me and Forgot password row
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Row(
-                        children: [
-                          GestureDetector(
-                            onTap: () {
-                              setState(() {
-                                _rememberMe = !_rememberMe;
-                              });
-                            },
-                            child: SizedBox(
-                              width: 30,
-                              height: 30,
-                              child: Center(
-                                child: Transform.scale(
-                                  scale: 0.8,
-                                  child: Checkbox(
-                                    value: _rememberMe,
-                                    onChanged: (value) {
-                                      setState(() {
-                                        _rememberMe = value ?? false;
-                                      });
-                                    },
-                                    activeColor: const Color(0xFF2874F0),
-                                    materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                    // Phone Number TextField
+                    TextFormField(
+                      controller: _phoneController,
+                      keyboardType: TextInputType.phone,
+                      decoration: InputDecoration(
+                        hintText: 'Phone Number',
+                        hintStyle: const TextStyle(
+                          color: Color(0xFF9D9D9D),
+                          fontSize: 14,
+                        ),
+                        contentPadding: const EdgeInsets.symmetric(
+                          horizontal: 16,
+                          vertical: 10,
+                        ),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8),
+                          borderSide: const BorderSide(
+                            color: Color(0xFFB8B8B8),
+                            width: 1,
+                          ),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8),
+                          borderSide: const BorderSide(
+                            color: Color(0xFFB8B8B8),
+                            width: 1,
+                          ),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8),
+                          borderSide: const BorderSide(
+                            color: Color(0xFF0A57FF),
+                            width: 1.5,
+                          ),
+                        ),
+                      ),
+                      validator: (value) {
+                        if (value == null || value.trim().isEmpty) {
+                          return 'Please enter Phone Number';
+                        }
+                        return null;
+                      },
+                    ),
+
+                    const SizedBox(height: 12),
+
+                    // Password TextField
+                    TextFormField(
+                      controller: _passwordController,
+                      obscureText: _obscurePassword,
+                      decoration: InputDecoration(
+                        hintText: 'Password',
+                        hintStyle: const TextStyle(
+                          color: Color(0xFF9D9D9D),
+                          fontSize: 14,
+                        ),
+                        contentPadding: const EdgeInsets.symmetric(
+                          horizontal: 16,
+                          vertical: 10,
+                        ),
+                        suffixIcon: IconButton(
+                          icon: Icon(
+                            _obscurePassword
+                                ? Icons.visibility_off
+                                : Icons.visibility,
+                            color: const Color(0xFF9D9D9D),
+                            size: 20,
+                          ),
+                          onPressed: () {
+                            setState(() {
+                              _obscurePassword = !_obscurePassword;
+                            });
+                          },
+                        ),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8),
+                          borderSide: const BorderSide(
+                            color: Color(0xFFB8B8B8),
+                            width: 1,
+                          ),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8),
+                          borderSide: const BorderSide(
+                            color: Color(0xFFB8B8B8),
+                            width: 1,
+                          ),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8),
+                          borderSide: const BorderSide(
+                            color: Color(0xFF0A57FF),
+                            width: 1.5,
+                          ),
+                        ),
+                      ),
+                      validator: (value) {
+                        if (value == null || value.trim().isEmpty) {
+                          return 'Please enter Password';
+                        }
+                        return null;
+                      },
+                    ),
+
+                    const SizedBox(height: 25),
+
+                    // Remember me and Forgot password row
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Row(
+                          children: [
+                            GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  _rememberMe = !_rememberMe;
+                                });
+                              },
+                              child: SizedBox(
+                                width: 30,
+                                height: 30,
+                                child: Center(
+                                  child: Transform.scale(
+                                    scale: 0.8,
+                                    child: Checkbox(
+                                      value: _rememberMe,
+                                      onChanged: (value) {
+                                        setState(() {
+                                          _rememberMe = value ?? false;
+                                        });
+                                      },
+                                      activeColor: const Color(0xFF2874F0),
+                                      materialTapTargetSize:
+                                          MaterialTapTargetSize.shrinkWrap,
+                                    ),
                                   ),
                                 ),
                               ),
                             ),
-                          ),
-                          const SizedBox(width: 6),
-                          const Text(
-                            'Remember me',
+                            const SizedBox(width: 6),
+                            const Text(
+                              'Remember me',
+                              style: TextStyle(
+                                fontSize: 12,
+                                color: Colors.black,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ],
+                        ),
+                        GestureDetector(
+                          onTap: _navigateToForgotPassword,
+                          child: const Text(
+                            'Forgot password?',
                             style: TextStyle(
                               fontSize: 12,
-                              color: Colors.black,
+                              color: Color(0xFF2874F0),
                               fontWeight: FontWeight.w500,
                             ),
                           ),
-                        ],
-                      ),
-                      GestureDetector(
-                        onTap: _navigateToForgotPassword,
-                        child: const Text(
-                          'Forgot password?',
-                          style: TextStyle(
-                            fontSize: 12,
-                            color: Color(0xFF2874F0),
-                            fontWeight: FontWeight.w500,
-                          ),
                         ),
-                      ),
-                    ],
-                  ),
-
-                  const SizedBox(height: 20),
-
-                  // Login Button
-                  SizedBox(
-                    width: double.infinity,
-                    height: 48,
-                    child: ElevatedButton(
-                      onPressed: _handleLogin,
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xFF0A57FF),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        elevation: 0,
-                      ),
-                      child: const Text(
-                        'Login',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 14,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
+                      ],
                     ),
-                  ),
 
-                  const SizedBox(height: 16),
+                    const SizedBox(height: 20),
 
-                  // "or" text
-                  const Center(
-                    child: Text(
-                      'or',
-                      style: TextStyle(
-                        fontSize: 14,
-                        color: Colors.black,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                  ),
-
-                  const SizedBox(height: 16),
-
-                  // Sign with Google Button
-                  GestureDetector(
-                    onTap: _handleGoogleSignIn,
-                    child: Container(
+                    // Login Button
+                    SizedBox(
                       width: double.infinity,
                       height: 48,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(8),
-                        border: Border.all(
-                          color: const Color(0x54000000),
-                          width: 1,
+                      child: ElevatedButton(
+                        onPressed: _handleLogin,
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: const Color(0xFF0A57FF),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          elevation: 0,
+                        ),
+                        child: const Text(
+                          'Login',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w600,
+                          ),
                         ),
                       ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Image.asset(
-                            'assets/images/google.png',
-                            height: 24,
-                          ),
-                          const SizedBox(width: 10),
-                          const Text(
-                            'Sign with google',
-                            style: TextStyle(
-                              fontSize: 13,
-                              color: Colors.black,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                        ],
+                    ),
+
+                    const SizedBox(height: 16),
+
+                    // "or" text
+                    const Center(
+                      child: Text(
+                        'or',
+                        style: TextStyle(
+                          fontSize: 14,
+                          color: Colors.black,
+                          fontWeight: FontWeight.w500,
+                        ),
                       ),
                     ),
-                  ),
 
-                  const SizedBox(height: 100),
+                    const SizedBox(height: 16),
 
-                  // Create Account text
-                  Center(
-                    child: GestureDetector(
-                      onTap: _navigateToCreateAccount,
-                      child: RichText(
-                        text: const TextSpan(
-                          style: TextStyle(
-                            fontSize: 12,
-                            fontWeight: FontWeight.w500,
+                    // Sign with Google Button
+                    GestureDetector(
+                      onTap: _handleGoogleSignIn,
+                      child: Container(
+                        width: double.infinity,
+                        height: 48,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(8),
+                          border: Border.all(
+                            color: const Color(0x54000000),
+                            width: 1,
                           ),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            TextSpan(
-                              text: 'Do have an Account? ',
-                              style: TextStyle(color: Colors.black),
-                            ),
-                            TextSpan(
-                              text: 'Create Now',
-                              style: TextStyle(color: Color(0xFF2874F0)),
+                            Image.asset('assets/images/google.png', height: 24),
+                            const SizedBox(width: 10),
+                            const Text(
+                              'Sign with google',
+                              style: TextStyle(
+                                fontSize: 13,
+                                color: Colors.black,
+                                fontWeight: FontWeight.w500,
+                              ),
                             ),
                           ],
                         ),
                       ),
                     ),
-                  ),
 
-                  const SizedBox(height: 30),
-                ],
+                    const SizedBox(height: 100),
+
+                    // Create Account text
+                    Center(
+                      child: GestureDetector(
+                        onTap: _navigateToCreateAccount,
+                        child: RichText(
+                          text: const TextSpan(
+                            style: TextStyle(
+                              fontSize: 12,
+                              fontWeight: FontWeight.w500,
+                            ),
+                            children: [
+                              TextSpan(
+                                text: 'Do have an Account? ',
+                                style: TextStyle(color: Colors.black),
+                              ),
+                              TextSpan(
+                                text: 'Create Now',
+                                style: TextStyle(color: Color(0xFF2874F0)),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+
+                    const SizedBox(height: 30),
+                  ],
+                ),
               ),
             ),
           ),
         ),
-      ),
       ),
     );
   }

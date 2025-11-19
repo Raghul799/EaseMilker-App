@@ -16,14 +16,15 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin, AutomaticKeepAliveClientMixin {
+class _HomePageState extends State<HomePage>
+    with SingleTickerProviderStateMixin, AutomaticKeepAliveClientMixin {
   late int _selectedIndex;
   final TextEditingController _searchController = TextEditingController();
   AnimationController? _refreshController;
 
   @override
   bool get wantKeepAlive => true;
-  
+
   // Machine states
   final Map<String, bool> _machineStates = {
     'Easemilker 1': true,
@@ -135,7 +136,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
     final size = MediaQuery.of(context).size;
     final screenWidth = size.width;
     final screenHeight = size.height;
-    
+
     // Responsive sizing
     double headerHeight = size.height * 0.15;
     if (headerHeight < 80) headerHeight = 80;
@@ -149,10 +150,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
             gradient: LinearGradient(
               begin: Alignment(0.2, -0.98),
               end: Alignment(-0.2, 0.98),
-              colors: [
-                Color(0xFF006CC7),
-                Color(0xFF68B6FF),
-              ],
+              colors: [Color(0xFF006CC7), Color(0xFF68B6FF)],
               stops: [0.0246, 0.3688],
             ),
           ),
@@ -194,7 +192,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                       children: [
                         // Space for the overlapping card
                         SizedBox(height: screenHeight * 0.13),
-                        
+
                         // Scrollable content
                         Expanded(
                           child: SingleChildScrollView(
@@ -209,64 +207,66 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                                 children: [
                                   // Your Machine Section
                                   const Text(
-                                'Your Machine',
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 16,
-                                  fontFamily: 'Poppins',
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
-
-                              SizedBox(height: screenHeight * 0.015),
-
-                              // Search Bar
-                              Container(
-                                width: double.infinity,
-                                height: 45,
-                                decoration: ShapeDecoration(
-                                  color: Colors.white,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(8),
-                                  ),
-                                  shadows: const [
-                                    BoxShadow(
-                                      color: Color(0x19000000),
-                                      blurRadius: 4,
-                                      offset: Offset(0, 2),
-                                      spreadRadius: 0,
-                                    ),
-                                  ],
-                                ),
-                                child: TextField(
-                                  controller: _searchController,
-                                  decoration: const InputDecoration(
-                                    hintText: 'Search By Machine Id',
-                                    hintStyle: TextStyle(
-                                      color: Color(0xFF8C8C8C),
-                                      fontSize: 14,
+                                    'Your Machine',
+                                    style: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 16,
                                       fontFamily: 'Poppins',
-                                      fontWeight: FontWeight.w400,
+                                      fontWeight: FontWeight.w600,
                                     ),
-                                    prefixIcon: Icon(
-                                      Icons.search,
-                                      size: 20,
-                                      color: Color(0xFF8C8C8C),
+                                  ),
+
+                                  SizedBox(height: screenHeight * 0.015),
+
+                                  // Search Bar
+                                  Container(
+                                    width: double.infinity,
+                                    height: 45,
+                                    decoration: ShapeDecoration(
+                                      color: Colors.white,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(8),
+                                      ),
+                                      shadows: const [
+                                        BoxShadow(
+                                          color: Color(0x19000000),
+                                          blurRadius: 4,
+                                          offset: Offset(0, 2),
+                                          spreadRadius: 0,
+                                        ),
+                                      ],
                                     ),
-                                    border: InputBorder.none,
-                                    contentPadding: EdgeInsets.symmetric(vertical: 12),
+                                    child: TextField(
+                                      controller: _searchController,
+                                      decoration: const InputDecoration(
+                                        hintText: 'Search By Machine Id',
+                                        hintStyle: TextStyle(
+                                          color: Color(0xFF8C8C8C),
+                                          fontSize: 14,
+                                          fontFamily: 'Poppins',
+                                          fontWeight: FontWeight.w400,
+                                        ),
+                                        prefixIcon: Icon(
+                                          Icons.search,
+                                          size: 20,
+                                          color: Color(0xFF8C8C8C),
+                                        ),
+                                        border: InputBorder.none,
+                                        contentPadding: EdgeInsets.symmetric(
+                                          vertical: 12,
+                                        ),
+                                      ),
+                                      style: const TextStyle(
+                                        fontSize: 14,
+                                        fontFamily: 'Poppins',
+                                      ),
+                                    ),
                                   ),
-                                  style: const TextStyle(
-                                    fontSize: 14,
-                                    fontFamily: 'Poppins',
-                                  ),
-                                ),
-                              ),
 
                                   SizedBox(height: screenHeight * 0.02),
 
                                   // Machine Cards
-                                      _buildMachineCard(
+                                  _buildMachineCard(
                                     screenWidth,
                                     screenHeight,
                                     'Easemilker 1',
@@ -301,7 +301,11 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                                   ),
 
                                   // Bottom padding for navbar
-                                  SizedBox(height: 100 + MediaQuery.of(context).padding.bottom),
+                                  SizedBox(
+                                    height:
+                                        100 +
+                                        MediaQuery.of(context).padding.bottom,
+                                  ),
                                 ],
                               ),
                             ),
@@ -310,7 +314,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                       ],
                     ),
                   ),
-                  
+
                   // Overlapping Total Milking Card
                   Positioned(
                     top: screenHeight * 0.05,
@@ -336,9 +340,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
       ),
       decoration: ShapeDecoration(
         color: Colors.white,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
         shadows: const [
           BoxShadow(
             color: Color(0x19000000),
@@ -560,7 +562,6 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
     bool isOn,
     String machineName,
   ) {
-    
     return Container(
       width: double.infinity,
       clipBehavior: Clip.antiAlias,
@@ -569,7 +570,11 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
             ? const LinearGradient(
                 begin: Alignment.centerLeft,
                 end: Alignment.centerRight,
-                colors: [Color(0xFFF4FFE1), Color(0xFFCAE57E), Color(0xFF9BC53D)],
+                colors: [
+                  Color(0xFFF4FFE1),
+                  Color(0xFFCAE57E),
+                  Color(0xFF9BC53D),
+                ],
                 stops: [0.0, 0.6, 1.0],
               )
             : const LinearGradient(
@@ -577,9 +582,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                 end: Alignment.centerRight,
                 colors: [Colors.white, Colors.white],
               ),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(15),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
         shadows: const [
           BoxShadow(
             color: Color(0x19000000),
@@ -608,7 +611,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                 ),
               ),
             ),
-            
+
             SizedBox(width: screenWidth * 0.03),
 
             // Machine details
@@ -633,9 +636,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                       Icon(
                         isOn ? Icons.wifi : Icons.wifi_off,
                         size: 16,
-                        color: isOn 
-                            ? Colors.grey[400] 
-                            : Colors.grey[400],
+                        color: isOn ? Colors.grey[400] : Colors.grey[400],
                       ),
                     ],
                   ),
@@ -696,11 +697,15 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                         height: 26,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(20),
-                          color: isOn ? const Color(0xFF8DC201) : const Color(0xFFD9D9D9),
+                          color: isOn
+                              ? const Color(0xFF8DC201)
+                              : const Color(0xFFD9D9D9),
                         ),
                         child: AnimatedAlign(
                           duration: const Duration(milliseconds: 200),
-                          alignment: isOn ? Alignment.centerRight : Alignment.centerLeft,
+                          alignment: isOn
+                              ? Alignment.centerRight
+                              : Alignment.centerLeft,
                           child: Container(
                             width: 22,
                             height: 22,

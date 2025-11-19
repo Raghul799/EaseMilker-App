@@ -101,115 +101,119 @@ class _BookingPageState extends State<BookingPage> {
                             const SizedBox(height: 20),
 
                             // Booking cards list
-                            ..._bookings.map((booking) => Padding(
-                              padding: const EdgeInsets.only(bottom: 16),
-                              child: Container(
-                                width: double.infinity,
-                                padding: const EdgeInsets.all(16),
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(12),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.black.withAlpha(15),
-                                      blurRadius: 10,
-                                      offset: const Offset(0, 2),
-                                      spreadRadius: 1,
-                                    ),
-                                  ],
-                                ),
-                                child: Row(
-                                  children: [
-                                    // Avatar circle with 'M'
-                                    Container(
-                                      width: 48,
-                                      height: 48,
-                                      decoration: BoxDecoration(
-                                        color: const Color(0xFFE3F2FD),
-                                        shape: BoxShape.circle,
-                                        border: Border.all(
-                                          color: const Color(0xFF2874F0),
-                                          width: 2,
-                                        ),
+                            ..._bookings.map(
+                              (booking) => Padding(
+                                padding: const EdgeInsets.only(bottom: 16),
+                                child: Container(
+                                  width: double.infinity,
+                                  padding: const EdgeInsets.all(16),
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(12),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.black.withAlpha(15),
+                                        blurRadius: 10,
+                                        offset: const Offset(0, 2),
+                                        spreadRadius: 1,
                                       ),
-                                      child: const Center(
-                                        child: Text(
-                                          'M',
-                                          style: TextStyle(
-                                            fontSize: 20,
-                                            fontWeight: FontWeight.bold,
-                                            color: Color(0xFF2874F0),
-                                            fontFamily: 'Roboto',
+                                    ],
+                                  ),
+                                  child: Row(
+                                    children: [
+                                      // Avatar circle with 'M'
+                                      Container(
+                                        width: 48,
+                                        height: 48,
+                                        decoration: BoxDecoration(
+                                          color: const Color(0xFFE3F2FD),
+                                          shape: BoxShape.circle,
+                                          border: Border.all(
+                                            color: const Color(0xFF2874F0),
+                                            width: 2,
                                           ),
                                         ),
-                                      ),
-                                    ),
-
-                                    const SizedBox(width: 12),
-
-                                    // Text content
-                                    Expanded(
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            booking['title']!,
-                                            style: const TextStyle(
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.w500,
-                                              color: Color(0xFF212121),
+                                        child: const Center(
+                                          child: Text(
+                                            'M',
+                                            style: TextStyle(
+                                              fontSize: 20,
+                                              fontWeight: FontWeight.bold,
+                                              color: Color(0xFF2874F0),
                                               fontFamily: 'Roboto',
                                             ),
-                                            overflow: TextOverflow.ellipsis,
                                           ),
-                                          const SizedBox(height: 4),
-                                          Text(
-                                            booking['time']!,
+                                        ),
+                                      ),
+
+                                      const SizedBox(width: 12),
+
+                                      // Text content
+                                      Expanded(
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              booking['title']!,
+                                              style: const TextStyle(
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.w500,
+                                                color: Color(0xFF212121),
+                                                fontFamily: 'Roboto',
+                                              ),
+                                              overflow: TextOverflow.ellipsis,
+                                            ),
+                                            const SizedBox(height: 4),
+                                            Text(
+                                              booking['time']!,
+                                              style: TextStyle(
+                                                fontSize: 12,
+                                                color: Colors.grey[600],
+                                                fontFamily: 'Roboto',
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+
+                                      const SizedBox(width: 8),
+
+                                      // Done button with tap functionality
+                                      InkWell(
+                                        onTap: () {
+                                          setState(() {
+                                            _bookings.remove(booking);
+                                          });
+                                        },
+                                        borderRadius: BorderRadius.circular(6),
+                                        child: Container(
+                                          padding: const EdgeInsets.symmetric(
+                                            horizontal: 16,
+                                            vertical: 6,
+                                          ),
+                                          decoration: BoxDecoration(
+                                            color: const Color(0xFF2874F0),
+                                            borderRadius: BorderRadius.circular(
+                                              6,
+                                            ),
+                                          ),
+                                          child: const Text(
+                                            'Done',
                                             style: TextStyle(
                                               fontSize: 12,
-                                              color: Colors.grey[600],
+                                              fontWeight: FontWeight.w600,
+                                              color: Colors.white,
                                               fontFamily: 'Roboto',
                                             ),
                                           ),
-                                        ],
-                                      ),
-                                    ),
-
-                                    const SizedBox(width: 8),
-
-                                    // Done button with tap functionality
-                                    InkWell(
-                                      onTap: () {
-                                        setState(() {
-                                          _bookings.remove(booking);
-                                        });
-                                      },
-                                      borderRadius: BorderRadius.circular(6),
-                                      child: Container(
-                                        padding: const EdgeInsets.symmetric(
-                                          horizontal: 16,
-                                          vertical: 6,
-                                        ),
-                                        decoration: BoxDecoration(
-                                          color: const Color(0xFF2874F0),
-                                          borderRadius: BorderRadius.circular(6),
-                                        ),
-                                        child: const Text(
-                                          'Done',
-                                          style: TextStyle(
-                                            fontSize: 12,
-                                            fontWeight: FontWeight.w600,
-                                            color: Colors.white,
-                                            fontFamily: 'Roboto',
-                                          ),
                                         ),
                                       ),
-                                    ),
-                                  ],
+                                    ],
+                                  ),
                                 ),
                               ),
-                            )),
+                            ),
 
                             // Show message if no bookings
                             if (_bookings.isEmpty)

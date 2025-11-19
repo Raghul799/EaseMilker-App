@@ -22,10 +22,7 @@ class ShopPage extends StatelessWidget {
                 gradient: LinearGradient(
                   begin: Alignment(0.2, -0.98),
                   end: Alignment(-0.2, 0.98),
-                  colors: [
-                    Color(0xFF006CC7),
-                    Color(0xFF68B6FF),
-                  ],
+                  colors: [Color(0xFF006CC7), Color(0xFF68B6FF)],
                   stops: [0.0246, 0.3688],
                 ),
               ),
@@ -63,7 +60,10 @@ class ShopPage extends StatelessWidget {
                     ),
                     child: SingleChildScrollView(
                       child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 18),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 20,
+                          vertical: 18,
+                        ),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -87,7 +87,8 @@ class ShopPage extends StatelessWidget {
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                        builder: (context) => const BookingPage(),
+                                        builder: (context) =>
+                                            const BookingPage(),
                                       ),
                                     );
                                   },
@@ -283,7 +284,10 @@ class ShopPage extends StatelessWidget {
                               ),
                             ),
 
-                            SizedBox(height: 80 + MediaQuery.of(context).padding.bottom),
+                            SizedBox(
+                              height:
+                                  80 + MediaQuery.of(context).padding.bottom,
+                            ),
                           ],
                         ),
                       ),

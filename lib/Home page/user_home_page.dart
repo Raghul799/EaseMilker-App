@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../widgets/top_header.dart';
+import '../widgets/user_top_header.dart';
 import '../NavBar/user_navbar.dart';
 import '../Settings page/user_settings.dart';
 
@@ -69,9 +69,9 @@ class _UserHomePageState extends State<UserHomePage> {
               bottom: false,
               child: SizedBox(
                 height: headerHeight,
-                child: const Align(
+                child: Align(
                   alignment: Alignment.center,
-                  child: TopHeader(
+                  child: UserTopHeader(
                     name: 'Dhanush Kumar S',
                     idText: 'EM0214KI',
                     avatarAsset: 'assets/images/Frame 298.png',
@@ -261,9 +261,13 @@ class _UserHomePageState extends State<UserHomePage> {
                                       width: 32,
                                       height: 32,
                                       fit: BoxFit.contain,
-                                      errorBuilder: (context, error, stackTrace) {
-                                        return const Icon(Icons.error, size: 32);
-                                      },
+                                      errorBuilder:
+                                          (context, error, stackTrace) {
+                                            return const Icon(
+                                              Icons.error,
+                                              size: 32,
+                                            );
+                                          },
                                     ),
                                   ),
                                 ),
@@ -283,9 +287,13 @@ class _UserHomePageState extends State<UserHomePage> {
                                       width: 32,
                                       height: 32,
                                       fit: BoxFit.contain,
-                                      errorBuilder: (context, error, stackTrace) {
-                                        return const Icon(Icons.error, size: 32);
-                                      },
+                                      errorBuilder:
+                                          (context, error, stackTrace) {
+                                            return const Icon(
+                                              Icons.error,
+                                              size: 32,
+                                            );
+                                          },
                                     ),
                                   ),
                                 ),
@@ -305,9 +313,13 @@ class _UserHomePageState extends State<UserHomePage> {
                                       width: 32,
                                       height: 32,
                                       fit: BoxFit.contain,
-                                      errorBuilder: (context, error, stackTrace) {
-                                        return const Icon(Icons.error, size: 32);
-                                      },
+                                      errorBuilder:
+                                          (context, error, stackTrace) {
+                                            return const Icon(
+                                              Icons.error,
+                                              size: 32,
+                                            );
+                                          },
                                     ),
                                   ),
                                 ),

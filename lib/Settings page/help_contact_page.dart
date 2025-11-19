@@ -119,10 +119,11 @@ class _HelpContactPageState extends State<HelpContactPage> {
                                         size: 18,
                                       ),
                                       border: InputBorder.none,
-                                      contentPadding: const EdgeInsets.symmetric(
-                                        horizontal: 10,
-                                        vertical: 12,
-                                      ),
+                                      contentPadding:
+                                          const EdgeInsets.symmetric(
+                                            horizontal: 10,
+                                            vertical: 12,
+                                          ),
                                       isDense: true,
                                     ),
                                   ),
@@ -151,7 +152,9 @@ class _HelpContactPageState extends State<HelpContactPage> {
                           _buildDivider(),
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 24),
-                            child: _buildQuestionItem('How to get password back?'),
+                            child: _buildQuestionItem(
+                              'How to get password back?',
+                            ),
                           ),
                           _buildDivider(),
                           Padding(
@@ -160,7 +163,7 @@ class _HelpContactPageState extends State<HelpContactPage> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 _buildQuestionItem('How can I order the item'),
-                                
+
                                 // Additional questions when "View more" is clicked
                                 if (_showMoreQuestions) ...[
                                   const SizedBox(height: 0),
@@ -168,18 +171,26 @@ class _HelpContactPageState extends State<HelpContactPage> {
                               ],
                             ),
                           ),
-                          
+
                           // Additional questions with dividers
                           if (_showMoreQuestions) ...[
                             _buildDivider(),
                             Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 24),
-                              child: _buildQuestionItem('How to track my order?'),
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 24,
+                              ),
+                              child: _buildQuestionItem(
+                                'How to track my order?',
+                              ),
                             ),
                             _buildDivider(),
                             Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 24),
-                              child: _buildQuestionItem('What are the payment methods?'),
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 24,
+                              ),
+                              child: _buildQuestionItem(
+                                'What are the payment methods?',
+                              ),
                             ),
                             _buildDivider(),
                             Padding(
@@ -192,9 +203,9 @@ class _HelpContactPageState extends State<HelpContactPage> {
                               ),
                             ),
                           ],
-                          
+
                           _buildDivider(),
-                          
+
                           // View more section with bottom shadow
                           Container(
                             decoration: const BoxDecoration(
@@ -218,7 +229,9 @@ class _HelpContactPageState extends State<HelpContactPage> {
                               child: Align(
                                 alignment: Alignment.centerLeft,
                                 child: Text(
-                                  _showMoreQuestions ? 'View less' : 'View more',
+                                  _showMoreQuestions
+                                      ? 'View less'
+                                      : 'View more',
                                   style: const TextStyle(
                                     fontSize: 15,
                                     fontWeight: FontWeight.w500,
@@ -228,9 +241,9 @@ class _HelpContactPageState extends State<HelpContactPage> {
                               ),
                             ),
                           ),
-                          
+
                           const SizedBox(height: 32),
-                          
+
                           Padding(
                             padding: const EdgeInsets.fromLTRB(24, 0, 24, 0),
                             child: Column(
@@ -283,7 +296,12 @@ class _HelpContactPageState extends State<HelpContactPage> {
                                       // Add submit functionality
                                     },
                                     style: ElevatedButton.styleFrom(
-                                      backgroundColor: const Color.fromARGB(255, 43, 140, 244),
+                                      backgroundColor: const Color.fromARGB(
+                                        255,
+                                        43,
+                                        140,
+                                        244,
+                                      ),
                                       foregroundColor: Colors.white,
                                       shape: RoundedRectangleBorder(
                                         borderRadius: BorderRadius.circular(10),
