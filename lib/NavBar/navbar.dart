@@ -55,6 +55,7 @@ class AppNavBar extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: List.generate(_iconPaths.length, (index) {
                 final isSelected = index == selectedIndex;
+                final currentIconSize = index == 0 ? 22.0 : (index == 1 ? 20.0 : iconSize); // Home slightly bigger, History smaller
                 return Expanded(
                   child: InkWell(
                     onTap: () => onTap(index),
@@ -64,22 +65,28 @@ class AppNavBar extends StatelessWidget {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Opacity(
-                          opacity: isSelected ? 1.0 : 0.6,
-                          child: Image.asset(
-                            _iconPaths[index],
-                            width: iconSize,
-                            height: iconSize,
-                            fit: BoxFit.contain,
-                            filterQuality: FilterQuality.high,
-                            isAntiAlias: true,
-                            errorBuilder: (context, error, stackTrace) {
-                              return Icon(
-                                Icons.error_outline,
-                                size: iconSize,
-                                color: Colors.red,
-                              );
-                            },
+                        SizedBox(
+                          height: iconSize,
+                          child: Align(
+                            alignment: Alignment.center,
+                            child: Opacity(
+                              opacity: isSelected ? 1.0 : 0.6,
+                              child: Image.asset(
+                                _iconPaths[index],
+                                width: currentIconSize,
+                                height: currentIconSize,
+                                fit: BoxFit.contain,
+                                filterQuality: FilterQuality.high,
+                                isAntiAlias: true,
+                                errorBuilder: (context, error, stackTrace) {
+                                  return Icon(
+                                    Icons.error_outline,
+                                    size: currentIconSize,
+                                    color: Colors.red,
+                                  );
+                                },
+                              ),
+                            ),
                           ),
                         ),
                         const SizedBox(height: 4),
