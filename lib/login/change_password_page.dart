@@ -199,7 +199,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                               const Text(
                                 'Change Password',
                                 style: TextStyle(
-                                  fontSize: 26,
+                                  fontSize: 24,
                                   fontWeight: FontWeight.w700,
                                   color: Color(0xFF000000),
                                 ),

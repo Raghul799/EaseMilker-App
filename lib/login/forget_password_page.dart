@@ -249,7 +249,7 @@ class _ForgetPasswordPageState extends State<ForgetPasswordPage> {
                               Text(
                                 'Change Password',
                                 style: TextStyle(
-                                  fontSize: isSmallScreen ? 22 : 26,
+                                  fontSize: 24,
                                   fontWeight: FontWeight.w700,
                                   color: const Color(0xFF000000),
                                 ),

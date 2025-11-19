@@ -200,8 +200,8 @@ class _NewPasswordPageState extends State<NewPasswordPage> {
                               Text(
                                 'Change Password',
                                 style: TextStyle(
-                                  fontSize: isSmallScreen ? 22 : 26,
-                                  fontWeight: FontWeight.w700,
+                                  fontSize: 24,
+                                 fontWeight: FontWeight.w700,
                                   color: const Color(0xFF000000),
                                 ),
                               ),

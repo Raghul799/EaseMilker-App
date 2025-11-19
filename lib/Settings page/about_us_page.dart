@@ -217,48 +217,69 @@ class AboutUsPage extends StatelessWidget {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                InkWell(
-                                  onTap: () {
-                                    // Add Twitter/X link
-                                  },
-                                  child: Image.asset(
-                                    'assets/images/X.png',
-                                    width: 36,
-                                    height: 36,
-                                    fit: BoxFit.contain,
-                                    errorBuilder: (context, error, stackTrace) {
-                                      return const Icon(Icons.error, size: 36);
+                                Material(
+                                  color: Colors.transparent,
+                                  child: InkWell(
+                                    onTap: () {
+                                      // Add Twitter/X link
                                     },
+                                    borderRadius: BorderRadius.circular(20),
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(4.0),
+                                      child: Image.asset(
+                                        'assets/images/X.png',
+                                        width: 32,
+                                        height: 32,
+                                        fit: BoxFit.contain,
+                                        errorBuilder: (context, error, stackTrace) {
+                                          return const Icon(Icons.error, size: 32);
+                                        },
+                                      ),
+                                    ),
                                   ),
                                 ),
-                                const SizedBox(width: 28),
-                                InkWell(
-                                  onTap: () {
-                                    // Add Instagram link
-                                  },
-                                  child: Image.asset(
-                                    'assets/images/insta.png',
-                                    width: 36,
-                                    height: 36,
-                                    fit: BoxFit.contain,
-                                    errorBuilder: (context, error, stackTrace) {
-                                      return const Icon(Icons.error, size: 36);
+                                const SizedBox(width: 16),
+                                Material(
+                                  color: Colors.transparent,
+                                  child: InkWell(
+                                    onTap: () {
+                                      // Add Instagram link
                                     },
+                                    borderRadius: BorderRadius.circular(20),
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(4.0),
+                                      child: Image.asset(
+                                        'assets/images/insta.png',
+                                        width: 32,
+                                        height: 32,
+                                        fit: BoxFit.contain,
+                                        errorBuilder: (context, error, stackTrace) {
+                                          return const Icon(Icons.error, size: 32);
+                                        },
+                                      ),
+                                    ),
                                   ),
                                 ),
-                                const SizedBox(width: 28),
-                                InkWell(
-                                  onTap: () {
-                                    // Add Facebook link
-                                  },
-                                  child: Image.asset(
-                                    'assets/images/facebook.png',
-                                    width: 36,
-                                    height: 36,
-                                    fit: BoxFit.contain,
-                                    errorBuilder: (context, error, stackTrace) {
-                                      return const Icon(Icons.error, size: 36);
+                                const SizedBox(width: 16),
+                                Material(
+                                  color: Colors.transparent,
+                                  child: InkWell(
+                                    onTap: () {
+                                      // Add Facebook link
                                     },
+                                    borderRadius: BorderRadius.circular(20),
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(4.0),
+                                      child: Image.asset(
+                                        'assets/images/facebook.png',
+                                        width: 32,
+                                        height: 32,
+                                        fit: BoxFit.contain,
+                                        errorBuilder: (context, error, stackTrace) {
+                                          return const Icon(Icons.error, size: 32);
+                                        },
+                                      ),
+                                    ),
                                   ),
                                 ),
                               ],
