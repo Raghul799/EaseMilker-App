@@ -91,7 +91,7 @@ class _BookingPageState extends State<BookingPage> {
                             const Text(
                               'My booking',
                               style: TextStyle(
-                                fontSize: 20,
+                                fontSize: 18,
                                 fontWeight: FontWeight.w600,
                                 color: Color(0xFF212121),
                                 fontFamily: 'Roboto',
