@@ -109,7 +109,7 @@ class AboutUsPage extends StatelessWidget {
                             ),
                             const SizedBox(height: 6),
                             const Text(
-                              'Ease Milker',
+                              'Easemilker',
                               style: TextStyle(
                                 fontSize: 17,
                                 fontWeight: FontWeight.w600,
@@ -151,7 +151,7 @@ class AboutUsPage extends StatelessWidget {
                             ),
                             const SizedBox(height: 6),
                             const Text(
-                              'Ease Milker is a smart and efficient milking device designed to simplify the dairy process for farmers. It helps in extracting milk from cows safely, hygienically, and quickly without causing discomfort to the animal.',
+                              'Easemilker is a smart and efficient milking device designed to simplify the dairy process for farmers. It helps in extracting milk from cows safely, hygienically, and quickly without causing discomfort to the animal.',
                               style: TextStyle(
                                 fontSize: 17,
                                 fontWeight: FontWeight.w600,
@@ -161,7 +161,7 @@ class AboutUsPage extends StatelessWidget {
                               textAlign: TextAlign.justify,
                             ),
 
-                            const SizedBox(height: 32),
+                            const SizedBox(height: 18),
 
                             // Divider with Send button
                             Stack(
@@ -172,10 +172,10 @@ class AboutUsPage extends StatelessWidget {
                                   color: const Color(0xFFE0E0E0),
                                 ),
                                 Container(
-                                  width: 48,
-                                  height: 48,
+                                  width: 45,
+                                  height: 45,
                                   decoration: const BoxDecoration(
-                                    color: Color(0xFF0B57A7),
+                                    color: Color.fromARGB(255, 81, 165, 255),
                                     shape: BoxShape.circle,
                                   ),
                                   child: IconButton(
@@ -189,7 +189,7 @@ class AboutUsPage extends StatelessWidget {
                                       child: const Icon(
                                         Icons.send,
                                         color: Colors.white,
-                                        size: 20,
+                                        size: 22,
                                       ),
                                     ),
                                   ),
@@ -197,7 +197,7 @@ class AboutUsPage extends StatelessWidget {
                               ],
                             ),
 
-                            const SizedBox(height: 28),
+                            const SizedBox(height: 21),
 
                             // Follow Us section
                             const Center(
@@ -217,57 +217,49 @@ class AboutUsPage extends StatelessWidget {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                _buildSocialIconWithCustom(
-                                  child: const Text(
-                                    '𝕏',
-                                    style: TextStyle(
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.bold,
-                                      color: Color(0xFF212121),
-                                    ),
-                                  ),
+                                InkWell(
                                   onTap: () {
                                     // Add Twitter/X link
                                   },
+                                  child: Image.asset(
+                                    'assets/images/X.png',
+                                    width: 36,
+                                    height: 36,
+                                    fit: BoxFit.contain,
+                                    errorBuilder: (context, error, stackTrace) {
+                                      return const Icon(Icons.error, size: 36);
+                                    },
+                                  ),
                                 ),
                                 const SizedBox(width: 28),
-                                _buildSocialIconWithCustom(
-                                  child: Container(
-                                    width: 24,
-                                    height: 24,
-                                    decoration: BoxDecoration(
-                                      border: Border.all(
-                                        color: const Color(0xFF212121),
-                                        width: 2.5,
-                                      ),
-                                      borderRadius: BorderRadius.circular(6),
-                                    ),
-                                    child: const Center(
-                                      child: Icon(
-                                        Icons.camera_alt,
-                                        color: Color(0xFF212121),
-                                        size: 14,
-                                      ),
-                                    ),
-                                  ),
+                                InkWell(
                                   onTap: () {
                                     // Add Instagram link
                                   },
+                                  child: Image.asset(
+                                    'assets/images/insta.png',
+                                    width: 36,
+                                    height: 36,
+                                    fit: BoxFit.contain,
+                                    errorBuilder: (context, error, stackTrace) {
+                                      return const Icon(Icons.error, size: 36);
+                                    },
+                                  ),
                                 ),
                                 const SizedBox(width: 28),
-                                _buildSocialIconWithCustom(
-                                  child: const Text(
-                                    'f',
-                                    style: TextStyle(
-                                      fontSize: 26,
-                                      fontWeight: FontWeight.bold,
-                                      color: Color(0xFF212121),
-                                      fontFamily: 'serif',
-                                    ),
-                                  ),
+                                InkWell(
                                   onTap: () {
                                     // Add Facebook link
                                   },
+                                  child: Image.asset(
+                                    'assets/images/facebook.png',
+                                    width: 36,
+                                    height: 36,
+                                    fit: BoxFit.contain,
+                                    errorBuilder: (context, error, stackTrace) {
+                                      return const Icon(Icons.error, size: 36);
+                                    },
+                                  ),
                                 ),
                               ],
                             ),
@@ -309,25 +301,6 @@ class AboutUsPage extends StatelessWidget {
             ),
           ),
         ],
-      ),
-    );
-  }
-
-  Widget _buildSocialIconWithCustom({
-    required Widget child,
-    required VoidCallback onTap,
-  }) {
-    return InkWell(
-      onTap: onTap,
-      borderRadius: BorderRadius.circular(22),
-      child: Container(
-        width: 44,
-        height: 44,
-        decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          border: Border.all(color: const Color(0xFF212121), width: 1.8),
-        ),
-        child: Center(child: child),
       ),
     );
   }
