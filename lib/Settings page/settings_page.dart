@@ -5,8 +5,6 @@ import '../Shop page/booking_page.dart';
 import '../login/login_page.dart';
 import '../login/auth_service.dart';
 import '../login/change_password_page.dart';
-import 'alert_sound_dialog.dart';
-import 'alert_sound_service.dart';
 
 /// SettingsPage - implements the app settings UI similar to the provided design.
 class SettingsPage extends StatelessWidget {
@@ -158,38 +156,38 @@ class SettingsPage extends StatelessWidget {
                                     ),
                                   ),
                                   const SizedBox(height: 8),
-                                  _buildTile(
-                                    context,
-                                    const Icon(
-                                      Icons.volume_up_outlined,
-                                      color: Color(0xFF0B57A7),
-                                      size: 22,
-                                    ),
-                                    'Alert Sound',
-                                    null,
-                                    onTap: () async {
-                                      // Get current alert sound state
-                                      final service =
-                                          AlertSoundService.instance;
-                                      final currentValue = await service
-                                          .getAlertSoundEnabled();
+                                  // _buildTile(
+                                  //   context,
+                                  //   const Icon(
+                                  //     Icons.volume_up_outlined,
+                                  //     color: Color(0xFF0B57A7),
+                                  //     size: 22,
+                                  //   ),
+                                  //   'Alert Sound',
+                                  //   null,
+                                  //   onTap: () async {
+                                  //     // Get current alert sound state
+                                  //     final service =
+                                  //         AlertSoundService.instance;
+                                  //     final currentValue = await service
+                                  //         .getAlertSoundEnabled();
 
-                                      // Check if widget is still mounted before using context
-                                      if (!context.mounted) return;
+                                  //     // Check if widget is still mounted before using context
+                                  //     if (!context.mounted) return;
 
-                                      // Show the alert sound dialog
-                                      await showAlertSoundDialog(
-                                        context,
-                                        currentValue: currentValue,
-                                        onChanged: (bool newValue) async {
-                                          // Save the new value
-                                          await service.setAlertSoundEnabled(
-                                            newValue,
-                                          );
-                                        },
-                                      );
-                                    },
-                                  ),
+                                  //     // Show the alert sound dialog
+                                  //     await showAlertSoundDialog(
+                                  //       context,
+                                  //       currentValue: currentValue,
+                                  //       onChanged: (bool newValue) async {
+                                  //         // Save the new value
+                                  //         await service.setAlertSoundEnabled(
+                                  //           newValue,
+                                  //         );
+                                  //       },
+                                  //     );
+                                  //   },
+                                  // ),
                                   _buildTile(
                                     context,
                                     const Icon(
@@ -258,16 +256,16 @@ class SettingsPage extends StatelessWidget {
                                       );
                                     },
                                   ),
-                                  _buildTile(
-                                    context,
-                                    const Icon(
-                                      Icons.person_add_outlined,
-                                      color: Color(0xFF0B57A7),
-                                      size: 22,
-                                    ),
-                                    'Switch Account',
-                                    null,
-                                  ),
+                            //       _buildTile(
+                            //         context,
+                            //         const Icon(
+                            //           Icons.person_add_outlined,
+                            //           color: Color(0xFF0B57A7),
+                            //           size: 22,
+                            //         ),
+                            //         'Switch Account',
+                            //         null,
+                            //       ),
                                 ],
                               ),
                             ),
