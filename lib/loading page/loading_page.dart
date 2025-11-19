@@ -3,6 +3,7 @@ import 'dart:async';
 import '../login/login_page.dart';
 import '../login/auth_service.dart';
 import '../Home page/home_page.dart';
+import '../Home page/user_home_page.dart';
 
 class LoadingPage extends StatefulWidget {
   const LoadingPage({super.key});
@@ -31,12 +32,24 @@ class _LoadingPageState extends State<LoadingPage> {
 
     if (!mounted) return;
 
-    // Navigate based on login state
+    // Navigate based on login state and user type
     if (isLoggedIn) {
-      // User is already logged in, go to home page
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (context) => const HomePage()),
-      );
+      // Get user type
+      final userType = await _authService.getUserType();
+      
+      if (!mounted) return;
+
+      // Navigate to appropriate home page based on user type
+      if (userType == 'user') {
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (context) => const UserHomePage()),
+        );
+      } else {
+        // Admin or default
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (context) => const HomePage()),
+        );
+      }
     } else {
       // User not logged in, go to login page
       Navigator.of(context).pushReplacement(

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import '../Home page/home_page.dart';
+import '../Home page/user_home_page.dart';
 import 'auth_service.dart';
 import 'client_forget_page.dart';
 import 'signup_dialog.dart';
@@ -21,8 +22,10 @@ class _LoginPageState extends State<LoginPage> {
   bool _obscurePassword = true;
 
   // Default credentials for testing
-  static const String _defaultPhone = '1234567890';
-  static const String _defaultPassword = 'admin123';
+  static const String _adminPhone = '1234567890';
+  static const String _adminPassword = 'admin123';
+  static const String _userPhone = '0123456789';
+  static const String _userPassword = 'user123';
 
   @override
   void dispose() {
@@ -36,17 +39,31 @@ class _LoginPageState extends State<LoginPage> {
       final phone = _phoneController.text.trim();
       final password = _passwordController.text.trim();
 
-      // Validate credentials
-      if (phone == _defaultPhone && password == _defaultPassword) {
-        // Save login state
-        await _authService.saveLoginState(phone);
+      // Validate credentials and determine user type
+      String? userType;
+      if (phone == _adminPhone && password == _adminPassword) {
+        userType = 'admin';
+      } else if (phone == _userPhone && password == _userPassword) {
+        userType = 'user';
+      }
+
+      if (userType != null) {
+        // Save login state with user type
+        await _authService.saveLoginState(phone, userType: userType);
 
         if (!mounted) return;
 
-        // Navigate to HomePage on successful login
-        Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (context) => const HomePage()),
-        );
+        // Navigate to appropriate HomePage based on user type
+        if (userType == 'admin') {
+          Navigator.of(context).pushReplacement(
+            MaterialPageRoute(builder: (context) => const HomePage()),
+          );
+        } else {
+          // User login - navigate to UserHomePage
+          Navigator.of(context).pushReplacement(
+            MaterialPageRoute(builder: (context) => const UserHomePage()),
+          );
+        }
       } else {
         // Show error message
         ScaffoldMessenger.of(context).showSnackBar(
@@ -66,8 +83,8 @@ class _LoginPageState extends State<LoginPage> {
       GoogleSignInAccount? account = await GoogleSignIn.instance.attemptLightweightAuthentication();
       account ??= await GoogleSignIn.instance.authenticate();
       
-      // Save login state
-      await _authService.saveLoginState(account.email);
+      // Save login state as admin for Google sign-in
+      await _authService.saveLoginState(account.email, userType: 'admin');
 
       if (!mounted) return;
 
