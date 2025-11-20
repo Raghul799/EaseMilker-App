@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../widgets/user_top_header.dart';
 import '../NavBar/user_navbar.dart';
 import '../Settings page/user_settings.dart';
+import '../Shop page/user_shop_page.dart';
 
 /// UserHomePage - displays About Us information for regular users
 class UserHomePage extends StatefulWidget {
@@ -29,7 +30,7 @@ class _UserHomePageState extends State<UserHomePage> {
         index: _selectedIndex,
         children: [
           _buildAboutUsContent(context),
-          _buildPlaceholderPage('Shop'),
+          const UserShopPage(),
           const SettingsPage(),
         ],
       ),
@@ -101,98 +102,104 @@ class _UserHomePageState extends State<UserHomePage> {
                       bottom: 90 + MediaQuery.of(context).padding.bottom,
                     ),
                     child: Padding(
-                      padding: const EdgeInsets.fromLTRB(24, 32, 24, 0),
+                      padding: EdgeInsets.fromLTRB(
+                        size.width * 0.06,
+                        size.height * 0.02,
+                        size.width * 0.06,
+                        0,
+                      ),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const SizedBox(height: 12),
+                          SizedBox(height: size.height * 0.015),
 
                           // Logo
                           Center(
                             child: Image.asset(
                               'assets/images/Group 24.png',
-                              width: 180,
-                              height: 70,
+                              width: size.width * 0.45,
+                              height: size.height * 0.08,
                               fit: BoxFit.contain,
                               errorBuilder: (context, error, stackTrace) {
                                 return Container(
-                                  width: 180,
-                                  height: 70,
+                                  width: size.width * 0.45,
+                                  height: size.height * 0.08,
                                   color: Colors.grey[200],
-                                  child: const Center(
-                                    child: Icon(Icons.image, size: 40),
+                                  child: Center(
+                                    child: Icon(Icons.image,
+                                        size: size.width * 0.1),
                                   ),
                                 );
                               },
                             ),
                           ),
 
-                          const SizedBox(height: 32),
+                          SizedBox(height: size.height * 0.025),
 
                           // Name section
-                          const Text(
+                          Text(
                             'Name',
                             style: TextStyle(
-                              fontSize: 13,
-                              color: Color(0xFF9E9E9E),
+                              fontSize: size.width * 0.033,
+                              color: const Color(0xFF9E9E9E),
                               fontWeight: FontWeight.w500,
                             ),
                           ),
-                          const SizedBox(height: 6),
-                          const Text(
+                          SizedBox(height: size.height * 0.006),
+                          Text(
                             'Easemilker',
                             style: TextStyle(
-                              fontSize: 17,
+                              fontSize: size.width * 0.043,
                               fontWeight: FontWeight.w600,
-                              color: Color(0xFF212121),
+                              color: const Color(0xFF212121),
                             ),
                           ),
 
-                          const SizedBox(height: 15),
+                          SizedBox(height: size.height * 0.012),
 
                           // Email section
-                          const Text(
+                          Text(
                             'Email',
                             style: TextStyle(
-                              fontSize: 13,
-                              color: Color(0xFF9E9E9E),
+                              fontSize: size.width * 0.033,
+                              color: const Color(0xFF9E9E9E),
                               fontWeight: FontWeight.w500,
                             ),
                           ),
-                          const SizedBox(height: 6),
-                          const Text(
+                          SizedBox(height: size.height * 0.006),
+                          Text(
                             'Azhizensolutions@azhizen.com',
                             style: TextStyle(
-                              fontSize: 17,
+                              fontSize: size.width * 0.043,
                               fontWeight: FontWeight.w600,
-                              color: Color(0xFF212121),
+                              color: const Color(0xFF212121),
                             ),
                           ),
 
-                          const SizedBox(height: 15),
+                          SizedBox(height: size.height * 0.012),
 
                           // Details section
-                          const Text(
+                          Text(
                             'Details',
                             style: TextStyle(
-                              fontSize: 13,
-                              color: Color(0xFF9E9E9E),
+                              fontSize: size.width * 0.033,
+                              color: const Color(0xFF9E9E9E),
                               fontWeight: FontWeight.w500,
                             ),
                           ),
-                          const SizedBox(height: 6),
-                          const Text(
+                          SizedBox(height: size.height * 0.006),
+                          Text(
                             'EaseMilker is a smart and efficient milking device designed to simplify the dairy process for farmers. It helps in extracting milk from cows safely, hygienically, and quickly without causing discomfort to the animal.',
                             style: TextStyle(
-                              fontSize: 17,
+                              fontSize: size.width * 0.040,
                               fontWeight: FontWeight.w600,
-                              color: Color(0xFF212121),
+                              color: const Color(0xFF212121),
                               height: 1.5,
                             ),
                             textAlign: TextAlign.justify,
                           ),
 
-                          const SizedBox(height: 18),
+                          SizedBox(height: size.height * 0.022),
 
                           // Divider with Send button
                           Stack(
@@ -203,8 +210,8 @@ class _UserHomePageState extends State<UserHomePage> {
                                 color: const Color(0xFFE0E0E0),
                               ),
                               Container(
-                                width: 45,
-                                height: 45,
+                                width: size.width * 0.115,
+                                height: size.width * 0.115,
                                 decoration: const BoxDecoration(
                                   color: Color.fromARGB(255, 81, 165, 255),
                                   shape: BoxShape.circle,
@@ -216,10 +223,10 @@ class _UserHomePageState extends State<UserHomePage> {
                                   padding: EdgeInsets.zero,
                                   icon: Transform.rotate(
                                     angle: -0.785398, // -45 degrees in radians
-                                    child: const Icon(
+                                    child: Icon(
                                       Icons.send,
                                       color: Colors.white,
-                                      size: 22,
+                                      size: size.width * 0.055,
                                     ),
                                   ),
                                 ),
@@ -227,21 +234,21 @@ class _UserHomePageState extends State<UserHomePage> {
                             ],
                           ),
 
-                          const SizedBox(height: 21),
+                          SizedBox(height: size.height * 0.025),
 
                           // Follow Us section
-                          const Center(
+                          Center(
                             child: Text(
                               'Follow Us',
                               style: TextStyle(
-                                fontSize: 15,
+                                fontSize: size.width * 0.038,
                                 fontWeight: FontWeight.w600,
-                                color: Color(0xFF9E9E9E),
+                                color: const Color(0xFF9E9E9E),
                               ),
                             ),
                           ),
 
-                          const SizedBox(height: 18),
+                          SizedBox(height: size.height * 0.022),
 
                           // Social media icons
                           Row(
@@ -255,24 +262,24 @@ class _UserHomePageState extends State<UserHomePage> {
                                   },
                                   borderRadius: BorderRadius.circular(20),
                                   child: Padding(
-                                    padding: const EdgeInsets.all(4.0),
+                                    padding: EdgeInsets.all(size.width * 0.01),
                                     child: Image.asset(
                                       'assets/images/X.png',
-                                      width: 32,
-                                      height: 32,
+                                      width: size.width * 0.08,
+                                      height: size.width * 0.08,
                                       fit: BoxFit.contain,
                                       errorBuilder:
                                           (context, error, stackTrace) {
-                                            return const Icon(
+                                            return Icon(
                                               Icons.error,
-                                              size: 32,
+                                              size: size.width * 0.08,
                                             );
                                           },
                                     ),
                                   ),
                                 ),
                               ),
-                              const SizedBox(width: 16),
+                              SizedBox(width: size.width * 0.04),
                               Material(
                                 color: Colors.transparent,
                                 child: InkWell(
@@ -281,24 +288,24 @@ class _UserHomePageState extends State<UserHomePage> {
                                   },
                                   borderRadius: BorderRadius.circular(20),
                                   child: Padding(
-                                    padding: const EdgeInsets.all(4.0),
+                                    padding: EdgeInsets.all(size.width * 0.01),
                                     child: Image.asset(
                                       'assets/images/insta.png',
-                                      width: 32,
-                                      height: 32,
+                                      width: size.width * 0.08,
+                                      height: size.width * 0.08,
                                       fit: BoxFit.contain,
                                       errorBuilder:
                                           (context, error, stackTrace) {
-                                            return const Icon(
+                                            return Icon(
                                               Icons.error,
-                                              size: 32,
+                                              size: size.width * 0.08,
                                             );
                                           },
                                     ),
                                   ),
                                 ),
                               ),
-                              const SizedBox(width: 16),
+                              SizedBox(width: size.width * 0.04),
                               Material(
                                 color: Colors.transparent,
                                 child: InkWell(
@@ -307,17 +314,17 @@ class _UserHomePageState extends State<UserHomePage> {
                                   },
                                   borderRadius: BorderRadius.circular(20),
                                   child: Padding(
-                                    padding: const EdgeInsets.all(4.0),
+                                    padding: EdgeInsets.all(size.width * 0.01),
                                     child: Image.asset(
                                       'assets/images/facebook.png',
-                                      width: 32,
-                                      height: 32,
+                                      width: size.width * 0.08,
+                                      height: size.width * 0.08,
                                       fit: BoxFit.contain,
                                       errorBuilder:
                                           (context, error, stackTrace) {
-                                            return const Icon(
+                                            return Icon(
                                               Icons.error,
-                                              size: 32,
+                                              size: size.width * 0.08,
                                             );
                                           },
                                     ),
@@ -327,7 +334,7 @@ class _UserHomePageState extends State<UserHomePage> {
                             ],
                           ),
 
-                          const SizedBox(height: 24),
+                          const SizedBox(height:0),
                         ],
                       ),
                     ),
@@ -338,48 +345,6 @@ class _UserHomePageState extends State<UserHomePage> {
           ],
         ),
       ],
-    );
-  }
-
-  Widget _buildPlaceholderPage(String title) {
-    return Container(
-      decoration: const BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment(0.2, -0.98),
-          end: Alignment(-0.2, 0.98),
-          colors: [Color(0xFF006CC7), Color(0xFF68B6FF)],
-          stops: [0.0246, 0.3688],
-        ),
-      ),
-      child: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(
-              Icons.construction,
-              size: 80,
-              color: Colors.white.withValues(alpha: 0.7),
-            ),
-            const SizedBox(height: 20),
-            Text(
-              '$title Page',
-              style: const TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.w600,
-                color: Colors.white,
-              ),
-            ),
-            const SizedBox(height: 10),
-            Text(
-              'Coming Soon',
-              style: TextStyle(
-                fontSize: 16,
-                color: Colors.white.withValues(alpha: 0.8),
-              ),
-            ),
-          ],
-        ),
-      ),
     );
   }
 }
