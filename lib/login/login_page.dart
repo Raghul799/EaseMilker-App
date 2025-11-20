@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import '../Home page/home_page.dart';
-import '../Home page/user_home_page.dart';
+import '../user/user_home_page.dart';
 import 'auth_service.dart';
 import 'client_forget_page.dart';
 import 'signup_dialog.dart';

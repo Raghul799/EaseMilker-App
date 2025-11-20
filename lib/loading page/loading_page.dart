@@ -3,7 +3,7 @@ import 'dart:async';
 import '../login/login_page.dart';
 import '../login/auth_service.dart';
 import '../Home page/home_page.dart';
-import '../Home page/user_home_page.dart';
+import '../user/user_home_page.dart';
 
 class LoadingPage extends StatefulWidget {
   const LoadingPage({super.key});

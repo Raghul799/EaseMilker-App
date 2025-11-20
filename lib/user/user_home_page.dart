@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import '../widgets/user_top_header.dart';
-import '../NavBar/user_navbar.dart';
-import '../Settings page/user_settings.dart';
-import '../Shop page/user_shop_page.dart';
+import 'user_top_header.dart';
+import 'user_navbar.dart';
+import 'user_settings.dart';
+import 'user_shop_page.dart';
 
 /// UserHomePage - displays About Us information for regular users
 class UserHomePage extends StatefulWidget {

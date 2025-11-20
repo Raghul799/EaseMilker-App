@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import '../NavBar/user_navbar.dart';
+import 'user_navbar.dart';
 import 'user_top_header.dart';
-import '../Home page/user_home_page.dart';
+import 'user_home_page.dart';
 
 class UserMessagePage extends StatefulWidget {
   const UserMessagePage({super.key});

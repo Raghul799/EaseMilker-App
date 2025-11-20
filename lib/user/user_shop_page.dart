@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../widgets/user_top_header.dart';
+import 'user_top_header.dart';
 
 class UserShopPage extends StatelessWidget {
   const UserShopPage({super.key});
