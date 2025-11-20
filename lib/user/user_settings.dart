@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'user_top_header.dart';
-import '../Home page/home_page.dart';
 import '../Shop page/booking_page.dart';
 import '../login/login_page.dart';
 import '../login/auth_service.dart';
-import '../login/change_password_page.dart';
+import 'cart_page.dart';
+// import '../login/change_password_page.dart';
 
 /// SettingsPage - implements the app settings UI similar to the provided design.
 class SettingsPage extends StatelessWidget {
@@ -198,25 +198,25 @@ class SettingsPage extends StatelessWidget {
                                     'Change Language',
                                     null,
                                   ),
-                                  _buildTile(
-                                    context,
-                                    const Icon(
-                                      Icons.lock_outline,
-                                      color: Color(0xFF0B57A7),
-                                      size: 22,
-                                    ),
-                                    'Change password',
-                                    null,
-                                    onTap: () {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) =>
-                                              const ChangePasswordPage(),
-                                        ),
-                                      );
-                                    },
-                                  ),
+                                  // _buildTile(
+                                  //   context,
+                                  //   const Icon(
+                                  //     Icons.lock_outline,
+                                  //     color: Color(0xFF0B57A7),
+                                  //     size: 22,
+                                  //   ),
+                                  //   'Change password',
+                                  //   null,
+                                  //   onTap: () {
+                                  //     Navigator.push(
+                                  //       context,
+                                  //       MaterialPageRoute(
+                                  //         builder: (context) =>
+                                  //             const ChangePasswordPage(),
+                                  //       ),
+                                  //     );
+                                  //   },
+                                  // ),
                                   _buildTile(
                                     context,
                                     const Icon(
@@ -227,12 +227,12 @@ class SettingsPage extends StatelessWidget {
                                     'My Cart',
                                     null,
                                     onTap: () {
-                                      // Navigate to HomePage and open the Shop tab (index 3)
+                                      // Navigate to Cart page
                                       Navigator.push(
                                         context,
                                         MaterialPageRoute(
                                           builder: (context) =>
-                                              const HomePage(initialIndex: 3),
+                                              const CartPage(),
                                         ),
                                       );
                                     },
